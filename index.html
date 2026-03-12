@@ -148,7 +148,17 @@
     .mini-stats strong { font-size: 1rem; }
 
     .footer-card { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+     .bill-amount-input {
+        width: 90px !important;
+        padding: 6px 8px !important;
+        border-radius: 8px !important;
+        font-size: 0.9rem;
+        }
 
+        .small-muted {
+        color: var(--muted);
+        font-size: 0.85rem;
+        }
     .bill-name-cell { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
     .paid-cell { width: 70px; }
     .paid-row td { color: var(--muted); }
@@ -317,6 +327,8 @@
               <tr>
                 <th>Paid</th>
                 <th>Bill</th>
+                <th>Paid Amount</th>
+                <th>Remaining</th>
                 <th>Due Day</th>
                 <th>Amount</th>
                 <th></th>
@@ -549,41 +561,75 @@
     }
 
     function renderBills(bills){
-      if(!bills.length){
-        refs.billsTable.style.display="none";
-        refs.billsEmpty.style.display="block";
-        refs.billsBody.innerHTML="";
-        return;
-      }
-      const sorted=[...bills].sort((a,b)=>{
-        const pa=normalizePaid(a.paid), pb=normalizePaid(b.paid);
-        if(pa!==pb) return Number(pa)-Number(pb);
-        const da=a.dueDay||99, db=b.dueDay||99;
-        if(da!==db) return da-db;
-        return String(a.name||"").localeCompare(String(b.name||""));
-      });
-      refs.billsBody.innerHTML=sorted.map(bill=>{
-        const paid=normalizePaid(bill.paid);
-        return `
-          <tr class="${paid?"paid-row":""}">
-            <td class="paid-cell">
-              <input type="checkbox" class="bill-check" data-toggle-bill-paid="${escapeHtml(bill.id)}" ${paid?"checked":""} />
-            </td>
-            <td>
-              <div class="bill-name-cell">
-                <span class="${paid?"paid-name":""}">${escapeHtml(bill.name)}</span>
-                ${paid?`<span class="paid-tag">Paid</span>`:""}
-              </div>
-            </td>
-            <td>${bill.dueDay?`Day ${bill.dueDay}`:"—"}</td>
-            <td>${money(bill.amount)}</td>
-            <td class="action-cell"><button type="button" class="row-delete" data-delete-bill="${escapeHtml(bill.id)}">Delete</button></td>
-          </tr>
-        `;
-      }).join("");
-      refs.billsTable.style.display="table";
-      refs.billsEmpty.style.display="none";
-    }
+  if(!bills.length){
+    refs.billsTable.style.display="none";
+    refs.billsEmpty.style.display="block";
+    refs.billsBody.innerHTML="";
+    return;
+  }
+
+  const sorted=[...bills].sort((a,b)=>{
+    const pa=normalizePaid(a.paid), pb=normalizePaid(b.paid);
+    if(pa!==pb) return Number(pa)-Number(pb);
+    const da=a.dueDay||99, db=b.dueDay||99;
+    if(da!==db) return da-db;
+    return String(a.name||"").localeCompare(String(b.name||""));
+  });
+
+  refs.billsBody.innerHTML=sorted.map(bill=>{
+    const paid = normalizePaid(bill.paid);
+    const paidAmount = Math.min(Number(bill.paidAmount||0), Number(bill.amount||0));
+    const remaining = Math.max(Number(bill.amount||0) - paidAmount, 0);
+
+    return `
+      <tr class="${paid?"paid-row":""}">
+        <td class="paid-cell">
+          <input type="checkbox" class="bill-check" data-toggle-bill-paid="${escapeHtml(bill.id)}" ${paid?"checked":""} />
+        </td>
+        <td>
+          <div class="bill-name-cell">
+            <span class="${paid?"paid-name":""}">${escapeHtml(bill.name)}</span>
+            ${paid?`<span class="paid-tag">Paid</span>`:""}
+          </div>
+          <div class="small-muted">${bill.dueDay?`Due Day ${bill.dueDay}`:""}</div>
+        </td>
+        <td>
+          <input type="number" class="bill-amount-input"
+            min="0" step="0.01"
+            value="${paidAmount}"
+            data-paid-amount="${escapeHtml(bill.id)}" />
+        </td>
+        <td>${money(remaining)}</td>
+        <td>${money(bill.amount)}</td>
+        <td class="action-cell">
+          <button type="button" class="row-delete" data-delete-bill="${escapeHtml(bill.id)}">Delete</button>
+        </td>
+      </tr>
+    `;
+  }).join("");
+
+  refs.billsTable.style.display="table";
+  refs.billsEmpty.style.display="none";
+}
+refs.billsBody.addEventListener("input", (e)=>{
+  const field = e.target.closest("[data-paid-amount]");
+  if(!field) return;
+
+  const month = refs.monthSelect.value;
+  const m = ensureMonth(month);
+  const bill = m.bills.find(b=>b.id===field.dataset.paidAmount);
+  if(!bill) return;
+
+  let val = Number(field.value || 0);
+  if(isNaN(val) || val < 0) val = 0;
+  if(val > bill.amount) val = bill.amount;
+
+  bill.paidAmount = val;
+  bill.paid = val >= bill.amount;
+
+  saveState();
+  render();
+});
 
     function renderExpenses(expenses){
       if(!expenses.length){
@@ -699,7 +745,7 @@
       if(isNaN(amount)||amount<=0){ alert("Enter valid amount."); return; }
       if(due!==null && (!Number.isInteger(due)||due<1||due>31)){ alert("Due day must be 1-31."); return; }
       const m=ensureMonth(month);
-      m.bills.push({ id: uid(), name, amount, dueDay: due, paid: false });
+      m.bills.push({ id: uid(), name, amount, dueDay: due, paid: false, paidAmount: 0 });
       saveState();
       refs.billForm.reset();
       render();
