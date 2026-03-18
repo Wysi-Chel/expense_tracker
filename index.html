@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -21,7 +22,10 @@
       --radius: 18px;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -29,169 +33,772 @@
       color: var(--text);
     }
 
-    .container { max-width: 1240px; margin: 0 auto; padding: 24px; }
-    .hero { display: flex; justify-content: space-between; gap: 20px; align-items: end; margin-bottom: 20px; }
-    .eyebrow { margin: 0 0 8px; color: var(--blue); font-weight: 700; font-size: 0.84rem; letter-spacing: 0.04em; text-transform: uppercase; }
-    h1 { margin: 0; font-size: clamp(1.8rem, 2.2vw, 3rem); line-height: 1.1; }
-    .subtext { margin-top: 10px; color: var(--muted); max-width: 680px; }
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 24px;
+    }
 
-    .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); }
-    .month-box { min-width: 220px; background: var(--card); padding: 16px; border-radius: 16px; border: 1px solid var(--border); box-shadow: var(--shadow); }
+    .hero {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: end;
+      margin-bottom: 20px;
+    }
 
-    .sync-card { margin-bottom: 16px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
-    .sync-card input { max-width: 260px; }
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--blue);
+      font-weight: 700;
+      font-size: 0.84rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
 
-    .summary-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-bottom: 16px; }
-    .stat-card { padding: 18px 20px; }
-    .stat-label { display: block; font-size: 0.9rem; color: var(--muted); margin-bottom: 10px; }
-    .stat-value { font-size: clamp(1.4rem, 2vw, 1.9rem); line-height: 1.1; }
-    .positive-text { color: #047857; }
-    .negative-text { color: #dc2626; }
+    h1 {
+      margin: 0;
+      font-size: clamp(1.8rem, 2.2vw, 3rem);
+      line-height: 1.1;
+    }
 
-    .notice-card { margin-bottom: 16px; transition: 0.2s ease; }
-    .notice-card.neutral { background: #f8fafc; }
-    .notice-card.good { background: #ecfdf5; border-color: #d1fae5; }
-    .notice-card.warn { background: #fffbeb; border-color: #fde68a; }
-    .notice-card.danger { background: #fef2f2; border-color: #fecaca; }
-    .notice-title { font-weight: 700; margin-bottom: 6px; }
-    .notice-card p { margin: 0; color: #374151; }
+    .subtext {
+      margin-top: 10px;
+      color: var(--muted);
+      max-width: 680px;
+    }
 
-    .top-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 16px; margin-bottom: 16px; }
-    .content-grid { display: grid; grid-template-columns: 1fr 1.15fr; gap: 16px; margin-bottom: 16px; }
-    .section-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
-    h2 { margin: 0; font-size: 1.1rem; }
-    .muted { margin: 6px 0 0; color: var(--muted); font-size: 0.94rem; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .month-box {
+      min-width: 220px;
+      background: var(--card);
+      padding: 16px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .sync-card {
+      margin-bottom: 16px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .sync-card input {
+      max-width: 260px;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .stat-card {
+      padding: 18px 20px;
+    }
+
+    .stat-label {
+      display: block;
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .stat-value {
+      font-size: clamp(1.4rem, 2vw, 1.9rem);
+      line-height: 1.1;
+    }
+
+    .positive-text {
+      color: #047857;
+    }
+
+    .negative-text {
+      color: #dc2626;
+    }
+
+    .notice-card {
+      margin-bottom: 16px;
+      transition: 0.2s ease;
+    }
+
+    .notice-card.neutral {
+      background: #f8fafc;
+    }
+
+    .notice-card.good {
+      background: #ecfdf5;
+      border-color: #d1fae5;
+    }
+
+    .notice-card.warn {
+      background: #fffbeb;
+      border-color: #fde68a;
+    }
+
+    .notice-card.danger {
+      background: #fef2f2;
+      border-color: #fecaca;
+    }
+
+    .notice-title {
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .notice-card p {
+      margin: 0;
+      color: #374151;
+    }
+
+    .top-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+
+    .muted {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
 
     .badge {
-      display: inline-flex; align-items: center; justify-content: center;
-      padding: 6px 10px; border-radius: 999px;
-      background: #eef2ff; color: #4338ca;
-      font-size: 0.82rem; font-weight: 700; white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #eef2ff;
+      color: #4338ca;
+      font-size: 0.82rem;
+      font-weight: 700;
+      white-space: nowrap;
     }
 
-    label { display: block; font-size: 0.9rem; font-weight: 600; color: #334155; margin-bottom: 8px; }
-    input, select, button { font: inherit; }
-    input, select {
-      width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid #d1d5db;
-      background: white; color: var(--text); outline: none;
+    label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 8px;
+    }
+
+    input,
+    select,
+    button {
+      font: inherit;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid #d1d5db;
+      background: white;
+      color: var(--text);
+      outline: none;
       transition: border-color 0.15s ease, box-shadow 0.15s ease;
     }
-    input:focus, select:focus { border-color: rgba(37, 99, 235, 0.6); box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12); }
 
-    .inline-form { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: end; }
-    .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-    .field.action-field { display: flex; align-items: end; }
-    .full-span { grid-column: 1 / -1; }
+    input:focus,
+    select:focus {
+      border-color: rgba(37, 99, 235, 0.6);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+    }
+
+    .inline-form {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: end;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .field.action-field {
+      display: flex;
+      align-items: end;
+    }
+
+    .full-span {
+      grid-column: 1 / -1;
+    }
 
     button {
-      border: none; border-radius: 12px; padding: 12px 16px;
-      background: var(--blue); color: white; cursor: pointer; font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 16px;
+      background: var(--blue);
+      color: white;
+      cursor: pointer;
+      font-weight: 700;
       transition: transform 0.05s ease, background 0.15s ease, opacity 0.15s ease;
     }
-    button:hover { background: var(--blue-dark); }
-    button:active { transform: translateY(1px); }
-    button:disabled { opacity: 0.55; cursor: not-allowed; }
-    .full-btn { width: 100%; }
-    .danger-btn { background: #dc2626; }
-    .danger-btn:hover { background: #b91c1c; }
 
-    .table-wrap { overflow-x: auto; }
-    .table { width: 100%; border-collapse: collapse; }
-    .table th, .table td {
-      padding: 12px 8px; border-top: 1px solid #edf2f7;
-      text-align: left; font-size: 0.94rem; vertical-align: middle;
+    button:hover {
+      background: var(--blue-dark);
     }
+
+    button:active {
+      transform: translateY(1px);
+    }
+
+    button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    .full-btn {
+      width: 100%;
+    }
+
+    .danger-btn {
+      background: #dc2626;
+    }
+
+    .danger-btn:hover {
+      background: #b91c1c;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .table th,
+    .table td {
+      padding: 12px 8px;
+      border-top: 1px solid #edf2f7;
+      text-align: left;
+      font-size: 0.94rem;
+      vertical-align: middle;
+    }
+
     .table th {
-      color: var(--muted); font-weight: 700; font-size: 0.84rem;
-      text-transform: uppercase; letter-spacing: 0.03em;
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 0.84rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
     }
-    .action-cell { text-align: right; }
-    .row-delete {
-      background: #fee2e2; color: #b91c1c; padding: 8px 12px;
-      border-radius: 10px; font-size: 0.84rem;
-    }
-    .row-delete:hover { background: #fecaca; }
-    .empty-state { display: none; margin: 16px 0 4px; color: var(--muted); text-align: center; }
 
-    .chart-row { display: flex; gap: 24px; align-items: center; flex-wrap: wrap; }
+    .action-cell {
+      text-align: right;
+    }
+
+    .row-delete {
+      background: #fee2e2;
+      color: #b91c1c;
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 0.84rem;
+    }
+
+    .row-delete:hover {
+      background: #fecaca;
+    }
+
+    .empty-state {
+      display: none;
+      margin: 16px 0 4px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .chart-row {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
     .donut {
-      --bills: 0; --expenses: 0;
-      width: 220px; height: 220px; border-radius: 50%; position: relative;
-      background: conic-gradient(
-        var(--amber) 0 calc(var(--bills) * 1%),
-        var(--red) calc(var(--bills) * 1%) calc((var(--bills) + var(--expenses)) * 1%),
-        var(--green) calc((var(--bills) + var(--expenses)) * 1%) 100%
-      );
+      --bills: 0;
+      --expenses: 0;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      position: relative;
+      background: conic-gradient(var(--amber) 0 calc(var(--bills) * 1%),
+          var(--red) calc(var(--bills) * 1%) calc((var(--bills) + var(--expenses)) * 1%),
+          var(--green) calc((var(--bills) + var(--expenses)) * 1%) 100%);
       flex-shrink: 0;
     }
-    .donut.empty { background: conic-gradient(#e5e7eb 0 100%); }
-    .donut.over { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0.12); }
-    .donut::before { content: ""; position: absolute; inset: 24px; border-radius: 50%; background: white; box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.04); }
-    .donut-center { position: absolute; inset: 0; z-index: 1; display: grid; place-content: center; text-align: center; }
-    .donut-big { font-size: 2rem; font-weight: 800; line-height: 1; }
-    .donut-small { color: var(--muted); font-size: 0.92rem; margin-top: 6px; }
 
-    .legend { flex: 1; min-width: 280px; display: grid; gap: 12px; }
+    .donut.empty {
+      background: conic-gradient(#e5e7eb 0 100%);
+    }
+
+    .donut.over {
+      box-shadow: 0 0 0 8px rgba(239, 68, 68, 0.12);
+    }
+
+    .donut::before {
+      content: "";
+      position: absolute;
+      inset: 24px;
+      border-radius: 50%;
+      background: white;
+      box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.04);
+    }
+
+    .donut-center {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      display: grid;
+      place-content: center;
+      text-align: center;
+    }
+
+    .donut-big {
+      font-size: 2rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .donut-small {
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin-top: 6px;
+    }
+
+    .legend {
+      flex: 1;
+      min-width: 280px;
+      display: grid;
+      gap: 12px;
+    }
+
     .legend-item {
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 12px; padding-bottom: 12px; border-bottom: 1px solid #eef2f7;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #eef2f7;
     }
-    .legend-left { display: flex; align-items: center; gap: 10px; }
-    .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
-    .dot.bills { background: var(--amber); }
-    .dot.expenses { background: var(--red); }
-    .dot.remaining { background: var(--green); }
 
-    .mini-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 4px; }
-    .mini-stats div { background: #f8fafc; border: 1px solid #edf2f7; border-radius: 14px; padding: 12px; }
-    .mini-stats span { display: block; color: var(--muted); font-size: 0.85rem; margin-bottom: 6px; }
-    .mini-stats strong { font-size: 1rem; }
+    .legend-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-    .footer-card { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-     .bill-amount-input {
-        width: 90px !important;
-        padding: 6px 8px !important;
-        border-radius: 8px !important;
-        font-size: 0.9rem;
-        }
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+    }
 
-        .small-muted {
-        color: var(--muted);
-        font-size: 0.85rem;
-        }
-    .bill-name-cell { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-    .paid-cell { width: 70px; }
-    .paid-row td { color: var(--muted); }
-    .paid-name { text-decoration: line-through; }
+    .dot.bills {
+      background: var(--amber);
+    }
+
+    .dot.expenses {
+      background: var(--red);
+    }
+
+    .dot.remaining {
+      background: var(--green);
+    }
+
+    .mini-stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 4px;
+    }
+
+    .mini-stats div {
+      background: #f8fafc;
+      border: 1px solid #edf2f7;
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .mini-stats span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-bottom: 6px;
+    }
+
+    .mini-stats strong {
+      font-size: 1rem;
+    }
+
+    .footer-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .bill-amount-input {
+      width: 90px !important;
+      padding: 6px 8px !important;
+      border-radius: 8px !important;
+      font-size: 0.9rem;
+    }
+
+    .small-muted {
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .bill-name-cell {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .paid-cell {
+      width: 70px;
+    }
+
+    .paid-row td {
+      color: var(--muted);
+    }
+
+    .paid-name {
+      text-decoration: line-through;
+    }
+
     .paid-tag {
-      display: inline-flex; align-items: center; padding: 4px 8px;
-      border-radius: 999px; font-size: 0.75rem; font-weight: 700;
-      background: #ecfdf5; color: #047857;
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      background: #ecfdf5;
+      color: #047857;
     }
+
     input[type="checkbox"].bill-check {
-      width: 18px; min-width: 18px; height: 18px;
-      padding: 0; margin: 0; border: none; background: transparent;
-      box-shadow: none; accent-color: var(--green); cursor: pointer;
+      width: 18px;
+      min-width: 18px;
+      height: 18px;
+      padding: 0;
+      margin: 0;
+      border: none;
+      background: transparent;
+      box-shadow: none;
+      accent-color: var(--green);
+      cursor: pointer;
     }
+
+    .grocery-modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      place-items: center;
+      backdrop-filter: blur(4px);
+    }
+
+    .grocery-modal.show {
+      display: grid;
+    }
+
+    .grocery-content {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 24px;
+      max-width: 500px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow);
+    }
+
+    .grocery-items {
+      display: grid;
+      gap: 12px;
+      margin: 16px 0;
+    }
+
+    .grocery-item {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      padding: 12px;
+      background: #f8fafc;
+      border-radius: 12px;
+    }
+
+    .grocery-checkbox {
+      width: 20px;
+      height: 20px;
+      accent-color: var(--green);
+    }
+
+    .grocery-price {
+      flex: 1;
+    }
+
+    .grocery-total {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--amber);
+      text-align: right;
+      margin: 16px 0;
+    }
+
+    .grocery-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+
 
     @media (max-width: 1040px) {
-      .top-grid, .content-grid { grid-template-columns: 1fr; }
+
+      .top-grid,
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
     }
+
     @media (max-width: 820px) {
-      .summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .inline-form, .form-grid, .mini-stats { grid-template-columns: 1fr; }
-      .hero, .footer-card { flex-direction: column; align-items: stretch; }
-      .month-box { min-width: 0; }
+      .summary-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .inline-form,
+      .form-grid,
+      .mini-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .hero,
+      .footer-card {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .month-box {
+        min-width: 0;
+      }
     }
+
     @media (max-width: 560px) {
-      .summary-grid { grid-template-columns: 1fr; }
-      .container { padding: 16px; }
-      .card { padding: 16px; }
-      .donut { width: 180px; height: 180px; margin: 0 auto; }
-      .donut::before { inset: 18px; }
+      .summary-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .container {
+        padding: 16px;
+      }
+
+      .card {
+        padding: 16px;
+      }
+
+      .donut {
+        width: 180px;
+        height: 180px;
+        margin: 0 auto;
+      }
+
+      .donut::before {
+        inset: 18px;
+      }
+    }
+
+    /* ── iPhone 17 (402px CSS viewport) ── */
+    @media (max-width: 430px) {
+      .container {
+        padding: 12px;
+      }
+
+      .card {
+        padding: 14px;
+        border-radius: 14px;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      h2 {
+        font-size: 1rem;
+      }
+
+      .summary-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .stat-card {
+        padding: 14px 12px;
+      }
+
+      .stat-value {
+        font-size: 1.2rem;
+      }
+
+      .stat-label {
+        font-size: 0.8rem;
+      }
+
+      .section-head {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .badge {
+        font-size: 0.76rem;
+        padding: 4px 8px;
+      }
+
+      .form-grid,
+      .inline-form,
+      .mini-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .donut {
+        width: 160px;
+        height: 160px;
+        margin: 0 auto;
+      }
+
+      .donut::before {
+        inset: 16px;
+      }
+
+      .donut-big {
+        font-size: 1.6rem;
+      }
+
+      .chart-row {
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .legend {
+        min-width: 0;
+        width: 100%;
+      }
+
+      .sync-card {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .sync-card input {
+        max-width: 100%;
+      }
+
+      .footer-card {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+      }
+
+      .table th,
+      .table td {
+        padding: 8px 6px;
+        font-size: 0.82rem;
+      }
+
+      .bill-amount-input {
+        width: 72px !important;
+        font-size: 0.82rem;
+      }
+
+      .row-delete {
+        padding: 6px 8px;
+        font-size: 0.78rem;
+      }
+
+      input,
+      select {
+        padding: 10px 12px;
+        font-size: 0.95rem;
+      }
+
+      button {
+        padding: 11px 14px;
+        font-size: 0.95rem;
+      }
+
+      .grocery-content {
+        padding: 16px;
+        width: 95%;
+      }
+
+      .month-box {
+        width: 100%;
+      }
+
+      #addGroceryBtn {
+        width: 100%;
+        text-align: center;
+      }
+
+      .eyebrow {
+        font-size: 0.78rem;
+      }
+
+      .subtext {
+        font-size: 0.88rem;
+      }
     }
   </style>
 </head>
+
 <body>
   <div class="container">
     <header class="hero">
@@ -347,6 +954,23 @@
             <p class="muted">Track day-to-day spending inside the selected month.</p>
           </div>
           <span class="badge" id="expensesBadge">0 items</span>
+          <button id="addGroceryBtn" type="button"
+            style="margin-bottom: 12px; padding: 8px 16px; background: var(--amber); color: white;">+ Grocery
+            List</button>
+
+          <!-- Grocery Modal -->
+          <div id="groceryModal" class="grocery-modal">
+            <div class="grocery-content">
+              <h3 style="margin: 0 0 16px;">Monthly Grocery List</h3>
+              <div class="grocery-items" id="groceryItems"></div>
+              <div class="grocery-total" id="groceryTotal">Total: ₱0.00</div>
+              <div class="grocery-buttons">
+                <button type="button" id="cancelGroceryBtn">Cancel</button>
+                <button type="button" id="saveGroceryBtn" class="full-btn" style="width: auto;">Add to Bills</button>
+              </div>
+            </div>
+          </div>
+
         </div>
         <form id="expenseForm" class="form-grid">
           <div class="field">
@@ -456,6 +1080,14 @@
       expensesBody: document.getElementById("expensesBody"),
       expensesEmpty: document.getElementById("expensesEmpty"),
       expensesBadge: document.getElementById("expensesBadge"),
+      todayExpensesBtn: document.getElementById('todayExpensesBtn'),
+      addGroceryBtn: document.getElementById('addGroceryBtn'), addGroceryBtn: document.getElementById('addGroceryBtn'),
+      groceryModal: document.getElementById('groceryModal'),
+      groceryItems: document.getElementById('groceryItems'),
+      groceryTotal: document.getElementById('groceryTotal'),
+      cancelGroceryBtn: document.getElementById('cancelGroceryBtn'),
+      saveGroceryBtn: document.getElementById('saveGroceryBtn'),
+
       clearMonthBtn: document.getElementById("clearMonthBtn"),
       donutChart: document.getElementById("donutChart"),
       donutUsed: document.getElementById("donutUsed"),
@@ -506,92 +1138,92 @@
       saveTimer = setTimeout(() => docRef.set(appState), 300);
     }
 
-    function emptyMonth(){ return { salary:0, bills:[], expenses:[] }; }
-    function normalizePaid(v){ return v===true||v==="true"||v===1||v==="1"; }
-    function round2(v){ return Math.round((Number(v)+Number.EPSILON)*100)/100; }
-    function money(v){ return moneyFormatter.format(Number(v)||0); }
-    function currentDateString(){ const d=new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;}
-    function currentMonthString(){ return currentDateString().slice(0,7); }
-    function defaultDateForMonth(m){ return m===currentMonthString()?currentDateString():`${m}-01`; }
-    function formatMonth(m){ if(!m||!/^\d{4}-\d{2}$/.test(m))return m||""; const [y,mi]=m.split("-").map(Number); return new Date(y,mi-1,1).toLocaleDateString("en-PH",{month:"long",year:"numeric"}); }
-    function formatDate(d){ if(!d||!/^\d{4}-\d{2}-\d{2}$/.test(d))return "—"; const [y,mi,da]=d.split("-").map(Number); return new Date(y,mi-1,da).toLocaleDateString("en-PH",{month:"short",day:"numeric",year:"numeric"}); }
-    function daysInMonth(m){ const [y,mi]=m.split("-").map(Number); return new Date(y,mi,0).getDate(); }
-    function budgetDayCount(m){ if(m===currentMonthString()){ const today=new Date().getDate(); return daysInMonth(m)-today+1;} return daysInMonth(m); }
-    function percentValue(p,w){ return w>0 ? (Number(p)/Number(w))*100 : 0; }
-    function formatPercent(v){ return `${Number(v).toFixed(1).replace(/\.0$/,"")}%`; }
-    function uid(){ return (crypto?.randomUUID?.() ?? `id-${Date.now()}-${Math.random().toString(16).slice(2)}`); }
-    function escapeHtml(v=""){ return String(v).replace(/[&<>"']/g,(c)=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+    function emptyMonth() { return { salary: 0, bills: [], expenses: [] }; }
+    function normalizePaid(v) { return v === true || v === "true" || v === 1 || v === "1"; }
+    function round2(v) { return Math.round((Number(v) + Number.EPSILON) * 100) / 100; }
+    function money(v) { return moneyFormatter.format(Number(v) || 0); }
+    function currentDateString() { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; }
+    function currentMonthString() { return currentDateString().slice(0, 7); }
+    function defaultDateForMonth(m) { return m === currentMonthString() ? currentDateString() : `${m}-01`; }
+    function formatMonth(m) { if (!m || !/^\d{4}-\d{2}$/.test(m)) return m || ""; const [y, mi] = m.split("-").map(Number); return new Date(y, mi - 1, 1).toLocaleDateString("en-PH", { month: "long", year: "numeric" }); }
+    function formatDate(d) { if (!d || !/^\d{4}-\d{2}-\d{2}$/.test(d)) return "—"; const [y, mi, da] = d.split("-").map(Number); return new Date(y, mi - 1, da).toLocaleDateString("en-PH", { month: "short", day: "numeric", year: "numeric" }); }
+    function daysInMonth(m) { const [y, mi] = m.split("-").map(Number); return new Date(y, mi, 0).getDate(); }
+    function budgetDayCount(m) { if (m === currentMonthString()) { const today = new Date().getDate(); return daysInMonth(m) - today + 1; } return daysInMonth(m); }
+    function percentValue(p, w) { return w > 0 ? (Number(p) / Number(w)) * 100 : 0; }
+    function formatPercent(v) { return `${Number(v).toFixed(1).replace(/\.0$/, "")}%`; }
+    function uid() { return (crypto?.randomUUID?.() ?? `id-${Date.now()}-${Math.random().toString(16).slice(2)}`); }
+    function escapeHtml(v = "") { return String(v).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
 
-    function ensureMonth(m){
-      if(!appState.months[m]) appState.months[m]=emptyMonth();
-      const e=appState.months[m];
-      e.salary=round2(Number(e.salary)||0);
-      if(!Array.isArray(e.bills)) e.bills=[];
-      if(!Array.isArray(e.expenses)) e.expenses=[];
+    function ensureMonth(m) {
+      if (!appState.months[m]) appState.months[m] = emptyMonth();
+      const e = appState.months[m];
+      e.salary = round2(Number(e.salary) || 0);
+      if (!Array.isArray(e.bills)) e.bills = [];
+      if (!Array.isArray(e.expenses)) e.expenses = [];
       return e;
     }
-    function getMonthData(m){
-      const e=appState.months[m];
-      if(!e) return emptyMonth();
-      return { salary: round2(Number(e.salary)||0), bills: Array.isArray(e.bills)?e.bills:[], expenses: Array.isArray(e.expenses)?e.expenses:[] };
+    function getMonthData(m) {
+      const e = appState.months[m];
+      if (!e) return emptyMonth();
+      return { salary: round2(Number(e.salary) || 0), bills: Array.isArray(e.bills) ? e.bills : [], expenses: Array.isArray(e.expenses) ? e.expenses : [] };
     }
-    function pruneMonth(m){
-      const e=appState.months[m]; if(!e) return;
-      const salary=round2(Number(e.salary)||0);
-      if(salary===0 && (!e.bills||e.bills.length===0) && (!e.expenses||e.expenses.length===0)) delete appState.months[m];
+    function pruneMonth(m) {
+      const e = appState.months[m]; if (!e) return;
+      const salary = round2(Number(e.salary) || 0);
+      if (salary === 0 && (!e.bills || e.bills.length === 0) && (!e.expenses || e.expenses.length === 0)) delete appState.months[m];
     }
-    function totalsFor(d){
-      const salary=round2(Number(d.salary)||0);
-      const billsTotal=round2((d.bills||[]).reduce((s,i)=>s+(Number(i.amount)||0),0));
-      const expensesTotal=round2((d.expenses||[]).reduce((s,i)=>s+(Number(i.amount)||0),0));
-      return { salary, billsTotal, expensesTotal, remaining: round2(salary-billsTotal-expensesTotal) };
+    function totalsFor(d) {
+      const salary = round2(Number(d.salary) || 0);
+      const billsTotal = round2((d.bills || []).reduce((s, i) => s + (Number(i.amount) || 0), 0));
+      const expensesTotal = round2((d.expenses || []).reduce((s, i) => s + (Number(i.amount) || 0), 0));
+      return { salary, billsTotal, expensesTotal, remaining: round2(salary - billsTotal - expensesTotal) };
     }
-    function buildStatusText(m,salary,remaining,days,daily){
-      if(salary<=0) return `Set your monthly salary to start tracking ${formatMonth(m)}.`;
-      if(remaining<0) return `You are over budget by ${money(Math.abs(remaining))} for ${formatMonth(m)}.`;
-      if(m===currentMonthString()) return `You have ${money(remaining)} left for the remaining ${days} day(s). Try to keep spending within about ${money(daily)} per day.`;
+    function buildStatusText(m, salary, remaining, days, daily) {
+      if (salary <= 0) return `Set your monthly salary to start tracking ${formatMonth(m)}.`;
+      if (remaining < 0) return `You are over budget by ${money(Math.abs(remaining))} for ${formatMonth(m)}.`;
+      if (m === currentMonthString()) return `You have ${money(remaining)} left for the remaining ${days} day(s). Try to keep spending within about ${money(daily)} per day.`;
       return `Remaining budget for ${formatMonth(m)} is ${money(remaining)}. Average available budget is ${money(daily)} per day for this month.`;
     }
-    function updateNoticeStyle(salary, remaining){
-      refs.noticeCard.classList.remove("neutral","good","warn","danger");
-      if(salary<=0){ refs.noticeCard.classList.add("neutral"); return; }
-      if(remaining<0){ refs.noticeCard.classList.add("danger"); return; }
-      if(remaining<=salary*0.15){ refs.noticeCard.classList.add("warn"); return; }
+    function updateNoticeStyle(salary, remaining) {
+      refs.noticeCard.classList.remove("neutral", "good", "warn", "danger");
+      if (salary <= 0) { refs.noticeCard.classList.add("neutral"); return; }
+      if (remaining < 0) { refs.noticeCard.classList.add("danger"); return; }
+      if (remaining <= salary * 0.15) { refs.noticeCard.classList.add("warn"); return; }
       refs.noticeCard.classList.add("good");
     }
 
-    function renderBills(bills){
-  if(!bills.length){
-    refs.billsTable.style.display="none";
-    refs.billsEmpty.style.display="block";
-    refs.billsBody.innerHTML="";
-    return;
-  }
+    function renderBills(bills) {
+      if (!bills.length) {
+        refs.billsTable.style.display = "none";
+        refs.billsEmpty.style.display = "block";
+        refs.billsBody.innerHTML = "";
+        return;
+      }
 
-  const sorted=[...bills].sort((a,b)=>{
-    const pa=normalizePaid(a.paid), pb=normalizePaid(b.paid);
-    if(pa!==pb) return Number(pa)-Number(pb);
-    const da=a.dueDay||99, db=b.dueDay||99;
-    if(da!==db) return da-db;
-    return String(a.name||"").localeCompare(String(b.name||""));
-  });
+      const sorted = [...bills].sort((a, b) => {
+        const pa = normalizePaid(a.paid), pb = normalizePaid(b.paid);
+        if (pa !== pb) return Number(pa) - Number(pb);
+        const da = a.dueDay || 99, db = b.dueDay || 99;
+        if (da !== db) return da - db;
+        return String(a.name || "").localeCompare(String(b.name || ""));
+      });
 
-  refs.billsBody.innerHTML=sorted.map(bill=>{
-    const paid = normalizePaid(bill.paid);
-    const paidAmount = Math.min(Number(bill.paidAmount||0), Number(bill.amount||0));
-    const remaining = Math.max(Number(bill.amount||0) - paidAmount, 0);
+      refs.billsBody.innerHTML = sorted.map(bill => {
+        const paid = normalizePaid(bill.paid);
+        const paidAmount = Math.min(Number(bill.paidAmount || 0), Number(bill.amount || 0));
+        const remaining = Math.max(Number(bill.amount || 0) - paidAmount, 0);
 
-    return `
-      <tr class="${paid?"paid-row":""}">
+        return `
+      <tr class="${paid ? "paid-row" : ""}">
         <td class="paid-cell">
-          <input type="checkbox" class="bill-check" data-toggle-bill-paid="${escapeHtml(bill.id)}" ${paid?"checked":""} />
+          <input type="checkbox" class="bill-check" data-toggle-bill-paid="${escapeHtml(bill.id)}" ${paid ? "checked" : ""} />
         </td>
         <td>
           <div class="bill-name-cell">
-            <span class="${paid?"paid-name":""}">${escapeHtml(bill.name)}</span>
-            ${paid?`<span class="paid-tag">Paid</span>`:""}
+            <span class="${paid ? "paid-name" : ""}">${escapeHtml(bill.name)}</span>
+            ${paid ? `<span class="paid-tag">Paid</span>` : ""}
           </div>
-          <div class="small-muted">${bill.dueDay?`Due Day ${bill.dueDay}`:""}</div>
+          <div class="small-muted">${bill.dueDay ? `Due Day ${bill.dueDay}` : ""}</div>
         </td>
         <td>
           <input type="number" class="bill-amount-input"
@@ -606,209 +1238,287 @@
         </td>
       </tr>
     `;
-  }).join("");
+      }).join("");
 
-  refs.billsTable.style.display="table";
-  refs.billsEmpty.style.display="none";
-}
-refs.billsBody.addEventListener("input", (e)=>{
-  const field = e.target.closest("[data-paid-amount]");
-  if(!field) return;
+      refs.billsTable.style.display = "table";
+      refs.billsEmpty.style.display = "none";
+    }
+    refs.billsBody.addEventListener("input", (e) => {
+      const field = e.target.closest("[data-paid-amount]");
+      if (!field) return;
 
-  const month = refs.monthSelect.value;
-  const m = ensureMonth(month);
-  const bill = m.bills.find(b=>b.id===field.dataset.paidAmount);
-  if(!bill) return;
+      const month = refs.monthSelect.value;
+      const m = ensureMonth(month);
+      const bill = m.bills.find(b => b.id === field.dataset.paidAmount);
+      if (!bill) return;
 
-  let val = Number(field.value || 0);
-  if(isNaN(val) || val < 0) val = 0;
-  if(val > bill.amount) val = bill.amount;
+      let val = Number(field.value || 0);
+      if (isNaN(val) || val < 0) val = 0;
+      if (val > bill.amount) val = bill.amount;
 
-  bill.paidAmount = val;
-  bill.paid = val >= bill.amount;
+      bill.paidAmount = val;
+      bill.paid = val >= bill.amount;
 
-  saveState();
-  render();
-});
+      saveState();
+      render();
+    });
 
-    function renderExpenses(expenses){
-      if(!expenses.length){
-        refs.expensesTable.style.display="none";
-        refs.expensesEmpty.style.display="block";
-        refs.expensesBody.innerHTML="";
+    function renderExpenses(expenses) {
+      if (!expenses.length) {
+        refs.expensesTable.style.display = "none";
+        refs.expensesEmpty.style.display = "block";
+        refs.expensesBody.innerHTML = "";
         return;
       }
-      const sorted=[...expenses].sort((a,b)=> a.date===b.date ? (Number(b.createdAt)||0)-(Number(a.createdAt)||0) : String(b.date).localeCompare(String(a.date)));
-      refs.expensesBody.innerHTML=sorted.map(ex=>`
+      const sorted = [...expenses].sort((a, b) => a.date === b.date ? (Number(b.createdAt) || 0) - (Number(a.createdAt) || 0) : String(b.date).localeCompare(String(a.date)));
+      refs.expensesBody.innerHTML = sorted.map(ex => `
         <tr>
           <td>${escapeHtml(formatDate(ex.date))}</td>
-          <td>${escapeHtml(ex.category||"Other")}</td>
-          <td>${escapeHtml(ex.description||"—")}</td>
+          <td>${escapeHtml(ex.category || "Other")}</td>
+          <td>${escapeHtml(ex.description || "—")}</td>
           <td>${money(ex.amount)}</td>
           <td class="action-cell"><button type="button" class="row-delete" data-delete-expense="${escapeHtml(ex.id)}">Delete</button></td>
         </tr>
       `).join("");
-      refs.expensesTable.style.display="table";
-      refs.expensesEmpty.style.display="none";
+      refs.expensesTable.style.display = "table";
+      refs.expensesEmpty.style.display = "none";
     }
 
-    function renderBreakdown(m,salary,billsTotal,expensesTotal,remaining,days,daily){
-      refs.legendBills.textContent=money(billsTotal);
-      refs.legendExpenses.textContent=money(expensesTotal);
-      refs.legendRemaining.textContent=money(remaining);
-      refs.legendRemaining.classList.toggle("negative-text", remaining<0);
-      const billsPct=percentValue(billsTotal,salary);
-      const expPct=percentValue(expensesTotal,salary);
-      const usedPct=billsPct+expPct;
-      refs.billPercent.textContent=formatPercent(billsPct);
-      refs.expensePercent.textContent=formatPercent(expPct);
-      refs.daysLabel.textContent=m===currentMonthString()?"Days Left":"Days in Month";
-      refs.daysLeft.textContent=String(days);
-      refs.dailyBudget.textContent=money(daily);
-      refs.dailyBudget.classList.toggle("negative-text", daily<0);
+    function renderBreakdown(m, salary, billsTotal, expensesTotal, remaining, days, daily) {
+      refs.legendBills.textContent = money(billsTotal);
+      refs.legendExpenses.textContent = money(expensesTotal);
+      refs.legendRemaining.textContent = money(remaining);
+      refs.legendRemaining.classList.toggle("negative-text", remaining < 0);
+      const billsPct = percentValue(billsTotal, salary);
+      const expPct = percentValue(expensesTotal, salary);
+      const usedPct = billsPct + expPct;
+      refs.billPercent.textContent = formatPercent(billsPct);
+      refs.expensePercent.textContent = formatPercent(expPct);
+      refs.daysLabel.textContent = m === currentMonthString() ? "Days Left" : "Days in Month";
+      refs.daysLeft.textContent = String(days);
+      refs.dailyBudget.textContent = money(daily);
+      refs.dailyBudget.classList.toggle("negative-text", daily < 0);
 
-      if(salary<=0){
+      if (salary <= 0) {
         refs.donutChart.classList.add("empty");
         refs.donutChart.classList.remove("over");
-        refs.donutChart.style.setProperty("--bills",0);
-        refs.donutChart.style.setProperty("--expenses",0);
-        refs.donutUsed.textContent="0%";
+        refs.donutChart.style.setProperty("--bills", 0);
+        refs.donutChart.style.setProperty("--expenses", 0);
+        refs.donutUsed.textContent = "0%";
         return;
       }
       refs.donutChart.classList.remove("empty");
-      refs.donutChart.classList.toggle("over", usedPct>100);
-      const billSeg=Math.min(billsPct,100);
-      const expSeg=Math.min(expPct,Math.max(0,100-billSeg));
+      refs.donutChart.classList.toggle("over", usedPct > 100);
+      const billSeg = Math.min(billsPct, 100);
+      const expSeg = Math.min(expPct, Math.max(0, 100 - billSeg));
       refs.donutChart.style.setProperty("--bills", billSeg.toFixed(2));
       refs.donutChart.style.setProperty("--expenses", expSeg.toFixed(2));
-      refs.donutUsed.textContent=`${Math.round(usedPct)}%`;
-      refs.donutUsed.classList.toggle("negative-text", usedPct>100);
+      refs.donutUsed.textContent = `${Math.round(usedPct)}%`;
+      refs.donutUsed.classList.toggle("negative-text", usedPct > 100);
+    }
+    function renderGroceryModal() {
+      const items = [
+        { name: 'Rice (5kg)', price: 250 },
+        { name: 'Eggs (30pcs)', price: 180 },
+        { name: 'Chicken', price: 300 },
+        { name: 'Pork', price: 400 },
+        { name: 'Fish', price: 250 },
+        { name: 'Vegetables', price: 150 },
+        { name: 'Fruits', price: 200 },
+        { name: 'Milk', price: 120 },
+        { name: 'Bread', price: 80 },
+        { name: 'Oil', price: 150 },
+        { name: 'Other', price: 0 }
+      ];
+      refs.groceryItems.innerHTML = items.map(item => `
+    <div class="grocery-item">
+      <input type="checkbox" class="grocery-checkbox" data-item="${escapeHtml(item.name)}">
+      <label>${item.name}</label>
+      <input type="number" class="grocery-price" min="0" step="0.01" value="${item.price}" style="width: 80px;">
+    </div>
+  `).join('');
+
+      // Auto-update total and handle price changes
+      function updateTotal() {
+        let total = 0;
+        refs.groceryItems.querySelectorAll('.grocery-checkbox:checked').forEach(chk => {
+          const priceInput = chk.closest('.grocery-item').querySelector('.grocery-price');
+          total += Number(priceInput.value) || 0;
+        });
+        refs.groceryTotal.textContent = `Total: ${moneyFormatter.format(total)}`;
+      }
+
+      refs.groceryItems.addEventListener('change', updateTotal);
+      refs.groceryItems.addEventListener('input', updateTotal);
     }
 
-    function render(){
+
+    function render() {
       const month = refs.monthSelect.value || currentMonthString();
       const data = getMonthData(month);
-      const {salary,billsTotal,expensesTotal,remaining} = totalsFor(data);
+      const { salary, billsTotal, expensesTotal, remaining } = totalsFor(data);
       const days = budgetDayCount(month);
-      const daily = days>0 ? round2(remaining/days) : 0;
-      const hasData = salary>0 || data.bills.length>0 || data.expenses.length>0;
+      const daily = days > 0 ? round2(remaining / days) : 0;
+      const hasData = salary > 0 || data.bills.length > 0 || data.expenses.length > 0;
 
       refs.monthName.textContent = `Viewing ${formatMonth(month)}`;
-      refs.statusText.textContent = buildStatusText(month,salary,remaining,days,daily);
-      updateNoticeStyle(salary,remaining);
+      refs.statusText.textContent = buildStatusText(month, salary, remaining, days, daily);
+      updateNoticeStyle(salary, remaining);
 
       refs.salaryDisplay.textContent = money(salary);
       refs.billsDisplay.textContent = money(billsTotal);
       refs.expensesDisplay.textContent = money(expensesTotal);
       refs.remainingDisplay.textContent = money(remaining);
-      refs.remainingDisplay.classList.toggle("negative-text", remaining<0);
+      refs.remainingDisplay.classList.toggle("negative-text", remaining < 0);
 
-      refs.salaryInput.value = salary>0 ? salary : "";
-      if(!refs.expenseDate.value || !refs.expenseDate.value.startsWith(month)){
+      refs.salaryInput.value = salary > 0 ? salary : "";
+      if (!refs.expenseDate.value || !refs.expenseDate.value.startsWith(month)) {
         refs.expenseDate.value = defaultDateForMonth(month);
       }
 
-      const paidBills = data.bills.filter(b=>normalizePaid(b.paid)).length;
+      const paidBills = data.bills.filter(b => normalizePaid(b.paid)).length;
       refs.billsBadge.textContent = data.bills.length ? `${paidBills}/${data.bills.length} paid` : "0 items";
-      refs.expensesBadge.textContent = `${data.expenses.length} item${data.expenses.length===1?"":"s"}`;
+      refs.expensesBadge.textContent = `${data.expenses.length} item${data.expenses.length === 1 ? "" : "s"}`;
       refs.clearMonthBtn.disabled = !hasData;
 
       renderBills(data.bills);
       renderExpenses(data.expenses);
-      renderBreakdown(month,salary,billsTotal,expensesTotal,remaining,days,daily);
+      // Toggle today's expenses filter
+      refs.todayExpensesBtn.addEventListener('click', () => {
+        const month = refs.monthSelect.value;
+        const today = currentDateString().slice(0, 10); // YYYY-MM-DD
+        const data = getMonthData(month);
+        const todayExpenses = data.expenses.filter(ex => ex.date === today);
+        renderExpenses(todayExpenses);
+        refs.todayExpensesBtn.textContent = 'All Expenses';
+        refs.todayExpensesBtn.style.background = 'var(--blue)';
+        setTimeout(() => { // Reset to full list
+          renderExpenses(data.expenses);
+          refs.todayExpensesBtn.textContent = "Today's Expenses";
+          refs.todayExpensesBtn.style.background = 'var(--green)';
+        }, 5000);
+      });
+      // Grocery list quick add
+      refs.addGroceryBtn.addEventListener('click', () => {
+        refs.groceryForm.style.display = refs.groceryForm.style.display === 'grid' ? 'none' : 'grid';
+      });
+      refs.saveGroceryBtn.addEventListener('click', () => {
+        const month = refs.monthSelect.value;
+        const amount = round2(Number(refs.groceryAmount.value));
+        if (isNaN(amount) || amount <= 0) {
+          alert('Enter valid grocery total.');
+          return;
+        }
+        const m = ensureMonth(month);
+        m.bills.push({
+          id: uid(),
+          name: 'Grocery List',
+          amount,
+          dueDay: null,
+          paid: false,
+          paidAmount: 0
+        });
+        saveState();
+        refs.groceryForm.style.display = 'none';
+        refs.groceryAmount.value = '';
+        render();
+      });
+
+      renderBreakdown(month, salary, billsTotal, expensesTotal, remaining, days, daily);
     }
 
-    refs.monthSelect.addEventListener("change", ()=>{
-      if(!refs.monthSelect.value) refs.monthSelect.value=currentMonthString();
+    refs.monthSelect.addEventListener("change", () => {
+      if (!refs.monthSelect.value) refs.monthSelect.value = currentMonthString();
       render();
     });
 
-    refs.salaryForm.addEventListener("submit", (e)=>{
+    refs.salaryForm.addEventListener("submit", (e) => {
       e.preventDefault();
-      const month=refs.monthSelect.value;
-      const amount=round2(Number(refs.salaryInput.value||0));
-      if(isNaN(amount)||amount<0){ alert("Please enter a valid salary."); return; }
-      const m=ensureMonth(month);
-      m.salary=amount;
+      const month = refs.monthSelect.value;
+      const amount = round2(Number(refs.salaryInput.value || 0));
+      if (isNaN(amount) || amount < 0) { alert("Please enter a valid salary."); return; }
+      const m = ensureMonth(month);
+      m.salary = amount;
       pruneMonth(month);
       saveState(); render();
     });
 
-    refs.billForm.addEventListener("submit", (e)=>{
+    refs.billForm.addEventListener("submit", (e) => {
       e.preventDefault();
-      const month=refs.monthSelect.value;
-      const name=refs.billName.value.trim();
-      const amount=round2(Number(refs.billAmount.value));
-      const dueRaw=refs.billDueDay.value.trim();
-      const due=dueRaw?Number(dueRaw):null;
-      if(!name){ alert("Enter bill name."); return; }
-      if(isNaN(amount)||amount<=0){ alert("Enter valid amount."); return; }
-      if(due!==null && (!Number.isInteger(due)||due<1||due>31)){ alert("Due day must be 1-31."); return; }
-      const m=ensureMonth(month);
+      const month = refs.monthSelect.value;
+      const name = refs.billName.value.trim();
+      const amount = round2(Number(refs.billAmount.value));
+      const dueRaw = refs.billDueDay.value.trim();
+      const due = dueRaw ? Number(dueRaw) : null;
+      if (!name) { alert("Enter bill name."); return; }
+      if (isNaN(amount) || amount <= 0) { alert("Enter valid amount."); return; }
+      if (due !== null && (!Number.isInteger(due) || due < 1 || due > 31)) { alert("Due day must be 1-31."); return; }
+      const m = ensureMonth(month);
       m.bills.push({ id: uid(), name, amount, dueDay: due, paid: false, paidAmount: 0 });
       saveState();
       refs.billForm.reset();
       render();
     });
 
-    refs.expenseForm.addEventListener("submit", (e)=>{
+    refs.expenseForm.addEventListener("submit", (e) => {
       e.preventDefault();
-      const month=refs.monthSelect.value;
-      const date=refs.expenseDate.value;
-      const category=refs.expenseCategory.value;
-      const description=refs.expenseDescription.value.trim();
-      const amount=round2(Number(refs.expenseAmount.value));
-      if(!date||!date.startsWith(month)){ alert(`Choose a date inside ${formatMonth(month)}.`); return; }
-      if(isNaN(amount)||amount<=0){ alert("Enter valid amount."); return; }
-      const m=ensureMonth(month);
+      const month = refs.monthSelect.value;
+      const date = refs.expenseDate.value;
+      const category = refs.expenseCategory.value;
+      const description = refs.expenseDescription.value.trim();
+      const amount = round2(Number(refs.expenseAmount.value));
+      if (!date || !date.startsWith(month)) { alert(`Choose a date inside ${formatMonth(month)}.`); return; }
+      if (isNaN(amount) || amount <= 0) { alert("Enter valid amount."); return; }
+      const m = ensureMonth(month);
       m.expenses.push({ id: uid(), date, category, description, amount, createdAt: Date.now() });
       saveState();
       refs.expenseForm.reset();
-      refs.expenseDate.value=defaultDateForMonth(month);
-      refs.expenseCategory.value="Food";
+      refs.expenseDate.value = defaultDateForMonth(month);
+      refs.expenseCategory.value = "Food";
       render();
     });
 
-    refs.billsBody.addEventListener("click", (e)=>{
-      const btn=e.target.closest("[data-delete-bill]");
-      if(!btn) return;
-      const m=ensureMonth(refs.monthSelect.value);
-      m.bills=m.bills.filter(b=>b.id!==btn.dataset.deleteBill);
+    refs.billsBody.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-delete-bill]");
+      if (!btn) return;
+      const m = ensureMonth(refs.monthSelect.value);
+      m.bills = m.bills.filter(b => b.id !== btn.dataset.deleteBill);
       pruneMonth(refs.monthSelect.value);
       saveState(); render();
     });
 
-    refs.billsBody.addEventListener("change", (e)=>{
-      const chk=e.target.closest("[data-toggle-bill-paid]");
-      if(!chk) return;
-      const m=ensureMonth(refs.monthSelect.value);
-      const bill=m.bills.find(b=>b.id===chk.dataset.toggleBillPaid);
-      if(!bill) return;
-      bill.paid=chk.checked;
+    refs.billsBody.addEventListener("change", (e) => {
+      const chk = e.target.closest("[data-toggle-bill-paid]");
+      if (!chk) return;
+      const m = ensureMonth(refs.monthSelect.value);
+      const bill = m.bills.find(b => b.id === chk.dataset.toggleBillPaid);
+      if (!bill) return;
+      bill.paid = chk.checked;
       saveState(); render();
     });
 
-    refs.expensesBody.addEventListener("click", (e)=>{
-      const btn=e.target.closest("[data-delete-expense]");
-      if(!btn) return;
-      const m=ensureMonth(refs.monthSelect.value);
-      m.expenses=m.expenses.filter(ex=>ex.id!==btn.dataset.deleteExpense);
+    refs.expensesBody.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-delete-expense]");
+      if (!btn) return;
+      const m = ensureMonth(refs.monthSelect.value);
+      m.expenses = m.expenses.filter(ex => ex.id !== btn.dataset.deleteExpense);
       pruneMonth(refs.monthSelect.value);
       saveState(); render();
     });
 
-    refs.clearMonthBtn.addEventListener("click", ()=>{
-      const month=refs.monthSelect.value;
-      const data=getMonthData(month);
-      const has=data.salary>0||data.bills.length||data.expenses.length;
-      if(!has) return;
-      if(!confirm(`Clear all data for ${formatMonth(month)}?`)) return;
+    refs.clearMonthBtn.addEventListener("click", () => {
+      const month = refs.monthSelect.value;
+      const data = getMonthData(month);
+      const has = data.salary > 0 || data.bills.length || data.expenses.length;
+      if (!has) return;
+      if (!confirm(`Clear all data for ${formatMonth(month)}?`)) return;
       delete appState.months[month];
       saveState(); render();
     });
 
-    refs.monthSelect.value=currentMonthString();
-    refs.expenseDate.value=currentDateString();
+    refs.monthSelect.value = currentMonthString();
+    refs.expenseDate.value = currentDateString();
   </script>
 </body>
+
 </html>
