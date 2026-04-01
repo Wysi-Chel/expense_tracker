@@ -411,8 +411,8 @@
             <input type="number" id="groceryQuantity" min="1" step="1" value="1" required />
           </div>
           <div class="field">
-            <label for="groceryUnitPrice">Unit Price (PHP)</label>
-            <input type="number" id="groceryUnitPrice" min="0.01" step="0.01" placeholder="e.g. 85" />
+            <label for="groceryUnitPrice">Unit Price (PHP) <span style="font-weight:400;color:#6b7280;">(optional)</span></label>
+            <input type="number" id="groceryUnitPrice" min="0" step="0.01" placeholder="e.g. 85" />
           </div>
           <div class="field action-field">
             <button type="submit" class="full-btn">Add Grocery Item</button>
@@ -719,11 +719,12 @@
       refs.groceriesBody.innerHTML=sorted.map(item=>{
         const totalPrice=groceryItemTotal(item);
         const done=Boolean(item.checked);
+        const unitPriceValue = item.unitPrice>0 ? item.unitPrice : "";
         return `<tr class="todo-row ${done ? "done" : ""}">
   <td data-label="Done"><input type="checkbox" class="todo-check" data-toggle-grocery="${escapeHtml(item.id)}" ${done ? "checked" : ""} /></td>
   <td data-label="Item"><div class="todo-name"><span class="${done ? "todo-done" : ""}">${escapeHtml(item.name)}</span></div></td>
   <td data-label="Qty">${escapeHtml(item.quantity)}</td>
-  <td data-label="Unit Price">${money(item.unitPrice)}</td>
+  <td data-label="Unit Price"><input type="number" class="grocery-unit-price-input" data-unit-price-id="${escapeHtml(item.id)}" min="0" step="0.01" value="${escapeHtml(unitPriceValue)}" placeholder="Optional" /></td>
   <td data-label="Total">${money(totalPrice)}</td>
   <td class="action-cell"><button type="button" class="row-delete" data-delete-grocery="${escapeHtml(item.id)}">Delete</button></td>
 </tr>`;
@@ -883,10 +884,11 @@
       const month=refs.monthSelect.value;
       const name=refs.groceryName.value.trim();
       const quantity=Number(refs.groceryQuantity.value);
-      const unitPrice=round2(Number(refs.groceryUnitPrice.value));
+      const unitPriceRaw=refs.groceryUnitPrice.value.trim();
+      const unitPrice = unitPriceRaw === "" ? 0 : round2(Number(unitPriceRaw));
       if(!name){alert("Enter grocery item name.");return;}
       if(!Number.isInteger(quantity)||quantity<=0){alert("Quantity must be a whole number greater than 0.");return;}
-      if(isNaN(unitPrice)||unitPrice<=0){alert("Enter a valid unit price.");return;}
+      if(unitPriceRaw !== "" && (isNaN(unitPrice) || unitPrice < 0)){alert("Enter a valid unit price or leave it blank.");return;}
       const m=ensureMonth(month);
       m.groceries.push({id:uid(),name,quantity,unitPrice,checked:false,createdAt:Date.now()});
       saveState();
@@ -937,6 +939,21 @@
       const item=m.groceries.find(g=>g.id===chk.dataset.toggleGrocery);
       if(!item) return;
       item.checked=chk.checked;
+      saveState();
+      render();
+    });
+
+    // Update unit price inline for grocery items
+    refs.groceriesBody.addEventListener("input",(e)=>{
+      const input=e.target.closest(".grocery-unit-price-input");
+      if(!input) return;
+      const m=ensureMonth(refs.monthSelect.value);
+      const item=m.groceries.find(g=>g.id===input.dataset.unitPriceId);
+      if(!item) return;
+      const value=input.value.trim();
+      const newUnitPrice = value === "" ? 0 : round2(Number(value));
+      if(value !== "" && (isNaN(newUnitPrice) || newUnitPrice < 0)) return;
+      item.unitPrice = newUnitPrice;
       saveState();
       render();
     });
