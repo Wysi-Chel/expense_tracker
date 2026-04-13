@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/2704/2704312.png" />
-  <title>Salary Tracker</title>
+  <title>Salary Tracker (PHP)</title>
   <style>
     :root {
       --bg: #f6f7fb; --card: #ffffff; --text: #172033; --muted: #6b7280;
@@ -103,6 +103,15 @@
     .summary-chip span { display:block; font-size:0.8rem; color:var(--muted); margin-bottom:6px; }
     .summary-chip strong { font-size:1rem; }
 
+
+    .mt-16 { margin-top: 16px; }
+    .mb-16 { margin-bottom: 16px; }
+
+    .expense-filter-bar { margin-top: 16px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .savings-progress-bar { height: 8px; border-radius: 999px; background: #e5e7eb; overflow: hidden; min-width: 80px; }
+    .savings-progress-fill { height: 100%; border-radius: 999px; background: var(--green); transition: width 0.3s ease; }
+    .savings-saved-input { width: 100px !important; padding: 6px 8px !important; border-radius: 8px !important; font-size: 0.9rem; }
+
     /* Section Buttons */
     .content-grid-btns { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; margin-bottom:16px; }
     .section-open-btn { display:flex; align-items:center; justify-content:space-between; padding:20px 24px; background:var(--card); color:var(--text); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow); font-size:1rem; font-weight:700; cursor:pointer; transition:background 0.15s ease,transform 0.05s ease; text-align:left; }
@@ -194,16 +203,16 @@
     <section class="card sync-card">
       <div style="flex:1;">
         <h2>Sync Key</h2>
-        <p class="muted" id="syncHelpText">Changes are saved on this device until you set a sync key.</p>
+        <p class="muted">Use the same key on all devices</p>
       </div>
       <input type="text" id="syncKeyInput" placeholder="Enter sync key" />
       <button id="setSyncKeyBtn">Set Key</button>
-      <span class="badge" id="syncKeyLabel">Local only</span>
+      <span class="badge" id="syncKeyLabel">Not set</span>
     </section>
 
     <section class="summary-grid">
       <article class="card stat-card">
-        <span class="stat-label">Expected Income</span>
+        <span class="stat-label">Monthly Income</span>
         <strong class="stat-value" id="salaryDisplay">&#8369;0.00</strong>
       </article>
       <article class="card stat-card">
@@ -226,10 +235,10 @@
 
     <section class="card notice-card neutral">
       <div id="monthName" class="notice-title">Viewing this month</div>
-      <p id="statusText">Add payroll settings to start tracking.</p>
+      <p id="statusText">Set your salary to start tracking.</p>
     </section>
 
-    <section class="card" style="margin-bottom:16px;">
+    <section class="card mb-16">
       <div class="section-head">
         <div>
           <h2>Payroll Settings</h2>
@@ -242,7 +251,7 @@
           <input type="number" id="weeklyPayroll" min="0" step="0.01" placeholder="e.g. 7400" />
         </div>
         <div class="field">
-          <label for="semiMonthlyPayroll">Semi-Monthly Payroll (15th & 30th)</label>
+          <label for="semiMonthlyPayroll">Bi-Weekly Payroll (15th & 30th)</label>
           <input type="number" id="semiMonthlyPayroll" min="0" step="0.01" placeholder="e.g. 5500" />
         </div>
         <div class="field action-field">
@@ -252,7 +261,7 @@
       <p id="incomeBreakdown" style="margin-top:16px; font-size:0.9rem; color:#6b7280;">Expected Income Calculation: Not set</p>
     </section>
 
-    <section class="card" style="margin-bottom:16px;">
+    <section class="card mb-16">
       <div class="section-head">
         <div>
           <h2>Salary Breakdown</h2>
@@ -291,7 +300,7 @@
       </div>
     </section>
 
-    <section class="card" style="margin-bottom:16px;">
+    <section class="card mb-16">
       <div class="section-head">
         <div>
           <h2>Cash Flow Overview</h2>
@@ -332,11 +341,11 @@
     </section>
 
     <!-- Bills Modal -->
-    <div id="billsModal" class="section-modal">
+    <div id="billsModal" class="section-modal" role="dialog" aria-modal="true" aria-labelledby="billsModalTitle">
       <div class="section-modal-content">
         <div class="modal-header">
           <div>
-            <h2>Monthly Bills</h2>
+            <h2 id="billsModalTitle">Monthly Bills</h2>
             <p class="muted">Add fixed bills for the selected month.</p>
           </div>
           <button type="button" class="modal-close-btn" id="closeBillsBtn">&#10005; Close</button>
@@ -373,7 +382,7 @@
     </div>
 
     <!-- Expenses Modal -->
-    <div id="expensesModal" class="section-modal">
+    <div id="expensesModal" class="section-modal" role="dialog" aria-modal="true" aria-labelledby="expensesModalTitle">
       <div class="section-modal-content">
         <div class="modal-header">
           <div>
@@ -407,7 +416,16 @@
             <button type="submit" class="full-btn">Add Expense</button>
           </div>
         </form>
-        <div class="table-wrap" style="margin-top:16px;">
+        <div class="expense-filter-bar mt-16">
+          <label for="expenseCategoryFilter" style="display:inline;margin-right:8px;">Filter by Category:</label>
+          <select id="expenseCategoryFilter" style="width:auto;display:inline-block;">
+            <option value="">All</option>
+            <option>Food</option><option>Transport</option><option>Groceries</option>
+            <option>Utilities</option><option>Load/Data</option><option>Entertainment</option>
+            <option>Health</option><option>Other</option>
+          </select>
+        </div>
+        <div class="table-wrap mt-16">
           <table class="table" id="expensesTable">
             <thead>
               <tr>
@@ -422,11 +440,11 @@
     </div>
 
     <!-- Grocery Modal -->
-    <div id="groceriesModal" class="section-modal">
+    <div id="groceriesModal" class="section-modal" role="dialog" aria-modal="true" aria-labelledby="groceriesModalTitle">
       <div class="section-modal-content">
         <div class="modal-header">
           <div>
-            <h2>Grocery List</h2>
+            <h2 id="groceriesModalTitle">Grocery List</h2>
             <p class="muted">Use this like a to-do list with checkboxes. Grocery totals are added to daily expenses automatically.</p>
           </div>
           <button type="button" class="modal-close-btn" id="closeGroceriesBtn">&#10005; Close</button>
@@ -474,8 +492,32 @@
       </div>
     </div>
 
+    <!-- Cash Flow Modal -->
+    <div id="cashFlowModal" class="section-modal" role="dialog" aria-modal="true" aria-labelledby="cashFlowModalTitle">
+      <div class="section-modal-content">
+        <div class="modal-header">
+          <div>
+            <h2 id="cashFlowModalTitle">Cash Flow Overview</h2>
+            <p class="muted">Track your income and expenses over time to understand your financial flow.</p>
+          </div>
+          <button type="button" class="modal-close-btn" id="closeCashFlowBtn">&#10005; Close</button>
+        </div>
+        <div class="table-wrap mt-16">
+          <table class="table" id="cashFlowTable">
+            <thead>
+              <tr>
+                <th>Month</th><th>Expected Income</th><th>Expenses</th><th>Net Cash Flow</th><th>Cumulative Balance</th>
+              </tr>
+            </thead>
+            <tbody id="cashFlowBody"></tbody>
+          </table>
+          <p class="empty-state" id="cashFlowEmpty">No data available for cash flow analysis.</p>
+        </div>
+      </div>
+    </div>
+
     <!-- Savings Goals Modal -->
-    <div id="savingsModal" class="section-modal">
+    <div id="savingsModal" class="section-modal" role="dialog" aria-modal="true" aria-labelledby="savingsModalTitle">
       <div class="section-modal-content">
         <div class="modal-header">
           <div>
@@ -497,6 +539,10 @@
             <label for="savingsGoalDate">Target Date</label>
             <input type="date" id="savingsGoalDate" required />
           </div>
+          <div class="field">
+            <label for="savingsGoalSaved">Amount Already Saved (PHP) <span style="font-weight:400;color:#6b7280;">(optional)</span></label>
+            <input type="number" id="savingsGoalSaved" min="0" step="0.01" placeholder="e.g. 5000" />
+          </div>
           <div class="field action-field full-span">
             <button type="submit" class="full-btn">Add Savings Goal</button>
           </div>
@@ -505,7 +551,7 @@
           <table class="table" id="savingsTable">
             <thead>
               <tr>
-                <th>Goal</th><th>Target</th><th>Days Left</th><th>Daily Savings</th><th>Progress</th><th></th>
+                <th>Goal</th><th>Target</th><th>Saved</th><th>Days Left</th><th>Daily Savings Needed</th><th>Progress</th><th></th>
               </tr>
             </thead>
             <tbody id="savingsBody"></tbody>
@@ -518,9 +564,12 @@
     <section class="card footer-card">
       <div>
         <h2>Saved Monthly Data</h2>
-        <p class="muted">Saved locally by default and synced across devices once a Sync Key is set. Grocery totals are included in daily expenses.</p>
+        <p class="muted">Synced across devices using Firebase. Grocery totals are included in daily expenses.</p>
       </div>
-      <button id="clearMonthBtn" class="danger-btn" type="button">Clear Selected Month</button>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button id="exportCsvBtn" type="button" style="background:#047857;">&#128190; Export CSV</button>
+        <button id="clearMonthBtn" class="danger-btn" type="button">Clear Selected Month</button>
+      </div>
     </section>
   </div>
 
@@ -809,13 +858,24 @@
     });
 
     function renderExpenses(expenses) {
+      const filterEl = document.getElementById("expenseCategoryFilter");
+      const filterVal = filterEl ? filterEl.value : "";
+      const filtered = filterVal ? expenses.filter(ex => ex.category === filterVal) : expenses;
       if (!expenses.length) {
         refs.expensesTable.style.display="none";
         refs.expensesEmpty.style.display="block";
         refs.expensesBody.innerHTML="";
         return;
       }
-      const sorted=[...expenses].sort((a,b)=>a.date===b.date?(Number(b.createdAt)||0)-(Number(a.createdAt)||0):String(b.date).localeCompare(String(a.date)));
+      if (!filtered.length) {
+        refs.expensesTable.style.display="none";
+        refs.expensesEmpty.style.display="block";
+        refs.expensesEmpty.textContent="No expenses match the selected category.";
+        refs.expensesBody.innerHTML="";
+        return;
+      }
+      refs.expensesEmpty.textContent="No daily expenses added for this month yet.";
+      const sorted=[...filtered].sort((a,b)=>a.date===b.date?(Number(b.createdAt)||0)-(Number(a.createdAt)||0):String(b.date).localeCompare(String(a.date)));
       refs.expensesBody.innerHTML=sorted.map(ex=>`<tr>
   <td data-label="Date">${escapeHtml(formatDate(ex.date))}</td>
   <td data-label="Category">${escapeHtml(ex.category||"Other")}</td>
@@ -1049,6 +1109,9 @@
     });
 
     // Month change
+    // Expense category filter
+    document.getElementById("expenseCategoryFilter").addEventListener("change", () => render());
+
     refs.monthSelect.addEventListener("change",()=>{
       if(!refs.monthSelect.value) refs.monthSelect.value=currentMonthString();
       render();
@@ -1113,11 +1176,14 @@
       const name=refs.savingsGoalName.value.trim();
       const amount=round2(Number(refs.savingsGoalAmount.value));
       const targetDate=refs.savingsGoalDate.value;
+      const savedRaw=document.getElementById("savingsGoalSaved").value.trim();
+      const savedAmount=savedRaw===""?0:round2(Number(savedRaw));
       if(!name){alert("Enter goal name.");return;}
       if(isNaN(amount)||amount<=0){alert("Enter valid amount.");return;}
       if(!targetDate){alert("Select target date.");return;}
+      if(isNaN(savedAmount)||savedAmount<0){alert("Enter valid saved amount or leave blank.");return;}
       if(!appState.savingsGoals) appState.savingsGoals=[];
-      appState.savingsGoals.push({id:uid(),name,targetAmount:amount,targetDate,createdAt:Date.now()});
+      appState.savingsGoals.push({id:uid(),name,targetAmount:amount,targetDate,savedAmount,createdAt:Date.now()});
       saveState();
       refs.savingsForm.reset();
       const tomorrow=new Date();
@@ -1225,6 +1291,21 @@
       render();
     });
 
+
+    // Update savings amount inline
+    refs.savingsBody.addEventListener("input",(e)=>{
+      const input=e.target.closest(".savings-saved-input");
+      if(!input) return;
+      if(!appState.savingsGoals) return;
+      const goal=appState.savingsGoals.find(g=>g.id===input.dataset.savedId);
+      if(!goal) return;
+      const val=round2(Number(input.value||0));
+      if(isNaN(val)||val<0) return;
+      goal.savedAmount=val;
+      saveState();
+      render();
+    });
+
     // Clear month
     refs.clearMonthBtn.addEventListener("click",()=>{
       const month=refs.monthSelect.value;
@@ -1242,6 +1323,58 @@
     const tomorrow=new Date();
     tomorrow.setDate(tomorrow.getDate()+1);
     refs.savingsGoalDate.valueAsDate=tomorrow;
+
+    // CSV Export
+document.getElementById("exportCsvBtn").addEventListener("click", () => {
+  const month = refs.monthSelect.value || currentMonthString();
+  const data = getMonthData(month);
+  const bills = Array.isArray(data.bills) ? data.bills : [];
+  const expenses = Array.isArray(data.expenses) ? data.expenses : [];
+  const groceries = Array.isArray(data.groceries) ? data.groceries : [];
+
+  const billsTotal = round2(bills.reduce((s,i) => s + (Number(i.amount)||0), 0));
+  const expensesOnlyTotal = round2(expenses.reduce((s,i) => s + (Number(i.amount)||0), 0));
+  const groceryTotal = round2(groceries.reduce((s,item) => s + groceryItemTotal(item), 0));
+  const expensesTotal = round2(expensesOnlyTotal + groceryTotal);
+  const expectedIncome = calculateExpectedIncome(month, data.weeklyPayroll||0, data.semiMonthlyPayroll||0);
+  const displayIncome = expectedIncome > 0 ? expectedIncome : (data.salary || 0);
+  const remaining = round2(displayIncome - billsTotal - expensesTotal);
+
+  const esc = v => `"${String(v||"").replace(/"/g,'""')}"`;
+
+  let csv = `Chels Salary Tracker - ${formatMonth(month)}\r\n`;
+  csv += `\r\nSUMMARY\r\n`;
+  csv += `Monthly Income,${displayIncome}\r\n`;
+  csv += `Bills Total,${billsTotal}\r\n`;
+  csv += `Expenses Total,${expensesOnlyTotal}\r\n`;
+  csv += `Grocery Total,${groceryTotal}\r\n`;
+  csv += `Remaining Balance,${remaining}\r\n`;
+
+  csv += `\r\nBILLS\r\nName,Amount,Due Day,Paid,Paid Amount\r\n`;
+  bills.forEach(b => {
+    csv += `${esc(b.name)},${b.amount||0},${b.dueDay||""},${normalizePaid(b.paid)?"Yes":"No"},${b.paidAmount||0}\r\n`;
+  });
+
+  csv += `\r\nDAILY EXPENSES\r\nDate,Category,Description,Amount\r\n`;
+  expenses.forEach(ex => {
+    csv += `${esc(ex.date)},${esc(ex.category||"Other")},${esc(ex.description||"")},${ex.amount||0}\r\n`;
+  });
+
+  csv += `\r\nGROCERIES\r\nItem,Quantity,Unit Price,Total,Checked\r\n`;
+  groceries.forEach(g => {
+    csv += `${esc(g.name)},${g.quantity||0},${g.unitPrice||0},${groceryItemTotal(g)},${Boolean(g.checked)?"Yes":"No"}\r\n`;
+  });
+
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `salary-tracker-${month}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+});
   </script>
 </body>
 </html>
