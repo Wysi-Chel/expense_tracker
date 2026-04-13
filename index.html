@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/2704/2704312.png" />
-  <title>Salary Tracker (PHP)</title>
+  <title>Salary Tracker</title>
   <style>
     :root {
       --bg: #f6f7fb; --card: #ffffff; --text: #172033; --muted: #6b7280;
@@ -194,16 +194,16 @@
     <section class="card sync-card">
       <div style="flex:1;">
         <h2>Sync Key</h2>
-        <p class="muted">Use the same key on all devices</p>
+        <p class="muted" id="syncHelpText">Changes are saved on this device until you set a sync key.</p>
       </div>
       <input type="text" id="syncKeyInput" placeholder="Enter sync key" />
       <button id="setSyncKeyBtn">Set Key</button>
-      <span class="badge" id="syncKeyLabel">Not set</span>
+      <span class="badge" id="syncKeyLabel">Local only</span>
     </section>
 
     <section class="summary-grid">
       <article class="card stat-card">
-        <span class="stat-label">Monthly Income</span>
+        <span class="stat-label">Expected Income</span>
         <strong class="stat-value" id="salaryDisplay">&#8369;0.00</strong>
       </article>
       <article class="card stat-card">
@@ -226,7 +226,7 @@
 
     <section class="card notice-card neutral">
       <div id="monthName" class="notice-title">Viewing this month</div>
-      <p id="statusText">Set your salary to start tracking.</p>
+      <p id="statusText">Add payroll settings to start tracking.</p>
     </section>
 
     <section class="card" style="margin-bottom:16px;">
@@ -242,11 +242,11 @@
           <input type="number" id="weeklyPayroll" min="0" step="0.01" placeholder="e.g. 7400" />
         </div>
         <div class="field">
-          <label for="semiMonthlyPayroll">Bi-Weekly Payroll (15th & 30th)</label>
+          <label for="semiMonthlyPayroll">Semi-Monthly Payroll (15th & 30th)</label>
           <input type="number" id="semiMonthlyPayroll" min="0" step="0.01" placeholder="e.g. 5500" />
         </div>
         <div class="field action-field">
-          <button type="submit" class="medium-btn">Save Payroll Settings</button>
+          <button type="submit" class="small-btn">Save Payroll Settings</button>
         </div>
       </form>
       <p id="incomeBreakdown" style="margin-top:16px; font-size:0.9rem; color:#6b7280;">Expected Income Calculation: Not set</p>
@@ -474,52 +474,6 @@
       </div>
     </div>
 
-    <!-- Cash Flow Modal -->
-    <div id="cashFlowModal" class="section-modal">
-      <div class="section-modal-content">
-        <div class="modal-header">
-          <div>
-            <h2>Cash Flow Overview</h2>
-            <p class="muted">Track your income and expenses over time to understand your financial flow.</p>
-          </div>
-          <button type="button" class="modal-close-btn" id="closeCashFlowBtn">&#10005; Close</button>
-        </div>
-        <div class="card" style="margin-bottom:16px;">
-          <div class="section-head">
-            <div>
-              <h2>Payroll Settings</h2>
-              <p class="muted">Configure your income sources for accurate cash flow calculations.</p>
-            </div>
-          </div>
-          <form id="payrollForm" class="form-grid">
-            <div class="field">
-              <label for="weeklyPayroll">Weekly Payroll (Wednesdays)</label>
-              <input type="number" id="weeklyPayroll" min="0" step="0.01" placeholder="e.g. 7400" />
-            </div>
-            <div class="field">
-              <label for="semiMonthlyPayroll">Bi-Weekly Payroll (15th & 30th)</label>
-              <input type="number" id="semiMonthlyPayroll" min="0" step="0.01" placeholder="e.g. 5500" />
-            </div>
-            <div class="field action-field">
-              <button type="submit" class="full-btn small-btn">Save Payroll Settings</button>
-            </div>
-          </form>
-          <p id="incomeBreakdown" style="margin-top:16px; font-size:0.9rem; color:#6b7280;">Expected Income Calculation: Not set</p>
-        </div>
-        <div class="table-wrap" style="margin-top:16px;">
-          <table class="table" id="cashFlowTable">
-            <thead>
-              <tr>
-                <th>Month</th><th>Expected Income</th><th>Expenses</th><th>Net Cash Flow</th><th>Cumulative Balance</th>
-              </tr>
-            </thead>
-            <tbody id="cashFlowBody"></tbody>
-          </table>
-          <p class="empty-state" id="cashFlowEmpty">No data available for cash flow analysis.</p>
-        </div>
-      </div>
-    </div>
-
     <!-- Savings Goals Modal -->
     <div id="savingsModal" class="section-modal">
       <div class="section-modal-content">
@@ -564,7 +518,7 @@
     <section class="card footer-card">
       <div>
         <h2>Saved Monthly Data</h2>
-        <p class="muted">Synced across devices using Firebase. Grocery totals are included in daily expenses.</p>
+        <p class="muted">Saved locally by default and synced across devices once a Sync Key is set. Grocery totals are included in daily expenses.</p>
       </div>
       <button id="clearMonthBtn" class="danger-btn" type="button">Clear Selected Month</button>
     </section>
