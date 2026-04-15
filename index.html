@@ -102,6 +102,7 @@
     .summary-chip { flex:1 1 160px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:14px; padding:12px 14px; }
     .summary-chip span { display:block; font-size:0.8rem; color:var(--muted); margin-bottom:6px; }
     .summary-chip strong { font-size:1rem; }
+    .grocery-actions { margin-top:12px; display:flex; justify-content:flex-end; }
 
 
     .mt-16 { margin-top: 16px; }
@@ -466,6 +467,9 @@
             <button type="submit" class="full-btn">Add Grocery Item</button>
           </div>
         </form>
+        <div class="grocery-actions">
+          <button type="button" id="deleteCheckedGroceriesBtn" class="small-btn danger-btn" disabled>Delete Checked</button>
+        </div>
 
         <div class="grocery-meta">
           <div class="summary-chip">
@@ -647,6 +651,7 @@
       groceriesBadge: document.getElementById("groceriesBadge"),
       groceryTotalLabel: document.getElementById("groceryTotalLabel"),
       groceryCheckedLabel: document.getElementById("groceryCheckedLabel"),
+      deleteCheckedGroceriesBtn: document.getElementById("deleteCheckedGroceriesBtn"),
       cashFlowTable: document.getElementById("cashFlowTable"),
       cashFlowBody: document.getElementById("cashFlowBody"),
       cashFlowEmpty: document.getElementById("cashFlowEmpty"),
@@ -894,6 +899,8 @@
         refs.groceriesBody.innerHTML="";
         refs.groceryTotalLabel.textContent=money(0);
         refs.groceryCheckedLabel.textContent="0/0";
+        refs.deleteCheckedGroceriesBtn.disabled=true;
+        refs.deleteCheckedGroceriesBtn.textContent="Delete Checked";
         return;
       }
 
@@ -923,6 +930,8 @@
       refs.groceriesEmpty.style.display="none";
       refs.groceryTotalLabel.textContent=money(total);
       refs.groceryCheckedLabel.textContent=`${checkedCount}/${groceries.length}`;
+      refs.deleteCheckedGroceriesBtn.disabled=checkedCount===0;
+      refs.deleteCheckedGroceriesBtn.textContent=checkedCount>0 ? `Delete Checked (${checkedCount})` : "Delete Checked";
     }
 
     function renderBreakdown(m,salary,billsTotal,expensesTotal,groceryTotal,groceryCheckedText,remaining,days,daily) {
@@ -1278,6 +1287,19 @@
       const m=ensureMonth(refs.monthSelect.value);
       m.groceries=m.groceries.filter(item=>item.id!==btn.dataset.deleteGrocery);
       pruneMonth(refs.monthSelect.value);
+      saveState();
+      render();
+    });
+
+    // Delete checked groceries
+    refs.deleteCheckedGroceriesBtn.addEventListener("click",()=>{
+      const month=refs.monthSelect.value;
+      const m=ensureMonth(month);
+      const checkedCount=m.groceries.filter(item=>Boolean(item.checked)).length;
+      if(!checkedCount) return;
+      if(!confirm(`Delete ${checkedCount} checked grocery item${checkedCount===1?"":"s"}?`)) return;
+      m.groceries=m.groceries.filter(item=>!Boolean(item.checked));
+      pruneMonth(month);
       saveState();
       render();
     });
