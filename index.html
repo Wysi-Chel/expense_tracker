@@ -109,6 +109,9 @@
     .mb-16 { margin-bottom: 16px; }
 
     .expense-filter-bar { margin-top: 16px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .cash-flow-filter-bar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .cash-flow-filter-bar label { margin: 0; }
+    .cash-flow-filter-bar select { width: auto; min-width: 140px; }
     .savings-progress-bar { height: 8px; border-radius: 999px; background: #e5e7eb; overflow: hidden; min-width: 80px; }
     .savings-progress-fill { height: 100%; border-radius: 999px; background: var(--green); transition: width 0.3s ease; }
     .savings-saved-input { width: 100px !important; padding: 6px 8px !important; border-radius: 8px !important; font-size: 0.9rem; }
@@ -426,6 +429,12 @@
           <h2>Cash Flow Overview</h2>
           <p class="muted">Track your income and expenses across all months.</p>
         </div>
+        <div class="cash-flow-filter-bar">
+          <label for="cashFlowYearFilterMain">Year</label>
+          <select id="cashFlowYearFilterMain" aria-label="Filter main cash flow table by year">
+            <option value="">All Years</option>
+          </select>
+        </div>
       </div>
       <div class="table-wrap">
         <table class="table" id="cashFlowTableMain">
@@ -628,6 +637,12 @@
             <p class="muted">Track your income and expenses over time to understand your financial flow.</p>
           </div>
           <button type="button" class="modal-close-btn" id="closeCashFlowBtn">&#10005; Close</button>
+        </div>
+        <div class="cash-flow-filter-bar">
+          <label for="cashFlowYearFilter">Year</label>
+          <select id="cashFlowYearFilter" aria-label="Filter cash flow table by year">
+            <option value="">All Years</option>
+          </select>
         </div>
         <div class="table-wrap mt-16">
           <table class="table" id="cashFlowTable">
@@ -843,9 +858,11 @@
       cashFlowTable: document.getElementById("cashFlowTable"),
       cashFlowBody: document.getElementById("cashFlowBody"),
       cashFlowEmpty: document.getElementById("cashFlowEmpty"),
+      cashFlowYearFilter: document.getElementById("cashFlowYearFilter"),
       cashFlowTableMain: document.getElementById("cashFlowTableMain"),
       cashFlowBodyMain: document.getElementById("cashFlowBodyMain"),
       cashFlowEmptyMain: document.getElementById("cashFlowEmptyMain"),
+      cashFlowYearFilterMain: document.getElementById("cashFlowYearFilterMain"),
       cashFlowBadge: document.getElementById("cashFlowBadge"),
       payrollForm: document.getElementById("payrollForm"),
       weeklyPayroll: document.getElementById("weeklyPayroll"),
@@ -877,6 +894,7 @@
 
     let appState = { months: {}, savingsGoals: [], loans: [] };
     let docRef = null, unsub = null, saveTimer = null;
+    let cashFlowYear = "";
 
     function setSyncKey(key) {
       key = key.trim();
@@ -1225,20 +1243,49 @@
       refs.donutUsed.classList.toggle("negative-text",usedPct>100);
     }
 
+    function syncCashFlowYearFilters(years) {
+      if (cashFlowYear && !years.includes(cashFlowYear)) cashFlowYear = "";
+      const options = [
+        '<option value="">All Years</option>',
+        ...years.map(year => `<option value="${escapeHtml(year)}">${escapeHtml(year)}</option>`)
+      ].join("");
+      [refs.cashFlowYearFilter, refs.cashFlowYearFilterMain].forEach(select => {
+        if (!select) return;
+        select.innerHTML = options;
+        select.value = cashFlowYear;
+        select.disabled = !years.length;
+      });
+    }
+
+    function setCashFlowEmpty(message) {
+      refs.cashFlowTable.style.display = "none";
+      refs.cashFlowEmpty.style.display = "block";
+      refs.cashFlowEmpty.textContent = message;
+      refs.cashFlowTableMain.style.display = "none";
+      refs.cashFlowEmptyMain.style.display = "block";
+      refs.cashFlowEmptyMain.textContent = message;
+      refs.cashFlowBody.innerHTML = "";
+      refs.cashFlowBodyMain.innerHTML = "";
+    }
+
     function renderCashFlow() {
       const loanMonths = allLoans().flatMap(loan => loan.schedule.map(item => String(item.dueDate || "").slice(0,7))).filter(Boolean);
-      const months = [...new Set([...Object.keys(appState.months), ...loanMonths])].sort();
+      const months = [...new Set([...Object.keys(appState.months), ...loanMonths])]
+        .filter(monthKey => /^\d{4}-\d{2}$/.test(monthKey))
+        .sort();
+      const years = [...new Set(months.map(monthKey => monthKey.slice(0,4)))].sort((a,b) => b.localeCompare(a));
+      syncCashFlowYearFilters(years);
       if (!months.length) {
-        refs.cashFlowTable.style.display = "none";
-        refs.cashFlowEmpty.style.display = "block";
-        refs.cashFlowTableMain.style.display = "none";
-        refs.cashFlowEmptyMain.style.display = "block";
-        refs.cashFlowBody.innerHTML = "";
-        refs.cashFlowBodyMain.innerHTML = "";
+        setCashFlowEmpty("No data available for cash flow analysis.");
         return;
       }
       let cumulative = 0;
-      const rows = months.map(monthKey => {
+      const visibleMonths = cashFlowYear ? months.filter(monthKey => monthKey.startsWith(`${cashFlowYear}-`)) : months;
+      if (!visibleMonths.length) {
+        setCashFlowEmpty(`No cash flow data found for ${cashFlowYear}.`);
+        return;
+      }
+      const rows = visibleMonths.map(monthKey => {
         const data = getMonthData(monthKey);
         const { expectedIncome, billsTotal, expensesTotal, loansDue } = totalsFor(data, monthKey);
         const income = expectedIncome > 0 ? expectedIncome : data.salary;
@@ -1474,6 +1521,14 @@
     // Month change
     // Expense category filter
     document.getElementById("expenseCategoryFilter").addEventListener("change", () => render());
+
+    [refs.cashFlowYearFilter, refs.cashFlowYearFilterMain].forEach(select => {
+      if (!select) return;
+      select.addEventListener("change", () => {
+        cashFlowYear = select.value;
+        renderCashFlow();
+      });
+    });
 
     refs.monthSelect.addEventListener("change",()=>{
       if(!refs.monthSelect.value) refs.monthSelect.value=currentMonthString();
