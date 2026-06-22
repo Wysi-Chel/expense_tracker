@@ -1,0 +1,19 @@
+{
+  "name": "Chel's Finance Hub",
+  "short_name": "Finance Hub",
+  "description": "Personal finance command center for budgeting, expense tracking, bills, loans, savings goals, and cash flow analysis.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f6f7fb",
+  "theme_color": "#2563eb",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2704/2704312.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
