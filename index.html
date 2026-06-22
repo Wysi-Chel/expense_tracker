@@ -13,7 +13,8 @@
       --red: #ef4444; --green: #10b981; --danger: #dc2626; --radius: 18px;
     }
     * { box-sizing: border-box; }
-    body { margin:0; font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; background:linear-gradient(180deg,#f8fbff 0%,#f6f7fb 100%); color:var(--text); }
+    html { -webkit-text-size-adjust:100%; }
+    body { margin:0; font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; background:linear-gradient(180deg,#f8fbff 0%,#f6f7fb 100%); color:var(--text); overflow-x:hidden; }
     .container { max-width:1240px; margin:0 auto; padding:24px; }
     .hero { display:flex; justify-content:space-between; gap:20px; align-items:end; margin-bottom:20px; }
     .eyebrow { margin:0 0 8px; color:var(--blue); font-weight:700; font-size:0.84rem; letter-spacing:0.04em; text-transform:uppercase; }
@@ -26,7 +27,7 @@
     .summary-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:16px; margin-bottom:16px; }
     .stat-card { padding:18px 20px; }
     .stat-label { display:block; font-size:0.9rem; color:var(--muted); margin-bottom:10px; }
-    .stat-value { font-size:clamp(1.4rem,2vw,1.9rem); line-height:1.1; }
+    .stat-value { font-size:clamp(1.4rem,2vw,1.9rem); line-height:1.1; overflow-wrap:anywhere; }
     .positive-text { color:#047857; }
     .negative-text { color:#dc2626; }
     .notice-card { margin-bottom:16px; transition:0.2s ease; }
@@ -42,7 +43,7 @@
     .muted { margin:6px 0 0; color:var(--muted); font-size:0.94rem; }
     .badge { display:inline-flex; align-items:center; justify-content:center; padding:6px 10px; border-radius:999px; background:#eef2ff; color:#4338ca; font-size:0.82rem; font-weight:700; white-space:nowrap; }
     label { display:block; font-size:0.9rem; font-weight:600; color:#334155; margin-bottom:8px; }
-    input, select, button { font:inherit; }
+    input, select, button { font:inherit; max-width:100%; }
     input, select { width:100%; padding:12px 14px; border-radius:12px; border:1px solid #d1d5db; background:white; color:var(--text); outline:none; transition:border-color 0.15s ease,box-shadow 0.15s ease; }
     input:focus, select:focus { border-color:rgba(37,99,235,0.6); box-shadow:0 0 0 4px rgba(37,99,235,0.12); }
     .inline-form { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:12px; align-items:end; }
@@ -57,7 +58,7 @@
     .small-btn { width:auto; padding:8px 12px; font-size:0.9rem; }
     .danger-btn { background:#dc2626; }
     .danger-btn:hover { background:#b91c1c; }
-    .table-wrap { overflow-x:auto; }
+    .table-wrap { width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; }
     .table { width:100%; border-collapse:collapse; }
     .table th, .table td { padding:12px 8px; border-top:1px solid #edf2f7; text-align:left; font-size:0.94rem; vertical-align:middle; }
     .table th { color:var(--muted); font-weight:700; font-size:0.84rem; text-transform:uppercase; letter-spacing:0.03em; }
@@ -118,7 +119,7 @@
 
     /* Section Buttons */
     .content-grid-btns { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; margin-bottom:16px; }
-    .section-open-btn { display:flex; align-items:center; justify-content:space-between; padding:20px 24px; background:var(--card); color:var(--text); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow); font-size:1rem; font-weight:700; cursor:pointer; transition:background 0.15s ease,transform 0.05s ease; text-align:left; }
+    .section-open-btn { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:20px 24px; background:var(--card); color:var(--text); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow); font-size:1rem; font-weight:700; cursor:pointer; transition:background 0.15s ease,transform 0.05s ease; text-align:left; }
     .section-open-btn:hover { background:#f0f4ff; }
     .section-open-btn:active { transform:translateY(1px); }
 
@@ -229,17 +230,98 @@
       .summary-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
       .loan-overview-grid { grid-template-columns:1fr; }
       .loan-metrics { grid-template-columns:repeat(2,1fr); }
-      .inline-form, .form-grid, .mini-stats { grid-template-columns:1fr; }
+      .inline-form, .form-grid { grid-template-columns:1fr; }
+      .mini-stats { grid-template-columns:repeat(2,minmax(0,1fr)); }
       .hero, .footer-card { flex-direction:column; align-items:stretch; }
       .month-box { min-width:0; }
     }
-    @media (max-width:560px) {
-      .summary-grid { grid-template-columns:1fr; }
-      .container { padding:16px; }
-      .card { padding:16px; }
-      .donut { width:180px; height:180px; margin:0 auto; }
+
+    @media (max-width:640px) {
+      .container { padding:14px; }
+      .hero { padding:22px; border-radius:22px; gap:16px; }
+      .hero-kicker { line-height:1.25; }
+      .hero-pills { margin-top:14px; }
+      .hero-pills span { flex:1 1 calc(50% - 8px); text-align:center; }
+      h1 { font-size:1.7rem; }
+      h2 { font-size:1rem; }
+      .subtext { font-size:0.9rem; }
+      .card { padding:16px; border-radius:16px; }
+      .summary-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+      .month-box { width:100%; }
+      .stat-card { min-height:118px; padding:44px 12px 14px; }
+      .stat-icon { top:12px; left:12px; }
+      .stat-label { font-size:0.78rem; margin-bottom:8px; }
+      .stat-value { font-size:1.12rem; }
+      .stat-hint { font-size:0.72rem; }
+      .sync-card { flex-direction:column; align-items:stretch; gap:10px; }
+      .sync-card input { max-width:100%; }
+      .sync-card button, .sync-card .badge { width:100%; }
+      .section-head { flex-direction:column; align-items:stretch; gap:10px; }
+      .cash-flow-filter-bar, .expense-filter-bar { width:100%; flex-direction:column; align-items:stretch; gap:8px; }
+      .cash-flow-filter-bar label, .expense-filter-bar label { display:block !important; margin:0 !important; }
+      .cash-flow-filter-bar select, .expense-filter-bar select { width:100% !important; min-width:0; display:block !important; }
+      .field.action-field { align-items:stretch; }
+      input, select { padding:10px 11px; font-size:0.93rem; }
+      button { min-height:44px; padding:10px 13px; font-size:0.93rem; }
+      .small-btn { width:100%; }
+      .content-grid-btns { grid-template-columns:1fr; }
+      .section-open-btn { min-height:auto; padding:15px 16px; font-size:0.95rem; border-radius:16px; }
+      .section-open-btn > span:first-child, .section-btn-copy { min-width:0; }
+      .section-btn-copy strong, .section-btn-copy small { overflow-wrap:anywhere; }
+      .section-btn-icon { flex:0 0 38px; width:38px; height:38px; }
+      .section-modal { height:100dvh; }
+      .section-modal.show { display:flex; align-items:flex-start; justify-content:center; padding:12px; }
+      .section-modal-content { width:100%; max-height:calc(100dvh - 24px); margin:0; padding:16px; border-radius:16px; }
+      .modal-header { flex-direction:column; align-items:stretch; gap:10px; margin-bottom:16px; }
+      .modal-close-btn { width:100%; }
+      .chart-row { flex-direction:column; align-items:stretch; gap:16px; }
+      .donut { width:176px; height:176px; margin:0 auto; }
       .donut::before { inset:18px; }
+      .donut-big { font-size:1.6rem; }
+      .legend { min-width:0; width:100%; }
+      .legend-item { align-items:flex-start; gap:8px; }
+      .legend-item strong { text-align:right; overflow-wrap:anywhere; }
+      .mini-stats { grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+      .grocery-actions { justify-content:stretch; }
+      .grocery-actions button { width:100%; }
+      .loan-card { padding:14px; border-radius:16px; }
+      .loan-card-head { flex-direction:column; gap:12px; }
+      .loan-title-wrap { align-items:flex-start; min-width:0; }
+      .loan-avatar { flex:0 0 40px; width:40px; height:40px; }
+      .loan-actions { width:100%; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .loan-actions button { width:100%; }
+      .loan-metrics { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .loan-schedule summary { gap:8px; align-items:flex-start; }
+      .schedule-row { grid-template-columns:30px minmax(0,1fr) auto; }
+      .schedule-amount { grid-column:2/3; }
+      .loan-check { grid-column:3; grid-row:1 / span 2; align-self:center; }
+      .savings-progress-wrap { min-width:0; width:100%; }
+      .footer-card { flex-direction:column; align-items:stretch; gap:10px; }
+      .table-wrap { overflow-x:visible; }
+      .table thead { display:none; }
+      .table, .table tbody, .table tr { display:block; width:100%; }
+      .table tr { background:#f8fafc; border:1px solid #e5e7eb; border-radius:12px; padding:10px 12px; margin-bottom:8px; }
+      .table td { display:grid; grid-template-columns:minmax(86px,42%) minmax(0,1fr); gap:10px; align-items:center; padding:7px 0; border:none; font-size:0.87rem; border-bottom:1px solid #f1f5f9; text-align:right; }
+      .table td:last-child { border-bottom:none; }
+      .table td::before { content:attr(data-label); font-weight:600; color:#6b7280; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.03em; text-align:left; }
+      .table td > * { justify-self:end; max-width:100%; }
+      .bill-name-cell, .todo-name { justify-self:end; justify-content:flex-end; text-align:right; }
+      .table td > .small-muted { grid-column:2; justify-self:end; text-align:right; }
+      .action-cell { display:block; text-align:right; }
+      .action-cell::before { display:none; }
+      .action-cell button { width:100%; }
+      .bill-amount-input, .savings-saved-input { width:92px !important; font-size:0.85rem; }
+      .row-delete { padding:6px 10px; font-size:0.8rem; }
+      .paid-cell { grid-template-columns:auto 1fr; justify-content:start; text-align:left; }
+      .paid-cell::before { content:"Paid"; }
+      .paid-cell input { justify-self:start; }
     }
+
+    @media (max-width:560px) {
+      .donut { width:160px; height:160px; }
+      .donut::before { inset:16px; }
+    }
+
     @media (max-width:430px) {
       .container { padding:10px; }
       .card { padding:12px; border-radius:14px; }
@@ -247,47 +329,25 @@
       h2 { font-size:0.95rem; }
       .eyebrow { font-size:0.75rem; }
       .subtext { font-size:0.85rem; }
-      .summary-grid { grid-template-columns:1fr 1fr; gap:8px; }
-      .stat-card { padding:12px 10px; }
-      .stat-value { font-size:1.1rem; }
-      .stat-label { font-size:0.78rem; }
-      .hero { flex-direction:column; align-items:stretch; gap:12px; }
-      .month-box { width:100%; min-width:0; }
-      .sync-card { flex-direction:column; align-items:stretch; gap:8px; }
-      .sync-card input { max-width:100%; }
-      .section-head { flex-direction:column; align-items:flex-start; gap:6px; }
+      .hero { padding:18px; gap:12px; }
+      .hero-pills span { flex-basis:100%; }
+      .summary-grid { gap:8px; }
+      .stat-card { min-height:110px; padding:40px 10px 12px; }
+      .stat-value { font-size:1.02rem; }
       .badge { font-size:0.74rem; padding:4px 8px; }
-      .form-grid, .inline-form, .mini-stats { grid-template-columns:1fr; }
-      input, select { padding:10px 11px; font-size:0.93rem; }
-      button { padding:10px 13px; font-size:0.93rem; }
-      .content-grid-btns { grid-template-columns:1fr; }
-      .section-open-btn { padding:16px 18px; font-size:0.95rem; }
-      .loan-card-head { flex-direction:column; }
-      .loan-actions { width:100%; }
-      .loan-actions button { flex:1; }
-      .loan-metrics { grid-template-columns:1fr 1fr; }
-      .schedule-row { grid-template-columns:30px 1fr auto; }
-      .schedule-amount { grid-column:2/3; }
-      .section-modal-content { padding:16px; width:96%; max-height:92vh; }
-      .chart-row { flex-direction:column; align-items:center; gap:14px; }
-      .donut { width:150px; height:150px; margin:0 auto; }
+      .mini-stats { grid-template-columns:1fr; }
+      .donut { width:150px; height:150px; }
       .donut::before { inset:15px; }
       .donut-big { font-size:1.5rem; }
-      .legend { min-width:0; width:100%; }
-      .footer-card { flex-direction:column; align-items:stretch; gap:10px; }
-      .table-wrap { overflow-x:visible; }
-      .table thead { display:none; }
-      .table, .table tbody, .table tr { display:block; width:100%; }
-      .table tr { background:#f8fafc; border:1px solid #e5e7eb; border-radius:12px; padding:10px 12px; margin-bottom:8px; }
-      .table td { display:flex; justify-content:space-between; align-items:center; padding:5px 0; border:none; font-size:0.87rem; border-bottom:1px solid #f1f5f9; }
-      .table td:last-child { border-bottom:none; }
-      .table td::before { content:attr(data-label); font-weight:600; color:#6b7280; font-size:0.78rem; text-transform:uppercase; letter-spacing:0.03em; margin-right:8px; flex-shrink:0; }
-      .action-cell { text-align:right; justify-content:flex-end; }
-      .action-cell::before { display:none; }
-      .bill-amount-input { width:80px !important; font-size:0.85rem; }
-      .row-delete { padding:6px 10px; font-size:0.8rem; }
-      .paid-cell { justify-content:flex-start; gap:8px; }
-      .paid-cell::before { content:"Paid"; }
+    }
+
+    @media (max-width:360px) {
+      .summary-grid { grid-template-columns:1fr; }
+      .loan-actions, .loan-metrics { grid-template-columns:1fr; }
+      .table td { grid-template-columns:1fr; text-align:left; }
+      .table td > * { justify-self:start; }
+      .bill-name-cell, .todo-name { justify-self:start; justify-content:flex-start; text-align:left; }
+      .table td > .small-muted { grid-column:auto; justify-self:start; text-align:left; }
     }
   </style>
 </head>
@@ -298,7 +358,6 @@
         <div class="hero-kicker"><span class="live-dot"></span> Personal Finance Command Center</div>
         <p class="eyebrow">Chel's Finance Hub</p>
         <h1>Make every peso<br><span>work smarter.</span></h1>
-        <p class="subtext">Income, bills, spending, savings, groceries, and loans—organized in one synced dashboard.</p>
         <div class="hero-pills"><span>⚡ Live budget</span><span>☁️ Firebase sync</span><span>🔒 Private sync key</span></div>
       </div>
       <div class="month-box">
@@ -360,7 +419,6 @@
       <div class="section-head">
         <div>
           <h2>Payroll Settings</h2>
-          <p class="muted">Configure your income sources for cash flow calculations.</p>
         </div>
       </div>
       <form id="payrollForm" class="form-grid">
@@ -371,6 +429,10 @@
         <div class="field">
           <label for="semiMonthlyPayroll">Bi-Weekly Payroll (15th & 30th)</label>
           <input type="number" id="semiMonthlyPayroll" min="0" step="0.01" placeholder="" />
+        </div>
+        <div class="field">
+          <label for="sideIncome">Additional</label>
+          <input type="number" id="sideIncome" min="0" step="0.01" placeholder="" />
         </div>
         <div class="field action-field">
           <button type="submit" class="small-btn">Save Payroll Settings</button>
@@ -867,6 +929,7 @@
       payrollForm: document.getElementById("payrollForm"),
       weeklyPayroll: document.getElementById("weeklyPayroll"),
       semiMonthlyPayroll: document.getElementById("semiMonthlyPayroll"),
+      sideIncome: document.getElementById("sideIncome"),
       incomeBreakdown: document.getElementById("incomeBreakdown"),
       savingsForm: document.getElementById("savingsForm"),
       savingsGoalName: document.getElementById("savingsGoalName"),
@@ -894,7 +957,7 @@
 
     let appState = { months: {}, savingsGoals: [], loans: [] };
     let docRef = null, unsub = null, saveTimer = null;
-    let cashFlowYear = "";
+    let cashFlowYear = currentYearString();
 
     function setSyncKey(key) {
       key = key.trim();
@@ -923,12 +986,13 @@
       saveTimer = setTimeout(() => docRef.set(appState), 300);
     }
 
-    function emptyMonth() { return { salary: 0, bills: [], expenses: [], groceries: [], weeklyPayroll: 0, semiMonthlyPayroll: 0 }; }
+    function emptyMonth() { return { salary: 0, bills: [], expenses: [], groceries: [], weeklyPayroll: 0, semiMonthlyPayroll: 0, sideIncome: 0 }; }
     function normalizePaid(v) { return v === true || v === "true" || v === 1 || v === "1"; }
     function round2(v) { return Math.round((Number(v) + Number.EPSILON) * 100) / 100; }
     function money(v) { return moneyFormatter.format(Number(v) || 0); }
     function currentDateString() { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`; }
     function currentMonthString() { return currentDateString().slice(0,7); }
+    function currentYearString() { return currentDateString().slice(0,4); }
     function defaultDateForMonth(m) { return m === currentMonthString() ? currentDateString() : `${m}-01`; }
     function formatMonth(m) { if (!m||!/^\d{4}-\d{2}$/.test(m)) return m||""; const [y,mi]=m.split("-").map(Number); return new Date(y,mi-1,1).toLocaleDateString("en-PH",{month:"long",year:"numeric"}); }
     function formatDate(d) { if (!d||!/^\d{4}-\d{2}-\d{2}$/.test(d)) return "—"; const [y,mi,da]=d.split("-").map(Number); return new Date(y,mi-1,da).toLocaleDateString("en-PH",{month:"short",day:"numeric",year:"numeric"}); }
@@ -946,12 +1010,12 @@
     }
     function hasPayday15(days) { return days >= 15; }
     function hasPayday30(days) { return days >= 30; }
-    function calculateExpectedIncome(m, weeklyPayroll, semiMonthlyPayroll) {
+    function calculateExpectedIncome(m, weeklyPayroll, semiMonthlyPayroll, sideIncome = 0) {
       const [year, monthStr] = m.split("-").map(Number);
       const month = monthStr - 1; // JS months are 0-based
       const days = daysInMonth(m);
       const wednesdays = countWednesdaysInMonth(year, month);
-      const income = (wednesdays * weeklyPayroll) + (hasPayday15(days) ? semiMonthlyPayroll : 0) + (hasPayday30(days) ? semiMonthlyPayroll : 0);
+      const income = (wednesdays * weeklyPayroll) + (hasPayday15(days) ? semiMonthlyPayroll : 0) + (hasPayday30(days) ? semiMonthlyPayroll : 0) + Number(sideIncome || 0);
       return round2(income);
     }
     function daysUntilDate(targetDate) {
@@ -1022,6 +1086,7 @@
       e.salary = round2(Number(e.salary)||0);
       e.weeklyPayroll = round2(Number(e.weeklyPayroll)||0);
       e.semiMonthlyPayroll = round2(Number(e.semiMonthlyPayroll)||0);
+      e.sideIncome = round2(Number(e.sideIncome)||0);
       if (!Array.isArray(e.bills)) e.bills = [];
       if (!Array.isArray(e.expenses)) e.expenses = [];
       if (!Array.isArray(e.groceries)) e.groceries = [];
@@ -1035,6 +1100,7 @@
         salary: round2(Number(e.salary)||0),
         weeklyPayroll: round2(Number(e.weeklyPayroll)||0),
         semiMonthlyPayroll: round2(Number(e.semiMonthlyPayroll)||0),
+        sideIncome: round2(Number(e.sideIncome)||0),
         bills: Array.isArray(e.bills)?e.bills:[],
         expenses: Array.isArray(e.expenses)?e.expenses:[],
         groceries: Array.isArray(e.groceries)?e.groceries:[]
@@ -1047,7 +1113,8 @@
       const salary = round2(Number(e.salary)||0);
       const weeklyPayroll = round2(Number(e.weeklyPayroll)||0);
       const semiMonthlyPayroll = round2(Number(e.semiMonthlyPayroll)||0);
-      if (salary===0 && weeklyPayroll===0 && semiMonthlyPayroll===0 && (!e.bills||e.bills.length===0) && (!e.expenses||e.expenses.length===0) && (!e.groceries||e.groceries.length===0)) {
+      const sideIncome = round2(Number(e.sideIncome)||0);
+      if (salary===0 && weeklyPayroll===0 && semiMonthlyPayroll===0 && sideIncome===0 && (!e.bills||e.bills.length===0) && (!e.expenses||e.expenses.length===0) && (!e.groceries||e.groceries.length===0)) {
         delete appState.months[m];
       }
     }
@@ -1058,7 +1125,7 @@
 
     function totalsFor(d, monthKey = refs.monthSelect.value || currentMonthString()) {
       const salary = round2(Number(d.salary)||0);
-      const expectedIncome = calculateExpectedIncome(monthKey, d.weeklyPayroll, d.semiMonthlyPayroll);
+      const expectedIncome = calculateExpectedIncome(monthKey, d.weeklyPayroll, d.semiMonthlyPayroll, d.sideIncome);
       const billsTotal = round2((d.bills||[]).reduce((s,i)=>s+(Number(i.amount)||0),0));
       const expensesOnlyTotal = round2((d.expenses||[]).reduce((s,i)=>s+(Number(i.amount)||0),0));
       const groceryTotal = round2((d.groceries||[]).reduce((s,item)=>s+groceryItemTotal(item),0));
@@ -1115,7 +1182,7 @@
   <td class="action-cell"><button type="button" class="row-delete" data-delete-bill="${escapeHtml(bill.id)}">Delete</button></td>
 </tr>`;
       }).join("");
-      refs.billsTable.style.display="table";
+      refs.billsTable.style.display="";
       refs.billsEmpty.style.display="none";
     }
 
@@ -1160,7 +1227,7 @@
   <td data-label="Amount">${money(ex.amount)}</td>
   <td class="action-cell"><button type="button" class="row-delete" data-delete-expense="${escapeHtml(ex.id)}">Delete</button></td>
 </tr>`).join("");
-      refs.expensesTable.style.display="table";
+      refs.expensesTable.style.display="";
       refs.expensesEmpty.style.display="none";
     }
 
@@ -1198,7 +1265,7 @@
 </tr>`;
       }).join("");
 
-      refs.groceriesTable.style.display="table";
+      refs.groceriesTable.style.display="";
       refs.groceriesEmpty.style.display="none";
       refs.groceryTotalLabel.textContent=money(total);
       refs.groceryCheckedLabel.textContent=`${checkedCount}/${groceries.length}`;
@@ -1244,16 +1311,17 @@
     }
 
     function syncCashFlowYearFilters(years) {
-      if (cashFlowYear && !years.includes(cashFlowYear)) cashFlowYear = "";
+      const yearOptions = [...new Set([currentYearString(), ...years])].sort((a,b) => b.localeCompare(a));
+      if (cashFlowYear && !yearOptions.includes(cashFlowYear)) cashFlowYear = currentYearString();
       const options = [
         '<option value="">All Years</option>',
-        ...years.map(year => `<option value="${escapeHtml(year)}">${escapeHtml(year)}</option>`)
+        ...yearOptions.map(year => `<option value="${escapeHtml(year)}">${escapeHtml(year)}</option>`)
       ].join("");
       [refs.cashFlowYearFilter, refs.cashFlowYearFilterMain].forEach(select => {
         if (!select) return;
         select.innerHTML = options;
         select.value = cashFlowYear;
-        select.disabled = !years.length;
+        select.disabled = !yearOptions.length;
       });
     }
 
@@ -1302,12 +1370,12 @@
       
       // Render to modal
       refs.cashFlowBody.innerHTML = rows;
-      refs.cashFlowTable.style.display = "table";
+      refs.cashFlowTable.style.display = "";
       refs.cashFlowEmpty.style.display = "none";
       
       // Render to main section
       refs.cashFlowBodyMain.innerHTML = rows;
-      refs.cashFlowTableMain.style.display = "table";
+      refs.cashFlowTableMain.style.display = "";
       refs.cashFlowEmptyMain.style.display = "none";
     }
 
@@ -1342,7 +1410,7 @@
       }).join("");
 
       refs.savingsBody.innerHTML = rows;
-      refs.savingsTable.style.display = "table";
+      refs.savingsTable.style.display = "";
       refs.savingsEmpty.style.display = "none";
       refs.savingsBadge.textContent = `${goals.length} goal${goals.length === 1 ? "" : "s"}`;
     }
@@ -1460,13 +1528,14 @@
 
       refs.weeklyPayroll.value=data.weeklyPayroll>0?data.weeklyPayroll:"";
       refs.semiMonthlyPayroll.value=data.semiMonthlyPayroll>0?data.semiMonthlyPayroll:"";
+      refs.sideIncome.value=data.sideIncome>0?data.sideIncome:"";
       if(!refs.expenseDate.value||!refs.expenseDate.value.startsWith(month)){
         refs.expenseDate.value=defaultDateForMonth(month);
       }
 
       // Update income breakdown
       if (refs.incomeBreakdown) {
-        if (data.weeklyPayroll > 0 || data.semiMonthlyPayroll > 0) {
+        if (data.weeklyPayroll > 0 || data.semiMonthlyPayroll > 0 || data.sideIncome > 0) {
           const [year, monthStr] = month.split("-").map(Number);
           const monthIndex = monthStr - 1;
           const daysInMonthCount = daysInMonth(month);
@@ -1474,7 +1543,11 @@
           const has15 = daysInMonthCount >= 15;
           const has30 = daysInMonthCount >= 30;
           const semiCount = (has15 ? 1 : 0) + (has30 ? 1 : 0);
-          const breakdown = `${wednesdays} Wednesdays × ${money(data.weeklyPayroll)} + ${semiCount} paydays × ${money(data.semiMonthlyPayroll)} = ${money(expectedIncome)}`;
+          const incomeParts = [];
+          if (data.weeklyPayroll > 0) incomeParts.push(`${wednesdays} Wednesdays × ${money(data.weeklyPayroll)}`);
+          if (data.semiMonthlyPayroll > 0) incomeParts.push(`${semiCount} paydays × ${money(data.semiMonthlyPayroll)}`);
+          if (data.sideIncome > 0) incomeParts.push(`Side income ${money(data.sideIncome)}`);
+          const breakdown = `${incomeParts.join(" + ")} = ${money(expectedIncome)}`;
           refs.incomeBreakdown.textContent = `Expected Income Calculation: ${breakdown}`;
         } else {
           refs.incomeBreakdown.textContent = "Expected Income Calculation: No payroll settings configured";
@@ -1578,11 +1651,14 @@
       const month=refs.monthSelect.value;
       const weekly=round2(Number(refs.weeklyPayroll.value||0));
       const semiMonthly=round2(Number(refs.semiMonthlyPayroll.value||0));
+      const sideIncome=round2(Number(refs.sideIncome.value||0));
       if(isNaN(weekly)||weekly<0){alert("Please enter a valid weekly payroll.");return;}
       if(isNaN(semiMonthly)||semiMonthly<0){alert("Please enter a valid semi-monthly payroll.");return;}
+      if(isNaN(sideIncome)||sideIncome<0){alert("Please enter a valid side income amount.");return;}
       const m=ensureMonth(month);
       m.weeklyPayroll=weekly;
       m.semiMonthlyPayroll=semiMonthly;
+      m.sideIncome=sideIncome;
       pruneMonth(month);
       saveState();
       render();
@@ -1807,7 +1883,7 @@
     refs.clearMonthBtn.addEventListener("click",()=>{
       const month=refs.monthSelect.value;
       const data=getMonthData(month);
-      if(!(data.salary>0||data.bills.length||data.expenses.length||data.groceries.length)) return;
+      if(!(data.salary>0||data.weeklyPayroll>0||data.semiMonthlyPayroll>0||data.sideIncome>0||data.bills.length||data.expenses.length||data.groceries.length)) return;
       if(!confirm(`Clear all data for ${formatMonth(month)}?`)) return;
       delete appState.months[month];
       saveState();
@@ -1836,7 +1912,7 @@ document.getElementById("exportCsvBtn").addEventListener("click", () => {
   const expensesOnlyTotal = round2(expenses.reduce((s,i) => s + (Number(i.amount)||0), 0));
   const groceryTotal = round2(groceries.reduce((s,item) => s + groceryItemTotal(item), 0));
   const expensesTotal = round2(expensesOnlyTotal + groceryTotal);
-  const expectedIncome = calculateExpectedIncome(month, data.weeklyPayroll||0, data.semiMonthlyPayroll||0);
+  const expectedIncome = calculateExpectedIncome(month, data.weeklyPayroll||0, data.semiMonthlyPayroll||0, data.sideIncome||0);
   const displayIncome = expectedIncome > 0 ? expectedIncome : (data.salary || 0);
   const remaining = round2(displayIncome - billsTotal - expensesTotal - loanMonth.due);
 
@@ -1845,6 +1921,7 @@ document.getElementById("exportCsvBtn").addEventListener("click", () => {
   let csv = `Chels Salary Tracker - ${formatMonth(month)}\r\n`;
   csv += `\r\nSUMMARY\r\n`;
   csv += `Monthly Income,${displayIncome}\r\n`;
+  csv += `Side Income,${data.sideIncome||0}\r\n`;
   csv += `Bills Total,${billsTotal}\r\n`;
   csv += `Expenses Total,${expensesOnlyTotal}\r\n`;
   csv += `Grocery Total,${groceryTotal}\r\n`;
