@@ -159,6 +159,27 @@
     .paid-row td { color:var(--muted); }
     .paid-name { text-decoration:line-through; }
     .paid-tag { display:inline-flex; align-items:center; padding:var(--space-xs) var(--space-sm); border-radius:999px; font-size:0.75rem; font-weight:700; background:#ecfdf5; color:#047857; letter-spacing:0.02em; }
+    .bill-calendar-panel { margin-top:var(--space-lg); padding:var(--space-lg); border:1px solid #dbe7e2; border-radius:8px; background:#f8fbfa; }
+    .bill-calendar-head { display:flex; align-items:flex-start; justify-content:space-between; gap:var(--space-md); margin-bottom:var(--space-md); }
+    .bill-calendar-head h3 { margin:0; font-size:1rem; line-height:1.2; }
+    .bill-calendar-meta { margin-top:var(--space-xs); color:var(--muted); font-size:0.86rem; }
+    .bill-calendar-summary { display:flex; gap:var(--space-sm); flex-wrap:wrap; justify-content:flex-end; }
+    .bill-calendar-grid { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:6px; }
+    .bill-calendar-weekday { color:#64746f; font-size:0.72rem; font-weight:800; text-align:center; text-transform:uppercase; letter-spacing:0.06em; }
+    .bill-calendar-day { min-height:108px; padding:8px; border:1px solid #dfe8e5; border-radius:8px; background:#ffffff; overflow:hidden; }
+    .bill-calendar-day.is-today { border-color:#256f67; box-shadow:0 0 0 2px rgba(37,111,103,0.12); }
+    .bill-calendar-day.is-empty { background:transparent; border-color:transparent; }
+    .bill-calendar-date { display:flex; align-items:center; justify-content:space-between; gap:var(--space-xs); margin-bottom:6px; color:#31413d; font-size:0.8rem; font-weight:800; }
+    .bill-calendar-count { color:#64746f; font-size:0.72rem; font-weight:700; }
+    .bill-calendar-items { display:grid; gap:5px; }
+    .bill-calendar-item { display:grid; gap:2px; padding:6px 7px; border-radius:7px; background:#fff7ed; border:1px solid #fed7aa; color:#7c2d12; font-size:0.76rem; line-height:1.25; }
+    .bill-calendar-item.is-loan { background:#f5f3ff; border-color:#ddd6fe; color:#5b21b6; }
+    .bill-calendar-item.is-paid { background:#ecfdf5; border-color:#bbf7d0; color:#047857; }
+    .bill-calendar-item strong { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .bill-calendar-item span { font-size:0.72rem; }
+    .bill-calendar-empty, .bill-calendar-unscheduled { margin-top:var(--space-md); color:var(--muted); font-size:0.88rem; }
+    .bill-calendar-unscheduled { display:none; padding:10px 12px; border:1px dashed #cbdad5; border-radius:8px; background:#ffffff; }
+    .bill-calendar-unscheduled strong { color:#31413d; }
     input[type="checkbox"].bill-check { width:18px; min-width:18px; height:18px; padding:0; margin:0; border:none; background:transparent; box-shadow:none; accent-color:var(--green); cursor:pointer; }
     input[type="checkbox"].todo-check { width:18px; min-width:18px; height:18px; padding:0; margin:0; border:none; background:transparent; box-shadow:none; accent-color:var(--blue); cursor:pointer; }
     .todo-row td { transition:opacity var(--transition-fast); }
@@ -405,6 +426,15 @@
       .paid-cell { grid-template-columns:minmax(86px,42%) minmax(0,1fr); justify-content:stretch; text-align:right; }
       .paid-cell::before { content:"Paid"; }
       .paid-cell input { justify-self:end; }
+      .bill-calendar-head { flex-direction:column; align-items:stretch; }
+      .bill-calendar-summary { justify-content:flex-start; }
+      .bill-calendar-grid { gap:4px; }
+      .bill-calendar-weekday { font-size:0.62rem; letter-spacing:0.02em; }
+      .bill-calendar-day { min-height:86px; padding:5px; }
+      .bill-calendar-date { font-size:0.72rem; margin-bottom:4px; }
+      .bill-calendar-count { display:none; }
+      .bill-calendar-item { padding:5px; font-size:0.68rem; }
+      .bill-calendar-item span { font-size:0.66rem; }
     }
 
     @media (max-width:560px) {
@@ -749,6 +779,10 @@
       border-left-width: 4px;
     }
 
+    .dashboard-payment-calendar {
+      margin: 0 0 14px;
+    }
+
     .dashboard-grid {
       display: grid;
       grid-template-columns: minmax(280px,0.92fr) minmax(0,1.28fr);
@@ -876,6 +910,10 @@
     .loan-card,
     .loan-form {
       border-radius: 8px;
+    }
+
+    .bills-modal-content {
+      max-width: 980px;
     }
 
     .modal-close-btn,
@@ -1186,6 +1224,51 @@
       .table-wrap {
         padding-bottom: max(24px, env(safe-area-inset-bottom));
       }
+
+      .bill-calendar-panel {
+        padding: 12px;
+      }
+
+      .bill-calendar-head {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .bill-calendar-summary {
+        justify-content: flex-start;
+      }
+
+      .bill-calendar-grid {
+        gap: 4px;
+      }
+
+      .bill-calendar-day {
+        min-height: 84px;
+        padding: 5px;
+      }
+
+      .bill-calendar-weekday {
+        font-size: 0.62rem;
+        letter-spacing: 0.02em;
+      }
+
+      .bill-calendar-date {
+        font-size: 0.72rem;
+        margin-bottom: 4px;
+      }
+
+      .bill-calendar-count {
+        display: none;
+      }
+
+      .bill-calendar-item {
+        padding: 5px;
+        font-size: 0.68rem;
+      }
+
+      .bill-calendar-item span {
+        font-size: 0.66rem;
+      }
     }
     .visually-hidden { position:absolute !important; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; }
   </style>
@@ -1265,6 +1348,22 @@
     <section class="card notice-card neutral dashboard-status-card">
       <div id="monthName" class="notice-title">Viewing this month</div>
       <p id="statusText" aria-live="polite">Set your payroll settings to start tracking.</p>
+    </section>
+
+    <section class="card bill-calendar-panel dashboard-payment-calendar" aria-labelledby="billCalendarTitle">
+      <div class="bill-calendar-head">
+        <div>
+          <h2 id="billCalendarTitle">Payment Calendar</h2>
+          <div class="bill-calendar-meta" id="billCalendarMeta">No payments scheduled.</div>
+        </div>
+        <div class="bill-calendar-summary" aria-live="polite">
+          <span class="badge" id="billCalendarDueBadge">0 scheduled</span>
+          <span class="badge" id="billCalendarUnpaidBadge">0 unpaid</span>
+        </div>
+      </div>
+      <div class="bill-calendar-grid" id="billCalendarGrid" aria-label="Monthly bills and loan payment calendar"></div>
+      <div class="bill-calendar-empty" id="billCalendarEmpty">Add bills with due days or loan schedules to see them on the calendar.</div>
+      <div class="bill-calendar-unscheduled" id="billCalendarUnscheduled"></div>
     </section>
 
     <div class="dashboard-grid">
@@ -1392,7 +1491,7 @@
 
     <!-- Bills Modal -->
     <div id="billsModal" class="section-modal" role="dialog" aria-modal="true" aria-labelledby="billsModalTitle">
-      <div class="section-modal-content">
+      <div class="section-modal-content bills-modal-content">
         <div class="modal-header">
           <div>
             <h2 id="billsModalTitle">Monthly Bills</h2>
@@ -1746,6 +1845,12 @@
       billsBody: document.getElementById("billsBody"),
       billsEmpty: document.getElementById("billsEmpty"),
       billsBadge: document.getElementById("billsBadge"),
+      billCalendarMeta: document.getElementById("billCalendarMeta"),
+      billCalendarDueBadge: document.getElementById("billCalendarDueBadge"),
+      billCalendarUnpaidBadge: document.getElementById("billCalendarUnpaidBadge"),
+      billCalendarGrid: document.getElementById("billCalendarGrid"),
+      billCalendarEmpty: document.getElementById("billCalendarEmpty"),
+      billCalendarUnscheduled: document.getElementById("billCalendarUnscheduled"),
       expenseForm: document.getElementById("expenseForm"),
       expenseDate: document.getElementById("expenseDate"),
       expenseCategory: document.getElementById("expenseCategory"),
@@ -2075,6 +2180,97 @@
       if (remaining<0){refs.noticeCard.classList.add("danger");return;}
       if (remaining<=salary*0.15){refs.noticeCard.classList.add("warn");return;}
       refs.noticeCard.classList.add("good");
+    }
+
+    function renderPaymentCalendar(month, bills, loanEntries) {
+      const monthDays = daysInMonth(month);
+      const [year, monthNumber] = month.split("-").map(Number);
+      const firstWeekday = new Date(year, monthNumber - 1, 1).getDay();
+      const today = currentDateString();
+      const todayDay = today.startsWith(month) ? Number(today.slice(-2)) : null;
+      const scheduledByDay = new Map();
+      const unscheduled = [];
+      const payments = [];
+
+      (bills || []).forEach((bill) => {
+        const dueDay = Number(bill.dueDay);
+        if (!Number.isFinite(dueDay) || dueDay < 1) {
+          unscheduled.push(bill);
+          return;
+        }
+        const day = Math.min(Math.trunc(dueDay), monthDays);
+        payments.push({
+          day,
+          type: "Bill",
+          name: bill.name || "Bill",
+          amount: Number(bill.amount) || 0,
+          paid: normalizePaid(bill.paid)
+        });
+      });
+
+      (loanEntries || []).forEach((entry) => {
+        const dueDate = String(entry.dueDate || "");
+        if (!dueDate.startsWith(month)) return;
+        const day = Math.min(Math.max(Number(dueDate.slice(-2)) || 1, 1), monthDays);
+        payments.push({
+          day,
+          type: "Loan",
+          name: entry.loanName || "Loan installment",
+          amount: Number(entry.amount) || 0,
+          paid: Boolean(entry.paid)
+        });
+      });
+
+      payments.forEach((payment) => {
+        if (!scheduledByDay.has(payment.day)) scheduledByDay.set(payment.day, []);
+        scheduledByDay.get(payment.day).push(payment);
+      });
+
+      scheduledByDay.forEach((dayBills) => {
+        dayBills.sort((a, b) => {
+          if (a.type !== b.type) return a.type.localeCompare(b.type);
+          return String(a.name || "").localeCompare(String(b.name || ""));
+        });
+      });
+
+      const scheduledCount = [...scheduledByDay.values()].reduce((sum, dayBills) => sum + dayBills.length, 0);
+      const unpaidCount = payments.filter((payment) => !payment.paid).length + unscheduled.filter((bill) => !normalizePaid(bill.paid)).length;
+      const totalDue = round2(payments.reduce((sum, payment) => sum + payment.amount, 0) + unscheduled.reduce((sum, bill) => sum + (Number(bill.amount) || 0), 0));
+      const billCount = (bills || []).length;
+      const loanCount = (loanEntries || []).filter(entry => String(entry.dueDate || "").startsWith(month)).length;
+      refs.billCalendarMeta.textContent = `${formatMonth(month)} - ${billCount} bill${billCount === 1 ? "" : "s"}, ${loanCount} loan payment${loanCount === 1 ? "" : "s"} - ${money(totalDue)} total`;
+      refs.billCalendarDueBadge.textContent = `${scheduledCount} scheduled`;
+      refs.billCalendarUnpaidBadge.textContent = `${unpaidCount} unpaid`;
+      refs.billCalendarEmpty.style.display = scheduledCount ? "none" : "block";
+
+      const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+      const weekdayHtml = weekdays.map(day => `<div class="bill-calendar-weekday">${day}</div>`).join("");
+      const blankHtml = Array.from({ length: firstWeekday }, () => `<div class="bill-calendar-day is-empty" aria-hidden="true"></div>`).join("");
+      const dayHtml = Array.from({ length: monthDays }, (_, index) => {
+        const day = index + 1;
+        const dayBills = scheduledByDay.get(day) || [];
+        const itemsHtml = dayBills.map((payment) => {
+          const paid = Boolean(payment.paid);
+          return `<div class="bill-calendar-item ${payment.type === "Loan" ? "is-loan" : ""} ${paid ? "is-paid" : ""}">
+  <strong title="${escapeHtml(payment.name)}">${escapeHtml(payment.name)}</strong>
+  <span>${payment.type} - ${money(payment.amount)} ${paid ? "Paid" : "Due"}</span>
+</div>`;
+        }).join("");
+        return `<div class="bill-calendar-day ${day === todayDay ? "is-today" : ""}" aria-label="${formatMonth(month)} ${day}${dayBills.length ? `, ${dayBills.length} payment${dayBills.length === 1 ? "" : "s"} due` : ""}">
+  <div class="bill-calendar-date"><span>${day}</span>${dayBills.length ? `<span class="bill-calendar-count">${dayBills.length}</span>` : ""}</div>
+  <div class="bill-calendar-items">${itemsHtml}</div>
+</div>`;
+      }).join("");
+
+      refs.billCalendarGrid.innerHTML = weekdayHtml + blankHtml + dayHtml;
+
+      if (unscheduled.length) {
+        refs.billCalendarUnscheduled.style.display = "block";
+        refs.billCalendarUnscheduled.innerHTML = `<strong>Bills with no due day:</strong> ${unscheduled.map(bill => `${escapeHtml(bill.name)} (${money(bill.amount)})`).join(", ")}`;
+      } else {
+        refs.billCalendarUnscheduled.style.display = "none";
+        refs.billCalendarUnscheduled.innerHTML = "";
+      }
     }
 
     function renderBills(bills) {
@@ -2486,6 +2682,7 @@
       refs.clearMonthBtn.disabled=!hasData;
 
       renderBills(data.bills);
+      renderPaymentCalendar(month,data.bills,loanEntries);
       renderExpenses(data.expenses);
       renderGroceries(data.groceries);
       renderBreakdown(month,displayIncome,billsTotal,expensesTotal,loansDue,groceryTotal,`${checkedGroceries}/${data.groceries.length}`,remaining,days,daily);
