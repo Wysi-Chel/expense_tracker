@@ -15,6 +15,17 @@
   <meta property="og:type" content="website" />
   <meta property="og:image" content="https://cdn-icons-png.flaticon.com/512/2704/2704312.png" />
   <title>Chel's Finance Hub</title>
+  <script>
+    (() => {
+      try {
+        const savedTheme = localStorage.getItem("financeHubTheme");
+        const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+        document.documentElement.dataset.theme = savedTheme || (prefersDark ? "dark" : "light");
+      } catch (error) {
+        document.documentElement.dataset.theme = "light";
+      }
+    })();
+  </script>
   <style>
     :root {
       /* Color tokens */
@@ -593,6 +604,33 @@
       white-space: nowrap;
     }
 
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .theme-toggle {
+      min-height: 38px;
+      padding: 8px 11px;
+      border: 1px solid #cfd9d5;
+      border-radius: 999px;
+      background: #ffffff;
+      color: #28524d;
+      font-size: 0.78rem;
+      font-weight: 800;
+      white-space: nowrap;
+      box-shadow: none;
+    }
+
+    .theme-toggle:hover {
+      background: #edf5f3;
+      color: #173b35;
+      transform: none;
+      filter: none;
+    }
+
     .hero {
       display: grid;
       grid-template-columns: minmax(0,1fr) minmax(240px,300px);
@@ -969,6 +1007,8 @@
       .brand-lockup strong { font-size: 0.9rem; }
       .brand-lockup span { font-size: 0.72rem; }
       .app-status-pill { padding: 7px 8px; font-size: 0.72rem; }
+      .topbar-actions { gap: 6px; }
+      .theme-toggle { padding: 7px 8px; font-size: 0.72rem; }
 
       .hero {
         padding: 16px;
@@ -1270,6 +1310,268 @@
         font-size: 0.66rem;
       }
     }
+
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --color-bg: #0b1210;
+      --color-surface: #101c19;
+      --color-card: #15231f;
+      --color-text: #e5f0ec;
+      --color-text-muted: #9aaca6;
+      --color-primary: #58c7b2;
+      --color-primary-hover: #76d8c7;
+      --color-danger: #ef6f66;
+      --color-danger-hover: #ff8a82;
+      --color-success: #5fd0a5;
+      --color-border: #2b3d38;
+      --color-ring: rgba(88,199,178,0.32);
+      --bg: var(--color-bg);
+      --card: var(--color-card);
+      --text: var(--color-text);
+      --muted: var(--color-text-muted);
+      --border: var(--color-border);
+      --blue: var(--color-primary);
+      --blue-dark: var(--color-primary-hover);
+      --amber: #f0b453;
+      --red: #f87171;
+      --green: var(--color-success);
+      --danger: var(--color-danger);
+      --shadow: 0 18px 42px rgba(0,0,0,0.34);
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.24), 0 8px 22px rgba(0,0,0,0.2);
+      --shadow-md: 0 14px 34px rgba(0,0,0,0.28);
+      --shadow-lg: 0 18px 42px rgba(0,0,0,0.34);
+      --shadow-xl: 0 24px 60px rgba(0,0,0,0.42);
+    }
+
+    html[data-theme="dark"],
+    html[data-theme="dark"] body {
+      background: #0b1210;
+    }
+
+    html[data-theme="dark"] body {
+      background: linear-gradient(180deg,#0c1512 0%,#101b18 100%);
+      color: var(--text);
+    }
+
+    html[data-theme="dark"] .app-topbar,
+    html[data-theme="dark"] .toolbar-card,
+    html[data-theme="dark"] .content-grid-btns {
+      border-color: rgba(57,78,72,0.9);
+      background: rgba(15,25,22,0.88);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.28);
+    }
+
+    html[data-theme="dark"] .brand-mark {
+      background: #d9f8ef;
+      color: #12342f;
+    }
+
+    html[data-theme="dark"] .app-status-pill,
+    html[data-theme="dark"] .theme-toggle,
+    html[data-theme="dark"] .badge {
+      border-color: #35504a;
+      background: #182a25;
+      color: #bde7dd;
+    }
+
+    html[data-theme="dark"] .theme-toggle:hover {
+      background: #213630;
+      color: #e5f0ec;
+    }
+
+    html[data-theme="dark"] .hero {
+      background: #102d29;
+      box-shadow: 0 20px 48px rgba(0,0,0,0.38);
+    }
+
+    html[data-theme="dark"] .hero .month-box {
+      border-color: #38544d;
+      background: #15231f;
+      color: var(--text);
+    }
+
+    html[data-theme="dark"] .hero .month-box label,
+    html[data-theme="dark"] label,
+    html[data-theme="dark"] .bill-calendar-date,
+    html[data-theme="dark"] .bill-calendar-unscheduled strong,
+    html[data-theme="dark"] .ghost-btn,
+    html[data-theme="dark"] .modal-close-btn,
+    html[data-theme="dark"] .loan-schedule summary {
+      color: var(--text);
+    }
+
+    html[data-theme="dark"] input,
+    html[data-theme="dark"] select {
+      border-color: #334740;
+      background: #0e1916;
+      color: var(--text);
+    }
+
+    html[data-theme="dark"] input::placeholder {
+      color: #6f837d;
+    }
+
+    html[data-theme="dark"] .card,
+    html[data-theme="dark"] .stat-card,
+    html[data-theme="dark"] .income-stat-card,
+    html[data-theme="dark"] .loan-stat-card,
+    html[data-theme="dark"] .remaining-stat-card,
+    html[data-theme="dark"] .section-open-btn,
+    html[data-theme="dark"] .section-open-loans,
+    html[data-theme="dark"] .section-modal-content,
+    html[data-theme="dark"] .loan-card,
+    html[data-theme="dark"] .loan-form,
+    html[data-theme="dark"] .footer-card {
+      border-color: var(--border);
+      background: var(--card);
+      color: var(--text);
+    }
+
+    html[data-theme="dark"] .section-open-btn:hover,
+    html[data-theme="dark"] .modal-close-btn,
+    html[data-theme="dark"] .modal-close-btn:hover,
+    html[data-theme="dark"] .ghost-btn,
+    html[data-theme="dark"] .ghost-btn:hover,
+    html[data-theme="dark"] .loan-metric,
+    html[data-theme="dark"] .loan-overview-item,
+    html[data-theme="dark"] .mini-stats div,
+    html[data-theme="dark"] .summary-chip,
+    html[data-theme="dark"] .schedule-number,
+    html[data-theme="dark"] .loan-empty-icon {
+      border-color: #2f463f;
+      background: #10201c;
+      color: var(--text);
+    }
+
+    html[data-theme="dark"] .section-btn-icon {
+      background: #203b34;
+      color: #9ee6d6;
+    }
+
+    html[data-theme="dark"] .notice-card.neutral {
+      background: #13231f;
+      border-color: #30463f;
+    }
+
+    html[data-theme="dark"] .notice-card.good {
+      background: #0f2a22;
+      border-color: #24654f;
+    }
+
+    html[data-theme="dark"] .notice-card.warn {
+      background: #2a2110;
+      border-color: #8a6120;
+    }
+
+    html[data-theme="dark"] .notice-card.danger,
+    html[data-theme="dark"] .schedule-row.overdue:not(.paid) {
+      background: #2b1717;
+      border-color: #7f3535;
+    }
+
+    html[data-theme="dark"] .notice-card p,
+    html[data-theme="dark"] #incomeBreakdown,
+    html[data-theme="dark"] .loan-progress-head,
+    html[data-theme="dark"] .bill-calendar-weekday,
+    html[data-theme="dark"] .bill-calendar-count,
+    html[data-theme="dark"] .table td::before {
+      color: var(--muted) !important;
+    }
+
+    html[data-theme="dark"] .positive-text {
+      color: #72d6ad;
+    }
+
+    html[data-theme="dark"] .negative-text {
+      color: #ff8a82;
+    }
+
+    html[data-theme="dark"] .table th,
+    html[data-theme="dark"] .table td,
+    html[data-theme="dark"] .legend-item {
+      border-color: #2a3c36;
+    }
+
+    html[data-theme="dark"] .table tr,
+    html[data-theme="dark"] .schedule-row,
+    html[data-theme="dark"] .bill-calendar-day,
+    html[data-theme="dark"] .bill-calendar-unscheduled {
+      border-color: #2a3c36;
+      background: #101c19;
+      color: var(--text);
+    }
+
+    html[data-theme="dark"] .bill-calendar-panel {
+      border-color: var(--border);
+      background: #13211e;
+    }
+
+    html[data-theme="dark"] .bill-calendar-day.is-today {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 2px rgba(88,199,178,0.18);
+    }
+
+    html[data-theme="dark"] .bill-calendar-item {
+      background: #2a2110;
+      border-color: #8a6120;
+      color: #f7d89a;
+    }
+
+    html[data-theme="dark"] .bill-calendar-item.is-loan {
+      background: #221d36;
+      border-color: #5e4da0;
+      color: #d8ccff;
+    }
+
+    html[data-theme="dark"] .bill-calendar-item.is-paid,
+    html[data-theme="dark"] .paid-tag,
+    html[data-theme="dark"] .schedule-row.paid,
+    html[data-theme="dark"] .loan-card.completed {
+      background: #0f2a22;
+      border-color: #2d7a5f;
+      color: #9ee6c2;
+    }
+
+    html[data-theme="dark"] .donut::before {
+      background: #101c19;
+      box-shadow: inset 0 0 0 1px rgba(229,240,236,0.08);
+    }
+
+    html[data-theme="dark"] .donut.empty {
+      background: conic-gradient(#2f413b 0 100%);
+    }
+
+    html[data-theme="dark"] .savings-progress-bar,
+    html[data-theme="dark"] .loan-progress {
+      background: #263a34;
+    }
+
+    html[data-theme="dark"] .row-delete {
+      background: #3a1d1d;
+      color: #ffada8;
+    }
+
+    html[data-theme="dark"] .row-delete:hover {
+      background: #502424;
+    }
+
+    html[data-theme="dark"] .modal-header {
+      border-color: #2a3c36;
+      background: #15231f;
+    }
+
+    html[data-theme="dark"] [style*="color:#6b7280"],
+    html[data-theme="dark"] [style*="color: #6b7280"] {
+      color: var(--muted) !important;
+    }
+
+    @media (max-width: 640px) {
+      html[data-theme="dark"] .section-open-btn {
+        border-color: transparent;
+        background: transparent;
+      }
+    }
+
     .visually-hidden { position:absolute !important; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; }
   </style>
 </head>
@@ -1283,7 +1585,10 @@
           <span>Mobile budget dashboard</span>
         </div>
       </div>
-      <span class="app-status-pill">Local first</span>
+      <div class="topbar-actions">
+        <span class="app-status-pill">Local first</span>
+        <button type="button" id="themeToggle" class="theme-toggle" aria-pressed="false">Dark mode</button>
+      </div>
     </div>
 
     <header class="hero dashboard-hero">
@@ -1924,10 +2229,39 @@
       loansBadge: document.getElementById("loansBadge"),
       loanOutstandingTotal: document.getElementById("loanOutstandingTotal"),
       loanPaidCount: document.getElementById("loanPaidCount"),
-      loanNextPayment: document.getElementById("loanNextPayment")
+      loanNextPayment: document.getElementById("loanNextPayment"),
+      themeToggle: document.getElementById("themeToggle")
     };
 
     const LOCAL_STATE_KEY = "financeHubLocalState";
+    const THEME_STORAGE_KEY = "financeHubTheme";
+
+    function getSystemTheme() {
+      return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+
+    function applyTheme(theme, persist = false) {
+      const nextTheme = theme === "dark" ? "dark" : "light";
+      document.documentElement.dataset.theme = nextTheme;
+      const themeMeta = document.querySelector('meta[name="theme-color"]');
+      if (themeMeta) themeMeta.setAttribute("content", nextTheme === "dark" ? "#102d29" : "#256f67");
+      if (refs.themeToggle) {
+        const isDark = nextTheme === "dark";
+        refs.themeToggle.textContent = isDark ? "Light mode" : "Dark mode";
+        refs.themeToggle.setAttribute("aria-pressed", String(isDark));
+        refs.themeToggle.setAttribute("aria-label", isDark ? "Switch to light mode" : "Switch to dark mode");
+      }
+      if (persist) localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
+    }
+
+    applyTheme(document.documentElement.dataset.theme || localStorage.getItem(THEME_STORAGE_KEY) || getSystemTheme());
+
+    if (refs.themeToggle) {
+      refs.themeToggle.addEventListener("click", () => {
+        const currentTheme = document.documentElement.dataset.theme === "dark" ? "dark" : "light";
+        applyTheme(currentTheme === "dark" ? "light" : "dark", true);
+      });
+    }
 
     function createEmptyState() {
       return { months: {}, savingsGoals: [], loans: [] };
