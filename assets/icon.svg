@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Chel's Finance Hub icon</title>
+  <desc id="desc">A teal finance app icon with a white card, peso mark, and upward chart line.</desc>
+  <defs>
+    <linearGradient id="bg" x1="86" y1="62" x2="426" y2="450" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2dd4bf"/>
+      <stop offset="0.48" stop-color="#0f766e"/>
+      <stop offset="1" stop-color="#134e4a"/>
+    </linearGradient>
+    <linearGradient id="card" x1="132" y1="142" x2="388" y2="370" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#e8fffa"/>
+    </linearGradient>
+    <filter id="shadow" x="76" y="98" width="360" height="340" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="22" stdDeviation="20" flood-color="#063f3a" flood-opacity="0.32"/>
+    </filter>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <circle cx="118" cy="104" r="50" fill="#99f6e4" opacity="0.35"/>
+  <circle cx="416" cy="402" r="72" fill="#042f2e" opacity="0.18"/>
+  <g filter="url(#shadow)">
+    <rect x="118" y="138" width="276" height="246" rx="44" fill="url(#card)"/>
+    <rect x="145" y="178" width="222" height="34" rx="17" fill="#0f766e" opacity="0.16"/>
+    <path d="M176 270l52-46 49 28 66-74" fill="none" stroke="#0f766e" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M327 178h34v34" fill="none" stroke="#0f766e" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="179" y="348" fill="#134e4a" font-family="Inter, Arial, sans-serif" font-size="132" font-weight="800">C</text>
+  </g>
+</svg>

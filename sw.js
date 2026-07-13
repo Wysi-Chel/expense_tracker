@@ -1,11 +1,21 @@
-const CACHE_NAME = 'finance-hub-cache-v2';
+const CACHE_NAME = 'finance-hub-cache-v3';
 const APP_ROOT = new URL('./', self.location.href).toString();
 const INDEX_URL = new URL('./index.html', self.location.href).toString();
 const MANIFEST_URL = new URL('./manifest.json', self.location.href).toString();
+const ICON_SVG_URL = new URL('./assets/icon.svg', self.location.href).toString();
+const FAVICON_URL = new URL('./assets/favicon-32.png', self.location.href).toString();
+const APPLE_ICON_URL = new URL('./assets/apple-touch-icon.png', self.location.href).toString();
+const ICON_192_URL = new URL('./assets/icon-192.png', self.location.href).toString();
+const ICON_512_URL = new URL('./assets/icon-512.png', self.location.href).toString();
 const APP_SHELL = [
   APP_ROOT,
   INDEX_URL,
-  MANIFEST_URL
+  MANIFEST_URL,
+  ICON_SVG_URL,
+  FAVICON_URL,
+  APPLE_ICON_URL,
+  ICON_192_URL,
+  ICON_512_URL
 ];
 
 self.addEventListener('install', (event) => {

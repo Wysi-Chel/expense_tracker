@@ -3,17 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/2704/2704312.png" />
+  <link rel="icon" type="image/svg+xml" href="assets/icon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#256f67" />
   <meta name="description" content="Personal finance command center for budgeting, expense tracking, bills, loans, savings goals, and cash flow analysis." />
+  <meta name="application-name" content="Finance Hub" />
+  <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Finance Hub" />
+  <meta name="msapplication-TileColor" content="#256f67" />
+  <meta name="msapplication-TileImage" content="assets/icon-192.png" />
+  <meta name="format-detection" content="telephone=no" />
   <meta property="og:title" content="Chel's Finance Hub" />
   <meta property="og:description" content="Personal finance command center for budgeting, expense tracking, bills, loans, savings goals, and cash flow analysis." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://cdn-icons-png.flaticon.com/512/2704/2704312.png" />
+  <meta property="og:image" content="assets/icon-512.png" />
   <title>Chel's Finance Hub</title>
   <script>
     (() => {
@@ -80,8 +87,8 @@
       --transition-slow: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     }
     * { box-sizing: border-box; }
-    html { -webkit-text-size-adjust:100%; }
-    body { margin:0; font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; background:linear-gradient(180deg,#f8fbff 0%,#f6f7fb 100%); color:var(--text); overflow-x:hidden; font-weight:400; }
+    html { min-height:100%; -webkit-text-size-adjust:100%; background:var(--color-bg); overscroll-behavior-y:none; }
+    body { margin:0; min-height:100svh; min-height:100dvh; font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; background:linear-gradient(180deg,#f8fbff 0%,#f6f7fb 100%); color:var(--text); overflow-x:hidden; font-weight:400; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
     .container { max-width:1240px; margin:0 auto; padding:var(--space-2xl); }
     .hero { display:flex; justify-content:space-between; gap:var(--space-xl); align-items:end; margin-bottom:var(--space-xl); }
     .eyebrow { margin:0 0 var(--space-sm); color:var(--blue); font-weight:700; font-size:0.84rem; letter-spacing:0.08em; text-transform:uppercase; }
@@ -118,14 +125,14 @@
     .muted { margin:var(--space-xs) 0 0; color:var(--muted); font-size:0.94rem; line-height:1.5; }
     .badge { display:inline-flex; align-items:center; justify-content:center; padding:var(--space-xs) var(--space-sm); border-radius:999px; background:#eef2ff; color:#4338ca; font-size:0.82rem; font-weight:700; white-space:nowrap; letter-spacing:0.02em; }
     label { display:block; font-size:0.9rem; font-weight:600; color:#334155; margin-bottom:var(--space-sm); }
-    input, select, button { font:inherit; max-width:100%; }
+    input, select, button { font:inherit; max-width:100%; -webkit-tap-highlight-color:transparent; }
     input, select { width:100%; padding:var(--space-sm) 14px; border-radius:var(--radius-md); border:1px solid #d1d5db; background:white; color:var(--text); outline:none; transition:border-color var(--transition-fast), box-shadow var(--transition-fast); }
     input:focus, select:focus { border-color:var(--color-primary); box-shadow:0 0 0 4px var(--color-ring); }
     .inline-form { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:var(--space-md); align-items:end; }
     .form-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:var(--space-md); }
     .field.action-field { display:flex; align-items:end; }
     .full-span { grid-column:1/-1; }
-    button { border:none; border-radius:var(--radius-md); padding:var(--space-sm) var(--space-lg); background:var(--blue); color:white; cursor:pointer; font-weight:700; transition:transform var(--transition-fast), background var(--transition-fast), opacity var(--transition-fast), box-shadow var(--transition-fast); }
+    button { border:none; border-radius:var(--radius-md); padding:var(--space-sm) var(--space-lg); background:var(--blue); color:white; cursor:pointer; font-weight:700; touch-action:manipulation; transition:transform var(--transition-fast), background var(--transition-fast), opacity var(--transition-fast), box-shadow var(--transition-fast); }
     button:hover { background:var(--blue-dark); transform:translateY(-1px); filter:brightness(1.05); }
     button:active { transform:translateY(1px); }
     button:focus-visible { box-shadow:0 0 0 3px var(--color-ring); outline:none; }
@@ -565,13 +572,11 @@
     .brand-mark {
       width: 38px;
       height: 38px;
-      display: grid;
-      place-items: center;
       flex: 0 0 38px;
       border-radius: 8px;
-      background: #173b35;
-      color: #ffffff;
-      font-weight: 800;
+      display: block;
+      object-fit: cover;
+      box-shadow: 0 1px 0 rgba(255,255,255,0.35) inset, 0 8px 18px rgba(23,33,31,0.12);
     }
 
     .brand-lockup strong,
@@ -1311,6 +1316,23 @@
       }
     }
 
+    @media (display-mode: standalone) {
+      .container {
+        padding-top: max(var(--space-2xl), env(safe-area-inset-top));
+        padding-bottom: max(var(--space-2xl), env(safe-area-inset-bottom));
+      }
+    }
+
+    @media (display-mode: standalone) and (max-width: 640px) {
+      body {
+        padding-bottom: calc(88px + env(safe-area-inset-bottom));
+      }
+
+      .app-topbar {
+        top: max(6px, env(safe-area-inset-top));
+      }
+    }
+
     html[data-theme="dark"] {
       color-scheme: dark;
       --color-bg: #0b1210;
@@ -1362,8 +1384,8 @@
     }
 
     html[data-theme="dark"] .brand-mark {
-      background: #d9f8ef;
-      color: #12342f;
+      background: transparent;
+      color: inherit;
     }
 
     html[data-theme="dark"] .app-status-pill,
@@ -1603,7 +1625,7 @@
   <div class="container">
     <div class="app-topbar">
       <div class="brand-lockup">
-        <span class="brand-mark" aria-hidden="true">C</span>
+        <img class="brand-mark" src="assets/icon-192.png" alt="" width="38" height="38" aria-hidden="true" />
         <div>
           <strong>Chel's Finance Hub</strong>
           <span>Mobile budget dashboard</span>
@@ -3545,7 +3567,7 @@ document.getElementById("exportCsvBtn").addEventListener("click", () => {
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
+        navigator.serviceWorker.register('./sw.js', { scope: './' })
           .then((registration) => console.log('SW registered:', registration.scope))
           .catch((error) => console.error('SW registration failed:', error));
       });
