@@ -325,11 +325,14 @@
     .schedule-row { display:grid; grid-template-columns:34px 1fr auto auto; align-items:center; gap:var(--space-sm); padding:var(--space-sm); border:1px solid #e2e8f0; border-radius:var(--radius-sm); background:#fff; transition:var(--transition-base); }
     .schedule-row:hover { transform:translateY(-1px); box-shadow:var(--shadow-sm); }
     .schedule-row.paid { background:#f0fdf4; border-color:#bbf7d0; }
+    .schedule-row.partial { background:#fffbeb; border-color:#fde68a; }
     .schedule-row.overdue:not(.paid) { background:#fef2f2; border-color:#fecaca; }
     .schedule-number { width:28px; height:28px; display:grid; place-items:center; border-radius:var(--radius-sm); background:#f1f5f9; font-size:.75rem; font-weight:800; }
     .schedule-date strong, .schedule-date span { display:block; }
     .schedule-date strong { font-size:.82rem; }
     .schedule-date span { font-size:.72rem; color:var(--muted); margin-top:2px; }
+    .loan-partial-payment { display:flex; align-items:center; gap:var(--space-xs); margin:7px 0 0; color:var(--muted); font-size:.72rem; font-weight:700; }
+    .loan-partial-input { width:120px; padding:6px 8px; border-radius:var(--radius-sm); font-size:.8rem; }
     .schedule-amount { font-size:.84rem; font-weight:800; }
     .loan-check { width:19px !important; height:19px; accent-color:#7c3aed; cursor:pointer; }
     .loan-empty-state { display:none; text-align:center; padding:var(--space-3xl) 18px var(--space-xl); color:var(--muted); }
@@ -1574,6 +1577,11 @@
       color: #9ee6c2;
     }
 
+    html[data-theme="dark"] .schedule-row.partial:not(.overdue) {
+      background: #2a2110;
+      border-color: #8a6120;
+    }
+
     html[data-theme="dark"] .donut::before {
       background: #101c19;
       box-shadow: inset 0 0 0 1px rgba(229,240,236,0.08);
@@ -2038,8 +2046,8 @@
         </div>
 
         <div class="loan-overview-grid">
-          <div class="loan-overview-item"><span>Outstanding</span><strong id="loanOutstandingTotal">&#8369;0.00</strong></div>
-          <div class="loan-overview-item"><span>Paid installments</span><strong id="loanPaidCount">0 / 0</strong></div>
+          <div class="loan-overview-item"><span>Remaining balance</span><strong id="loanOutstandingTotal">&#8369;0.00</strong></div>
+          <div class="loan-overview-item"><span>Fully paid installments</span><strong id="loanPaidCount">0 / 0</strong></div>
           <div class="loan-overview-item"><span>Next payment</span><strong id="loanNextPayment">None</strong></div>
         </div>
 
@@ -2457,7 +2465,7 @@
     function generateLoanSchedule(startMonth, term, dueDay, amount) {
       return Array.from({length:term}, (_, index) => {
         const monthKey = addMonthsToMonth(startMonth, index);
-        return { number:index + 1, dueDate:validDueDate(monthKey, dueDay), amount:round2(amount), paid:false, paidAt:null };
+        return { number:index + 1, dueDate:validDueDate(monthKey, dueDay), amount:round2(amount), paidAmount:0, paid:false, paidAt:null };
       });
     }
     function normalizeLoan(loan) {
@@ -2465,10 +2473,23 @@
       loan.installmentAmount = round2(Number(loan.installmentAmount) || 0);
       loan.term = Math.max(1, Number(loan.term) || 1);
       if (!Array.isArray(loan.schedule) || loan.schedule.length !== loan.term) {
-        const oldPaid = new Map((loan.schedule || []).map(item => [Number(item.number), Boolean(item.paid)]));
+        const oldPayments = new Map((loan.schedule || []).map(item => [Number(item.number), item]));
         loan.schedule = generateLoanSchedule(loan.startMonth || currentMonthString(), loan.term, loan.dueDay || 1, loan.installmentAmount);
-        loan.schedule.forEach(item => { if (oldPaid.get(item.number)) item.paid = true; });
+        loan.schedule.forEach(item => {
+          const previous = oldPayments.get(item.number);
+          if (!previous) return;
+          item.paid = Boolean(previous.paid);
+          item.paidAmount = previous.paidAmount;
+          item.paidAt = previous.paidAt || null;
+        });
       }
+      loan.schedule.forEach(item => {
+        item.amount = round2(Number(item.amount) || loan.installmentAmount);
+        const legacyPaidAmount = item.paid ? item.amount : 0;
+        item.paidAmount = round2(Math.min(Math.max(Number(item.paidAmount ?? legacyPaidAmount) || 0, 0), item.amount));
+        item.paid = item.paidAmount >= item.amount;
+        if (!item.paid) item.paidAt = null;
+      });
       return loan;
     }
     function allLoans() {
@@ -2484,7 +2505,7 @@
     function loanTotalsForMonth(monthKey) {
       const entries = loanScheduleForMonth(monthKey);
       const due = round2(entries.reduce((sum,item) => sum + (Number(item.amount) || 0), 0));
-      const paid = round2(entries.filter(item => item.paid).reduce((sum,item) => sum + (Number(item.amount) || 0), 0));
+      const paid = round2(entries.reduce((sum,item) => sum + (Number(item.paidAmount) || 0), 0));
       return { entries, due, paid, unpaid:round2(due - paid) };
     }
 
@@ -2597,6 +2618,7 @@
           type: "Loan",
           name: entry.loanName || "Loan installment",
           amount: Number(entry.amount) || 0,
+          paidAmount: Number(entry.paidAmount) || 0,
           paid: Boolean(entry.paid)
         });
       });
@@ -2631,9 +2653,11 @@
         const dayBills = scheduledByDay.get(day) || [];
         const itemsHtml = dayBills.map((payment) => {
           const paid = Boolean(payment.paid);
+          const partial = payment.type === "Loan" && !paid && payment.paidAmount > 0;
+          const paymentStatus = paid ? "Paid" : partial ? `${money(payment.paidAmount)} paid` : "Due";
           return `<div class="bill-calendar-item ${payment.type === "Loan" ? "is-loan" : ""} ${paid ? "is-paid" : ""}">
   <strong title="${escapeHtml(payment.name)}">${escapeHtml(payment.name)}</strong>
-  <span>${payment.type} - ${money(payment.amount)} ${paid ? "Paid" : "Due"}</span>
+  <span>${payment.type} - ${money(payment.amount)} ${paymentStatus}</span>
 </div>`;
         }).join("");
         return `<div class="bill-calendar-day ${day === todayDay ? "is-today" : ""}" aria-label="${formatMonth(month)} ${day}${dayBills.length ? `, ${dayBills.length} payment${dayBills.length === 1 ? "" : "s"} due` : ""}">
@@ -2938,26 +2962,35 @@
         const totalCount = loan.schedule.length;
         const remainingCount = totalCount - paidCount;
         const totalRepayable = round2(loan.schedule.reduce((sum,item) => sum + (Number(item.amount) || 0), 0));
-        const paidAmount = round2(loan.schedule.filter(item => item.paid).reduce((sum,item) => sum + (Number(item.amount) || 0), 0));
-        const outstanding = round2(totalRepayable - paidAmount);
-        const progress = totalCount ? (paidCount / totalCount) * 100 : 0;
+        const paidAmount = round2(loan.schedule.reduce((sum,item) => sum + (Number(item.paidAmount) || 0), 0));
+        const outstanding = Math.max(0, round2(totalRepayable - paidAmount));
+        const progress = totalRepayable ? (paidAmount / totalRepayable) * 100 : 0;
         const next = loan.schedule.find(item => !item.paid);
-        const complete = remainingCount === 0;
+        const complete = outstanding === 0;
 
         totalOutstanding += outstanding;
         allPaid += paidCount;
         allCount += totalCount;
-        if (next) upcoming.push({...next, loanName:loan.name});
+        if (next) upcoming.push({...next, amount:round2(next.amount - next.paidAmount), loanName:loan.name});
 
         const scheduleRows = loan.schedule.map(item => {
           const overdue = !item.paid && item.dueDate < today;
-          return `<div class="schedule-row ${item.paid ? "paid" : ""} ${overdue ? "overdue" : ""}">
+          const installmentPaid = Number(item.paidAmount) || 0;
+          const installmentRemaining = Math.max(0, round2(item.amount - installmentPaid));
+          const partial = installmentPaid > 0 && !item.paid;
+          const paymentStatus = item.paid
+            ? `Paid${item.paidAt ? ` - ${escapeHtml(formatDate(item.paidAt))}` : ""}`
+            : partial ? `${money(installmentRemaining)} remaining` : (overdue ? "Overdue" : "Scheduled");
+          return `<div class="schedule-row ${item.paid ? "paid" : ""} ${partial ? "partial" : ""} ${overdue ? "overdue" : ""}">
             <span class="schedule-number">${item.number}</span>
             <div class="schedule-date">
               <strong>${escapeHtml(formatDate(item.dueDate))}</strong>
-              <span>${item.paid ? `Paid${item.paidAt ? ` - ${escapeHtml(formatDate(item.paidAt))}` : ""}` : (overdue ? "Overdue" : "Scheduled")}</span>
+              <span>${paymentStatus}</span>
+              <label class="loan-partial-payment">Partial payment
+                <input type="number" class="loan-partial-input" aria-label="Partial payment for installment ${item.number} of ${escapeHtml(loan.name)}" min="0" max="${item.amount}" step="0.01" value="${installmentPaid}" data-loan-payment="${escapeHtml(loan.id)}" data-installment-number="${item.number}" />
+              </label>
             </div>
-            <span class="schedule-amount">${money(item.amount)}</span>
+            <span class="schedule-amount">${money(installmentRemaining)} due</span>
             <input type="checkbox" class="loan-check" aria-label="Mark installment ${item.number} for ${escapeHtml(loan.name)} paid" data-loan-id="${escapeHtml(loan.id)}" data-installment-number="${item.number}" ${item.paid ? "checked" : ""} />
           </div>`;
         }).join("");
@@ -2982,11 +3015,11 @@
           <div class="loan-metrics">
             <div class="loan-metric"><span>Original amount</span><strong>${money(loan.principal)}</strong></div>
             <div class="loan-metric"><span>Monthly installment</span><strong>${money(loan.installmentAmount)}</strong></div>
-            <div class="loan-metric"><span>Outstanding</span><strong>${money(outstanding)}</strong></div>
-            <div class="loan-metric"><span>Next due</span><strong>${next ? escapeHtml(formatDate(next.dueDate)) : "Completed"}</strong></div>
+            <div class="loan-metric"><span>Remaining balance</span><strong>${money(outstanding)}</strong></div>
+            <div class="loan-metric"><span>Next due</span><strong>${next ? `${money(next.amount - next.paidAmount)} - ${escapeHtml(formatDate(next.dueDate))}` : "Completed"}</strong></div>
           </div>
 
-          <div class="loan-progress-head"><span>${paidCount} of ${totalCount} installments paid</span><strong>${Math.round(progress)}%</strong></div>
+          <div class="loan-progress-head"><span>${money(paidAmount)} of ${money(totalRepayable)} paid</span><strong>${Math.round(progress)}%</strong></div>
           <div class="loan-progress"><div class="loan-progress-fill" style="width:${progress.toFixed(2)}%"></div></div>
 
           <details class="loan-schedule">
@@ -3021,7 +3054,7 @@
       refs.expensesDisplay.textContent=money(expensesTotal);
       refs.groceryDisplay.textContent=money(groceryTotal);
       refs.loansDisplay.textContent=money(loansDue);
-      refs.loansPaidHint.textContent=loanEntries.length ? `${loanEntries.filter(item=>item.paid).length}/${loanEntries.length} paid this month` : "No payments due";
+      refs.loansPaidHint.textContent=loanEntries.length ? `${money(loansPaid)} paid of ${money(loansDue)} due this month` : "No payments due";
       refs.remainingDisplay.textContent=money(remaining);
       refs.remainingDisplay.classList.toggle("negative-text",remaining<0);
 
@@ -3298,6 +3331,22 @@
     });
 
     refs.loansList.addEventListener("change",(e)=>{
+      const paymentInput=e.target.closest("[data-loan-payment][data-installment-number]");
+      if(paymentInput){
+        const loan=allLoans().find(item=>item.id===paymentInput.dataset.loanPayment);
+        if(!loan) return;
+        const installment=loan.schedule.find(item=>Number(item.number)===Number(paymentInput.dataset.installmentNumber));
+        if(!installment) return;
+        let paidAmount=round2(Number(paymentInput.value));
+        if(!Number.isFinite(paidAmount)||paidAmount<0) paidAmount=0;
+        paidAmount=Math.min(paidAmount,installment.amount);
+        installment.paidAmount=paidAmount;
+        installment.paid=paidAmount>=installment.amount;
+        installment.paidAt=installment.paid?currentDateString():null;
+        saveState();
+        render();
+        return;
+      }
       const check=e.target.closest("[data-loan-id][data-installment-number]");
       if(!check) return;
       const loan=allLoans().find(item=>item.id===check.dataset.loanId);
@@ -3305,6 +3354,7 @@
       const installment=loan.schedule.find(item=>Number(item.number)===Number(check.dataset.installmentNumber));
       if(!installment) return;
       installment.paid=check.checked;
+      installment.paidAmount=check.checked?installment.amount:0;
       installment.paidAt=check.checked?currentDateString():null;
       saveState();
       render();
@@ -3328,6 +3378,7 @@
         const next=loan.schedule.find(item=>!item.paid);
         if(!next) return;
         next.paid=true;
+        next.paidAmount=next.amount;
         next.paidAt=currentDateString();
         saveState();
         render();
@@ -3543,9 +3594,10 @@ document.getElementById("exportCsvBtn").addEventListener("click", () => {
     csv += `${esc(ex.date)},${esc(ex.category||"Other")},${esc(ex.description||"")},${ex.amount||0}\r\n`;
   });
 
-  csv += `\r\nLOAN INSTALLMENTS DUE THIS MONTH\r\nLoan,Due Date,Amount,Paid\r\n`;
+  csv += `\r\nLOAN INSTALLMENTS DUE THIS MONTH\r\nLoan,Due Date,Amount,Paid,Paid Amount,Remaining\r\n`;
   loanMonth.entries.forEach(item => {
-    csv += `${esc(item.loanName)},${esc(item.dueDate)},${item.amount||0},${item.paid?"Yes":"No"}\r\n`;
+    const installmentPaid=Math.min(Number(item.paidAmount)||0,Number(item.amount)||0);
+    csv += `${esc(item.loanName)},${esc(item.dueDate)},${item.amount||0},${item.paid?"Yes":"No"},${installmentPaid},${round2((Number(item.amount)||0)-installmentPaid)}\r\n`;
   });
 
   csv += `\r\nGROCERIES\r\nItem,Quantity,Unit Price,Total,Checked\r\n`;
