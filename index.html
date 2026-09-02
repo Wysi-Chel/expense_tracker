@@ -91,7 +91,6 @@
     body { margin:0; min-height:100svh; min-height:100dvh; font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; background:linear-gradient(180deg,#f8fbff 0%,#f6f7fb 100%); color:var(--text); overflow-x:hidden; font-weight:400; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
     .container { max-width:1240px; margin:0 auto; padding:var(--space-2xl); }
     .hero { display:flex; justify-content:space-between; gap:var(--space-xl); align-items:end; margin-bottom:var(--space-xl); }
-    .eyebrow { margin:0 0 var(--space-sm); color:var(--blue); font-weight:700; font-size:0.84rem; letter-spacing:0.08em; text-transform:uppercase; }
     h1 { margin:0; font-size:clamp(1.8rem,2.2vw,3rem); font-weight:800; line-height:1.05; }
     .subtext { margin-top:var(--space-sm); color:var(--muted); max-width:680px; line-height:1.55; }
     .card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:var(--space-xl); box-shadow:var(--shadow); contain:layout paint; will-change:transform; transition:transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base); }
@@ -112,13 +111,6 @@
     .stat-value { font-size:clamp(1.4rem,2vw,1.9rem); font-weight:700; line-height:1.1; overflow-wrap:anywhere; }
     .positive-text { color:#047857; }
     .negative-text { color:#dc2626; }
-    .notice-card { margin-bottom:var(--space-lg); transition:var(--transition-base); }
-    .notice-card.neutral { background:#f8fafc; }
-    .notice-card.good { background:#ecfdf5; border-color:#d1fae5; }
-    .notice-card.warn { background:#fffbeb; border-color:#fde68a; }
-    .notice-card.danger { background:#fef2f2; border-color:#fecaca; }
-    .notice-title { font-weight:700; margin-bottom:var(--space-xs); }
-    .notice-card p { margin:0; color:#374151; }
     .top-grid { display:grid; grid-template-columns:1fr 1.2fr; gap:var(--space-lg); margin-bottom:var(--space-lg); }
     .section-head { display:flex; align-items:flex-start; justify-content:space-between; gap:var(--space-md); margin-bottom:14px; }
     h2 { margin:0; font-size:1.1rem; font-weight:700; }
@@ -211,11 +203,8 @@
     .summary-chip strong { font-size:1rem; }
     .grocery-actions { margin-top:var(--space-md); display:flex; justify-content:flex-end; }
 
-
     .mt-16 { margin-top: var(--space-lg); }
     .mb-16 { margin-bottom: var(--space-lg); }
-
-    .expense-filter-bar { margin-top: var(--space-lg); display: flex; align-items: center; gap: var(--space-sm); flex-wrap: wrap; }
     .expense-date-field { width: min(100%, 220px); }
     .expense-date-field input[type="date"] { width: 100%; min-width: 0; text-align: left; }
     .cash-flow-filter-bar { display: flex; align-items: center; gap: var(--space-sm); flex-wrap: wrap; }
@@ -244,7 +233,6 @@
     .modal-close-btn { background:#f1f5f9; color:var(--text); border-radius:var(--radius-sm); padding:var(--space-xs) var(--space-sm); font-size:1rem; font-weight:700; flex-shrink:0; min-height:44px; min-width:44px; transition:var(--transition-base); }
     .modal-close-btn:hover { background:#e2e8f0; transform:translateY(-1px); }
 
-
     /* Finance Hub visual upgrade */
     body::before, body::after { content:""; position:fixed; width:420px; height:420px; border-radius:50%; filter:blur(90px); opacity:.18; pointer-events:none; z-index:-1; }
     body::before { background:#2563eb; top:-160px; right:-120px; }
@@ -252,41 +240,23 @@
     .hero { position:relative; overflow:hidden; align-items:center; padding:34px; border-radius:var(--radius-xl); background:linear-gradient(135deg,#0f172a 0%,#172554 48%,#312e81 100%); color:white; box-shadow:0 28px 70px rgba(15,23,42,.22); }
     .hero::after { content:""; position:absolute; width:280px; height:280px; right:-70px; top:-120px; border-radius:50%; background:radial-gradient(circle,rgba(255,255,255,.24),transparent 68%); }
     .hero > * { position:relative; z-index:1; }
-    .hero .eyebrow { color:#a5b4fc; margin-top:10px; }
     .hero h1 span { background:linear-gradient(90deg,#93c5fd,#c4b5fd,#f9a8d4); -webkit-background-clip:text; background-clip:text; color:transparent; }
     .hero .subtext { color:#cbd5e1; font-size:1rem; line-height:1.55; }
-    .hero-kicker { display:inline-flex; align-items:center; gap:var(--space-sm); padding:7px 11px; border:1px solid rgba(255,255,255,.15); background:rgba(255,255,255,.08); border-radius:999px; color:#e2e8f0; font-size:.77rem; font-weight:700; letter-spacing:.06em; }
-    .live-dot { width:8px; height:8px; border-radius:50%; background:#34d399; box-shadow:0 0 0 5px rgba(52,211,153,.12); }
-    .hero-pills { display:flex; gap:var(--space-sm); flex-wrap:wrap; margin-top:18px; }
-    .hero-pills span { padding:7px 10px; border-radius:999px; background:rgba(255,255,255,.08); color:#e2e8f0; font-size:.78rem; letter-spacing:0.02em; }
     .hero .month-box { border-color:rgba(255,255,255,.14); background:rgba(255,255,255,.1); backdrop-filter:blur(16px); box-shadow:none; }
     .hero .month-box label { color:#cbd5e1; }
     .hero .month-box input { background:rgba(255,255,255,.95); width:100%; }
     .stat-card { position:relative; overflow:hidden; min-height:142px; padding-top:50px; }
     .stat-card:hover { transform:translateY(-3px); box-shadow:0 22px 55px rgba(15,23,42,.12); border-color:#cbd5e1; }
     .stat-card::after { content:""; position:absolute; inset:auto -30px -45px auto; width:110px; height:110px; border-radius:50%; background:linear-gradient(135deg,rgba(37,99,235,.08),transparent); }
-    .stat-icon { position:absolute; top:16px; left:18px; width:28px; height:28px; display:grid; place-items:center; border-radius:var(--radius-sm); font-size:.9rem; font-weight:900; }
-    .stat-icon-income { background:#dcfce7; color:#047857; }
-    .stat-icon-bills { background:#fef3c7; }
-    .stat-icon-expense { background:#fee2e2; color:#b91c1c; }
-    .stat-icon-grocery { background:#e0f2fe; }
-    .stat-icon-loan { background:#ede9fe; }
-    .stat-icon-balance { background:#ecfdf5; }
     .stat-hint { display:block; margin-top:var(--space-sm); color:var(--muted); font-size:.76rem; }
     .income-stat-card { background:linear-gradient(145deg,#ffffff,#f0fdf4); }
     .loan-stat-card { background:linear-gradient(145deg,#ffffff,#f5f3ff); }
-    .remaining-stat-card { background:linear-gradient(145deg,#ffffff,#eff6ff); }
     .sync-card { border-style:dashed; background:rgba(255,255,255,.78); backdrop-filter:blur(14px); }
-    .notice-card { border-left:5px solid #94a3b8; }
-    .notice-card.good { border-left-color:#10b981; }
-    .notice-card.warn { border-left-color:#f59e0b; }
-    .notice-card.danger { border-left-color:#ef4444; }
     .section-open-btn { min-height:94px; overflow:hidden; position:relative; }
     .section-open-btn::after { content:"→"; position:absolute; right:22px; bottom:13px; opacity:.2; font-size:1.5rem; }
     .section-open-loans { background:linear-gradient(135deg,#fff,#f5f3ff); border-color:#ddd6fe; }
     .section-btn-copy { display:flex; align-items:center; gap:var(--space-md); }
-    .section-btn-copy strong, .section-btn-copy small { display:block; }
-    .section-btn-copy small { color:var(--muted); font-size:.75rem; margin-top:4px; font-weight:500; }
+    .section-btn-copy strong { display:block; }
     .section-btn-icon { width:42px; height:42px; display:grid; place-items:center; border-radius:13px; background:#ede9fe; font-size:1.2rem; }
     .dot.loans { background:#8b5cf6; }
     .modal-eyebrow { color:#7c3aed; font-size:.76rem; font-weight:800; text-transform:uppercase; letter-spacing:.08em; margin-bottom:5px; }
@@ -367,9 +337,6 @@
     @media (max-width:640px) {
       .container { padding:14px; }
       .hero { padding:22px; border-radius:22px; gap:var(--space-lg); }
-      .hero-kicker { line-height:1.25; }
-      .hero-pills { margin-top:14px; }
-      .hero-pills span { flex:1 1 calc(50% - 8px); text-align:center; }
       h1 { font-size:1.7rem; }
       h2 { font-size:1rem; }
       .subtext { font-size:0.9rem; }
@@ -379,7 +346,6 @@
       .month-box input[type="month"] { width:100%; min-height:44px; padding:10px 44px 10px 12px; -webkit-appearance:none; appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2' ry='2'/%3E%3Cline x1='16' y1='2' x2='16' y2='6'/%3E%3Cline x1='8' y1='2' x2='8' y2='6'/%3E%3Cline x1='3' y1='10' x2='21' y2='10'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 12px center; background-size:18px; }
       input[type="month"]::-webkit-calendar-picker-indicator { position:absolute; right:0; top:0; width:44px; height:44px; opacity:0; cursor:pointer; }
       .stat-card { min-height:118px; padding:44px 12px 14px; }
-      .stat-icon { top:12px; left:12px; }
       .stat-label { font-size:0.78rem; margin-bottom:var(--space-xs); }
       .stat-value { font-size:1.12rem; }
       .stat-hint { font-size:0.72rem; }
@@ -387,9 +353,9 @@
       .sync-card input { max-width:100%; }
       .sync-card button, .sync-card .badge { width:100%; }
       .section-head { flex-direction:column; align-items:stretch; gap:10px; }
-      .cash-flow-filter-bar, .expense-filter-bar { width:100%; flex-direction:column; align-items:stretch; gap:var(--space-sm); }
-      .cash-flow-filter-bar label, .expense-filter-bar label { display:block !important; margin:0 !important; }
-      .cash-flow-filter-bar select, .expense-filter-bar select { width:100% !important; min-width:0; display:block !important; }
+      .cash-flow-filter-bar { width:100%; flex-direction:column; align-items:stretch; gap:var(--space-sm); }
+      .cash-flow-filter-bar label { display:block !important; margin:0 !important; }
+      .cash-flow-filter-bar select { width:100% !important; min-width:0; display:block !important; }
       .field.action-field { align-items:stretch; }
       input, select { padding:10px 11px; font-size:0.93rem; }
       button { min-height:44px; padding:10px 13px; font-size:0.93rem; }
@@ -397,7 +363,7 @@
       .content-grid-btns { grid-template-columns:1fr; }
       .section-open-btn { min-height:auto; padding:15px var(--space-lg); font-size:0.95rem; border-radius:var(--radius-md); }
       .section-open-btn > span:first-child, .section-btn-copy { min-width:0; }
-      .section-btn-copy strong, .section-btn-copy small { overflow-wrap:anywhere; }
+      .section-btn-copy strong { overflow-wrap:anywhere; }
       .section-btn-icon { flex:0 0 38px; width:38px; height:38px; }
       .section-modal { height:100dvh; }
       .section-modal.show { display:flex; align-items:center; justify-content:center; padding:var(--space-sm); }
@@ -468,10 +434,8 @@
       .card { padding:var(--space-md); border-radius:var(--radius-sm); }
       h1 { font-size:1.4rem; }
       h2 { font-size:0.95rem; }
-      .eyebrow { font-size:0.75rem; }
       .subtext { font-size:0.85rem; }
       .hero { padding:18px; gap:var(--space-md); }
-      .hero-pills span { flex-basis:100%; }
       .summary-grid { gap:var(--space-xs); }
       .stat-card { min-height:110px; padding:40px 10px 12px; }
       .stat-value { font-size:1.02rem; }
@@ -601,17 +565,6 @@
       font-size: 0.78rem;
     }
 
-    .app-status-pill {
-      padding: 8px 10px;
-      border: 1px solid #cfd9d5;
-      border-radius: 999px;
-      background: #ffffff;
-      color: #28524d;
-      font-size: 0.78rem;
-      font-weight: 800;
-      white-space: nowrap;
-    }
-
     .topbar-actions {
       display: flex;
       align-items: center;
@@ -660,20 +613,6 @@
       justify-content: center;
     }
 
-    .hero-kicker {
-      width: fit-content;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.18);
-      background: rgba(255,255,255,0.10);
-      color: #eaf4f1;
-      letter-spacing: 0.04em;
-    }
-
-    .hero .eyebrow {
-      margin-top: 12px;
-      color: #b9d9d2;
-    }
-
     .hero h1 {
       margin-top: 0;
       font-size: clamp(1.85rem,4vw,3rem);
@@ -690,18 +629,6 @@
       margin: 10px 0 0;
       color: #dce9e6;
       font-size: 0.98rem;
-    }
-
-    .hero-pills {
-      margin-top: 18px;
-      gap: 8px;
-    }
-
-    .hero-pills span {
-      border: 1px solid rgba(255,255,255,0.16);
-      border-radius: 999px;
-      background: rgba(255,255,255,0.10);
-      color: #eef7f4;
     }
 
     .hero .month-box {
@@ -786,22 +713,6 @@
       animation: fadeInUp 0.34s ease-out both;
     }
 
-    .stat-icon {
-      top: 14px;
-      left: 14px;
-      width: 30px;
-      height: 30px;
-      border-radius: 8px;
-      font-size: 0.92rem;
-    }
-
-    .stat-icon-income { background: #dff4ea; color: #12664d; }
-    .stat-icon-bills { background: #fff2d6; color: #9a5b11; }
-    .stat-icon-expense { background: #ffe3df; color: #a33a34; }
-    .stat-icon-grocery { background: #dff0ff; color: #225e83; }
-    .stat-icon-loan { background: #ece7ff; color: #5740a5; }
-    .stat-icon-balance { background: #e3f8e9; color: #14683f; }
-
     .stat-label {
       font-size: 0.76rem;
       font-weight: 800;
@@ -814,15 +725,8 @@
     }
 
     .income-stat-card,
-    .loan-stat-card,
-    .remaining-stat-card {
+    .loan-stat-card {
       background: #ffffff;
-    }
-
-    .dashboard-status-card {
-      margin-bottom: 14px;
-      padding: 16px 18px;
-      border-left-width: 4px;
     }
 
     .dashboard-payment-calendar {
@@ -932,14 +836,9 @@
       font-size: 1.05rem;
     }
 
-    .section-btn-copy strong,
-    .section-btn-copy small {
+    .section-btn-copy strong {
       overflow: hidden;
       text-overflow: ellipsis;
-    }
-
-    .section-btn-copy small {
-      color: var(--muted);
     }
 
     .badge {
@@ -1014,7 +913,6 @@
 
       .brand-lockup strong { font-size: 0.9rem; }
       .brand-lockup span { font-size: 0.72rem; }
-      .app-status-pill { padding: 7px 8px; font-size: 0.72rem; }
       .topbar-actions { gap: 6px; }
       .theme-toggle { padding: 7px 8px; font-size: 0.72rem; }
 
@@ -1032,19 +930,6 @@
         font-size: 0.9rem;
       }
 
-      .hero-pills {
-        display: grid;
-        grid-template-columns: repeat(3,minmax(0,1fr));
-        gap: 6px;
-      }
-
-      .hero-pills span {
-        min-width: 0;
-        padding: 7px 6px;
-        font-size: 0.68rem;
-        text-align: center;
-      }
-
       .summary-grid {
         grid-template-columns: repeat(2,minmax(0,1fr));
         gap: 8px;
@@ -1055,11 +940,6 @@
         padding: 42px 10px 12px;
       }
 
-      .stat-icon {
-        top: 10px;
-        left: 10px;
-      }
-
       .stat-label {
         font-size: 0.68rem;
       }
@@ -1068,7 +948,6 @@
         font-size: 1rem;
       }
 
-      .dashboard-status-card,
       .dashboard-card,
       .toolbar-card,
       .footer-card {
@@ -1114,8 +993,7 @@
       }
 
       .section-open-btn::after,
-      .section-open-btn .badge,
-      .section-btn-copy small {
+      .section-open-btn .badge {
         display: none;
       }
 
@@ -1177,7 +1055,6 @@
     }
 
     @media (max-width: 430px) {
-      .hero-pills { grid-template-columns: 1fr; }
       .summary-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
       .stat-value { font-size: 0.94rem; }
       .section-btn-copy strong { font-size: 0.58rem; }
@@ -1391,7 +1268,6 @@
       color: inherit;
     }
 
-    html[data-theme="dark"] .app-status-pill,
     html[data-theme="dark"] .theme-toggle,
     html[data-theme="dark"] .badge {
       border-color: #35504a;
@@ -1460,7 +1336,6 @@
     html[data-theme="dark"] .stat-card,
     html[data-theme="dark"] .income-stat-card,
     html[data-theme="dark"] .loan-stat-card,
-    html[data-theme="dark"] .remaining-stat-card,
     html[data-theme="dark"] .section-open-btn,
     html[data-theme="dark"] .section-open-loans,
     html[data-theme="dark"] .section-modal-content,
@@ -1493,28 +1368,11 @@
       color: #9ee6d6;
     }
 
-    html[data-theme="dark"] .notice-card.neutral {
-      background: #13231f;
-      border-color: #30463f;
-    }
-
-    html[data-theme="dark"] .notice-card.good {
-      background: #0f2a22;
-      border-color: #24654f;
-    }
-
-    html[data-theme="dark"] .notice-card.warn {
-      background: #2a2110;
-      border-color: #8a6120;
-    }
-
-    html[data-theme="dark"] .notice-card.danger,
     html[data-theme="dark"] .schedule-row.overdue:not(.paid) {
       background: #2b1717;
       border-color: #7f3535;
     }
 
-    html[data-theme="dark"] .notice-card p,
     html[data-theme="dark"] #incomeBreakdown,
     html[data-theme="dark"] .loan-progress-head,
     html[data-theme="dark"] .bill-calendar-weekday,
@@ -1627,6 +1485,228 @@
     }
 
     .visually-hidden { position:absolute !important; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; }
+
+    /* ==================================================================
+       Interface pass: quieter surfaces, and the weekly / budget views.
+       ================================================================== */
+
+    /* Cards sat on hover lifts, entrance animations and decorative arrows.
+       They read as motion for its own sake, so they are off. */
+    .card { transition: border-color var(--transition-fast); }
+    .card:hover { transform: none; box-shadow: var(--shadow); }
+    .summary-grid > .card, .stat-card, .section-open-btn { animation: none; }
+    .section-open-btn:hover { transform: none; }
+    .section-open-btn::after { content: none; }
+    .mini-stats div:hover { transform: none; box-shadow: none; }
+    .row-delete:hover { transform: none; }
+    button:hover { transform: none; filter: none; }
+
+    /* Hero now carries the month's headline number instead of taglines. */
+    .hero { padding: 22px; border-left: 4px solid rgba(255,255,255,0.2); }
+    .hero.is-good { border-left-color: #4ade80; }
+    .hero.is-warn { border-left-color: #fbbf24; }
+    .hero.is-danger { border-left-color: #f87171; }
+    .hero-month { margin: 0; color: #a8ccc4; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+    .hero h1 { margin: 8px 0 0; font-size: clamp(2rem,5vw,3rem); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+    .hero.is-danger h1 { color: #ffbdb7; }
+    .hero-lead { margin: 6px 0 0; color: #cfe3df; font-size: 0.96rem; }
+    .hero-lead strong { color: #ffffff; font-variant-numeric: tabular-nums; }
+    .hero .subtext { margin-top: 14px; max-width: 60ch; color: #b3cbc6; font-size: 0.9rem; }
+
+    /* Stat tiles lost their decorative glyphs, so reclaim the space. */
+    .stat-card { min-height: 0; padding: 16px 18px; overflow: visible; }
+    .stat-label { margin-bottom: 6px; font-size: 0.82rem; letter-spacing: 0.01em; }
+    .stat-value { font-size: clamp(1.25rem,1.8vw,1.6rem); font-variant-numeric: tabular-nums; }
+    .stat-hint { display: block; margin-top: 5px; color: var(--muted); font-size: 0.76rem; }
+
+    /* Budget alerts */
+    .alert-strip { display: grid; grid-template-columns: repeat(auto-fit,minmax(230px,1fr)); gap: var(--space-md); margin-bottom: var(--space-lg); }
+    .alert-item { display: grid; gap: 3px; padding: 11px 14px; border: 1px solid; border-radius: var(--radius-md); text-align: left; cursor: pointer; font-weight: 400; }
+    .alert-item strong { font-size: 0.93rem; }
+    .alert-item span { font-size: 0.84rem; opacity: 0.9; }
+    .alert-item.is-warn { border-color: #f2ce7a; background: #fdf6e6; color: #855415; }
+    .alert-item.is-over { border-color: #f0a9a4; background: #fdefee; color: #96322c; }
+    .alert-item:hover { filter: brightness(0.98); }
+
+    /* Tabs inside the expenses modal */
+    .tab-bar { display: flex; gap: 4px; margin: var(--space-xl) 0 var(--space-lg); padding: 4px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--color-bg); }
+    .tab-btn { flex: 1; min-height: 40px; padding: 8px 10px; border-radius: var(--radius-sm); background: transparent; color: var(--muted); font-size: 0.9rem; font-weight: 700; }
+    .tab-btn:hover { background: transparent; color: var(--text); }
+    .tab-btn.is-active { background: var(--card); color: var(--text); box-shadow: var(--shadow-sm); }
+    .tab-panel[hidden] { display: none; }
+
+    .filter-row { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: var(--space-md); margin-bottom: var(--space-md); }
+    .filter-row label { font-size: 0.8rem; }
+    .result-line { margin: 0 0 var(--space-sm); color: var(--muted); font-size: 0.85rem; font-variant-numeric: tabular-nums; }
+    .panel-note { margin: var(--space-lg) 0 0; color: var(--muted); font-size: 0.82rem; line-height: 1.55; }
+
+    .metric-row { display: grid; grid-template-columns: repeat(auto-fit,minmax(132px,1fr)); gap: var(--space-md); margin-bottom: var(--space-lg); }
+    .metric-row > div { padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--color-bg); }
+    .metric-row span { display: block; margin-bottom: 3px; color: var(--muted); font-size: 0.78rem; }
+    .metric-row strong { font-size: 1.02rem; font-variant-numeric: tabular-nums; }
+
+    /* Weekly bars on the dashboard */
+    .week-bars { display: grid; gap: var(--space-lg); }
+    .week-bar.is-future { opacity: 0.45; }
+    .week-bar-head { display: flex; justify-content: space-between; gap: var(--space-sm); margin-bottom: 6px; color: var(--muted); font-size: 0.82rem; }
+    .week-bar-head span:first-child { color: var(--text); font-weight: 700; }
+    .week-bar-track { height: 8px; border: 1px solid var(--border); border-radius: 999px; background: var(--color-bg); overflow: hidden; }
+    .week-bar-fill { height: 100%; border-radius: 999px; background: var(--color-primary); }
+    .week-bar.is-current .week-bar-fill { background: #e08a1e; }
+    .week-bar-foot { display: flex; justify-content: space-between; gap: var(--space-sm); margin-top: 6px; color: var(--muted); font-size: 0.83rem; }
+    .week-bar-foot strong { color: var(--text); font-variant-numeric: tabular-nums; }
+
+    /* Weekly detail cards in the modal */
+    .week-list { display: grid; gap: var(--space-sm); }
+    .week-card { border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--card); }
+    .week-card.is-current { border-color: var(--color-primary); }
+    .week-card.is-over { border-color: #f0a9a4; }
+    .week-card > summary { display: flex; align-items: center; justify-content: space-between; gap: var(--space-md); padding: 12px 14px; cursor: pointer; list-style: none; }
+    .week-card > summary::-webkit-details-marker { display: none; }
+    .week-card > summary:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--color-ring); border-radius: var(--radius-md); }
+    .week-card-title { display: grid; gap: 2px; min-width: 0; }
+    .week-card-title strong { font-size: 0.96rem; }
+    .week-card-title > span { color: var(--muted); font-size: 0.81rem; }
+    .week-card-figure { display: grid; gap: 2px; text-align: right; }
+    .week-card-figure strong { font-size: 1.05rem; font-variant-numeric: tabular-nums; }
+    .week-card-figure span { color: var(--muted); font-size: 0.79rem; }
+    .week-card-body { padding: 0 14px 14px; }
+    .week-card-meta, .week-card-empty { margin: 10px 0 0; color: var(--muted); font-size: 0.85rem; line-height: 1.5; }
+    .over-text { color: var(--color-danger); font-weight: 700; }
+    .under-text { color: #0f766e; font-weight: 700; }
+    .week-item-list { display: grid; gap: 1px; margin: 12px 0 0; padding: 0; list-style: none; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--border); overflow: hidden; }
+    .week-item-list li { display: grid; grid-template-columns: 96px minmax(0,1fr) auto auto; align-items: center; gap: var(--space-sm); padding: 8px 11px; background: var(--card); font-size: 0.88rem; }
+    .week-item-date { color: var(--muted); font-size: 0.8rem; white-space: nowrap; }
+    .week-item-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .week-item-tag { padding: 2px 8px; border-radius: 999px; background: var(--color-bg); color: var(--muted); font-size: 0.73rem; white-space: nowrap; }
+    .week-item-amount { font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+    /* Category budgets */
+    .category-name { margin-bottom: 6px; font-weight: 700; }
+    .category-track { width: 100%; max-width: 190px; height: 6px; border: 1px solid var(--border); border-radius: 999px; background: var(--color-bg); overflow: hidden; }
+    .category-fill { height: 100%; background: var(--color-primary); }
+    .category-row.is-warn .category-fill { background: #e08a1e; }
+    .category-row.is-over .category-fill { background: var(--color-danger); }
+    .category-row.is-none .category-fill { background: var(--color-border); }
+    .category-limit-input { width: 118px !important; padding: 7px 9px !important; font-size: 0.88rem; }
+    .status-tag { display: inline-flex; padding: 3px 9px; border-radius: 999px; background: var(--color-bg); color: var(--muted); font-size: 0.76rem; font-weight: 700; white-space: nowrap; }
+    .status-tag.is-ok { background: #e6f6ee; color: #12664d; }
+    .status-tag.is-warn { background: #fdf3e0; color: #855415; }
+    .status-tag.is-over { background: #fdeceb; color: #96322c; }
+
+    @media (max-width: 820px) {
+      .filter-row { grid-template-columns: 1fr 1fr; }
+      .filter-row .field:first-child { grid-column: 1 / -1; }
+    }
+
+    @media (max-width: 720px) {
+      .hero { padding: 18px; }
+      .week-item-list li { grid-template-columns: minmax(0,1fr) auto; row-gap: 3px; padding: 9px 11px; }
+      .week-item-date { grid-column: 1 / -1; }
+      .week-item-tag { justify-self: start; }
+      .week-card > summary { padding: 11px 12px; }
+      .category-track { max-width: 150px; justify-self: end; }
+      .tab-bar { margin-top: var(--space-lg); }
+      .tab-btn { font-size: 0.85rem; padding: 8px 6px; }
+    }
+
+    /* The donut and its legend want the full row; without this the second
+       grid column sat empty next to it. */
+    .dashboard-grid .breakdown-card { grid-column: 1 / -1; }
+    .breakdown-card .chart-row { justify-content: space-between; }
+    .breakdown-card .legend { max-width: 640px; }
+
+    /* Five fixed columns clipped the button labels on narrow desktops. Scoped
+       above 640px so the fixed bottom bar on phones keeps its own layout. */
+    @media (min-width: 641px) {
+      .content-grid-btns { grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); }
+      .section-open-btn { min-height: 0; padding: 14px 16px; flex-direction: column; align-items: flex-start; gap: 10px; }
+      .section-btn-copy { align-items: center; gap: 10px; width: 100%; }
+      .section-btn-copy strong { overflow: visible; text-overflow: clip; font-size: 0.95rem; line-height: 1.25; }
+    }
+
+    /* Calendar: Monday-first, with an eighth column totalling each week. */
+    .bill-calendar-grid { grid-template-columns: repeat(7,minmax(0,1fr)) minmax(94px,0.82fr); }
+    .bill-calendar-weekday.is-week { text-align: right; }
+    .bill-calendar-item.is-expense { background: #eaf1fb; border-color: #c4d7f2; color: #1d3a67; }
+    .bill-calendar-item.is-more { font-weight: 700; }
+    .bill-calendar-spent { color: #1d3a67; font-size: 0.7rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+    .bill-calendar-week {
+      display: grid;
+      align-content: start;
+      gap: 3px;
+      min-height: 108px;
+      padding: 8px;
+      border: 1px solid #cfe0da;
+      border-radius: 8px;
+      background: #eff6f3;
+      color: var(--text);
+      text-align: left;
+      font-weight: 400;
+      cursor: pointer;
+    }
+    .bill-calendar-week:hover { border-color: #256f67; background: #e6f1ed; }
+    .bill-calendar-week:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--color-ring); }
+    .bill-calendar-week.is-current { border-color: #256f67; box-shadow: 0 0 0 2px rgba(37,111,103,0.12); }
+    .bill-calendar-week-name { color: #5c6f6a; font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; }
+    .bill-calendar-week strong { font-size: 0.95rem; font-variant-numeric: tabular-nums; }
+    .bill-calendar-week-note { display: grid; gap: 1px; color: #5c6f6a; font-size: 0.69rem; line-height: 1.35; }
+
+    @media (max-width: 640px) {
+      /* No room for a ninth of the width, so the week total becomes a band. */
+      .bill-calendar-grid { grid-template-columns: repeat(7,minmax(0,1fr)); }
+      .bill-calendar-weekday.is-week { display: none; }
+      .bill-calendar-week {
+        grid-column: 1 / -1;
+        min-height: 0;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 4px 10px;
+        margin-bottom: 6px;
+        padding: 7px 10px;
+      }
+      .bill-calendar-week-note { display: flex; flex-wrap: wrap; gap: 4px 10px; margin-left: auto; }
+      .bill-calendar-spent { font-size: 0.64rem; }
+    }
+
+    html[data-theme="dark"] .bill-calendar-item.is-expense { background: #17293f; border-color: #2b4258; color: #b9d2f2; }
+    html[data-theme="dark"] .bill-calendar-spent { color: #9dc2ee; }
+    html[data-theme="dark"] .bill-calendar-week { background: #16241f; border-color: #2f443e; }
+    html[data-theme="dark"] .bill-calendar-week:hover { background: #1b2d27; border-color: #58c7b2; }
+    html[data-theme="dark"] .bill-calendar-week-name,
+    html[data-theme="dark"] .bill-calendar-week-note { color: #9aaca6; }
+
+    .bill-calendar-item-meta { display: flex; justify-content: space-between; align-items: baseline; gap: 6px; }
+    .bill-calendar-item-meta .cal-category { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .bill-calendar-item-meta .cal-amount { font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+    @media (max-width: 640px) {
+      /* A 50px-wide cell fits an amount and nothing else. */
+      .bill-calendar-spent { display: none; }
+      .bill-calendar-item.is-expense strong,
+      .bill-calendar-item-meta .cal-category { display: none; }
+      .bill-calendar-item.is-expense { padding: 4px 5px; font-size: 0.64rem; text-align: right; }
+    }
+
+    /* Dark theme for the new surfaces */
+    html[data-theme="dark"] .tab-bar { background: #101c19; border-color: #2b3d38; }
+    html[data-theme="dark"] .tab-btn.is-active { background: #1d2f2a; color: #e5f0ec; }
+    html[data-theme="dark"] .metric-row > div,
+    html[data-theme="dark"] .week-bar-track,
+    html[data-theme="dark"] .category-track,
+    html[data-theme="dark"] .week-item-tag,
+    html[data-theme="dark"] .status-tag { background: #101c19; border-color: #2b3d38; }
+    html[data-theme="dark"] .week-card,
+    html[data-theme="dark"] .week-item-list li { background: #15231f; }
+    html[data-theme="dark"] .week-item-list { background: #2b3d38; border-color: #2b3d38; }
+    html[data-theme="dark"] .status-tag.is-ok { background: #16352a; color: #7fdcb4; }
+    html[data-theme="dark"] .status-tag.is-warn { background: #3a2f18; color: #f0c47a; }
+    html[data-theme="dark"] .status-tag.is-over { background: #3b1f1d; color: #f5a6a0; }
+    html[data-theme="dark"] .alert-item.is-warn { background: #2e2617; border-color: #5c4a24; color: #f0c47a; }
+    html[data-theme="dark"] .alert-item.is-over { background: #331d1b; border-color: #6a3733; color: #f5a6a0; }
+    html[data-theme="dark"] .under-text { color: #5fd0a5; }
+    html[data-theme="dark"] .category-limit-input { background: #101c19; }
   </style>
 </head>
 <body>
@@ -1634,27 +1714,22 @@
     <div class="app-topbar">
       <div class="brand-lockup">
         <img class="brand-mark" src="assets/icon-192.png" alt="" width="38" height="38" aria-hidden="true" />
-        <div>
-          <strong>Chel's Finance Hub</strong>
-          <span>Mobile budget dashboard</span>
-        </div>
+        <strong>Chel's Finance Hub</strong>
       </div>
       <div class="topbar-actions">
-        <span class="app-status-pill">Local first</span>
         <button type="button" id="themeToggle" class="theme-toggle" aria-pressed="false">Dark mode</button>
       </div>
     </div>
 
-    <header class="hero dashboard-hero">
+    <header class="hero dashboard-hero" id="heroCard">
       <div class="dashboard-hero-copy">
-        <div class="hero-kicker"><span class="live-dot"></span> Dashboard</div>
-        <p class="eyebrow">Chel's Finance Hub</p>
-        <h1>Budget overview</h1>
-        <p class="subtext">Track income, bills, daily spending, groceries, loans, savings, and cash flow in one phone-friendly workspace.</p>
-        <div class="hero-pills"><span>Live budget</span><span>Firebase sync</span><span>Private sync key</span></div>
+        <p class="hero-month" id="monthName">This month</p>
+        <h1 id="heroRemaining">&#8369;0.00</h1>
+        <p class="hero-lead">left of <strong id="heroIncome">&#8369;0.00</strong> expected income</p>
+        <p class="subtext" id="statusText" aria-live="polite">Set your payroll settings to start tracking.</p>
       </div>
       <div class="month-box dashboard-month">
-        <label for="monthSelect">Selected Month</label>
+        <label for="monthSelect">Month</label>
         <input type="month" id="monthSelect" />
       </div>
     </header>
@@ -1662,7 +1737,7 @@
     <section class="card sync-card toolbar-card">
       <div style="flex:1;">
         <h2>Sync Key</h2>
-        <p class="muted" id="syncKeyHelp">Optional: use the same key on all devices, or leave blank for local-only saving.</p>
+        <p class="muted" id="syncKeyHelp">Use the same key on another device to share this data. Leave it blank to keep everything on this device.</p>
       </div>
       <label class="visually-hidden" for="syncKeyInput">Sync key</label>
       <input type="text" id="syncKeyInput" placeholder="" autocomplete="off" spellcheck="false" aria-describedby="syncKeyHelp syncKeyLabel" />
@@ -1672,47 +1747,40 @@
 
     <section class="summary-grid" aria-label="Dashboard summary">
       <article class="card stat-card income-stat-card">
-        <span class="stat-icon stat-icon-income" aria-hidden="true">&#8599;</span>
-        <span class="stat-label">Monthly Income</span>
+        <span class="stat-label">Income</span>
         <strong class="stat-value" id="salaryDisplay">&#8369;0.00</strong>
       </article>
       <article class="card stat-card">
-        <span class="stat-icon stat-icon-bills" aria-hidden="true">&#128203;</span>
-        <span class="stat-label">Bills Total</span>
+        <span class="stat-label">Bills</span>
         <strong class="stat-value" id="billsDisplay">&#8369;0.00</strong>
       </article>
       <article class="card stat-card">
-        <span class="stat-icon stat-icon-expense" aria-hidden="true">&#8595;</span>
         <span class="stat-label">Daily Expenses</span>
         <strong class="stat-value" id="expensesDisplay">&#8369;0.00</strong>
       </article>
       <article class="card stat-card">
-        <span class="stat-icon stat-icon-grocery" aria-hidden="true">&#128722;</span>
-        <span class="stat-label">Grocery Total</span>
+        <span class="stat-label">Groceries</span>
         <strong class="stat-value" id="groceryDisplay">&#8369;0.00</strong>
       </article>
       <article class="card stat-card loan-stat-card">
-        <span class="stat-icon stat-icon-loan" aria-hidden="true">&#127974;</span>
         <span class="stat-label">Loan Installments</span>
         <strong class="stat-value" id="loansDisplay">&#8369;0.00</strong>
         <small id="loansPaidHint" class="stat-hint">No payments due</small>
       </article>
-      <article class="card stat-card remaining-stat-card">
-        <span class="stat-icon stat-icon-balance" aria-hidden="true">&#10022;</span>
-        <span class="stat-label">Remaining Balance</span>
-        <strong class="stat-value" id="remainingDisplay">&#8369;0.00</strong>
+      <article class="card stat-card this-week-stat-card">
+        <span class="stat-label" id="thisWeekLabel">This Week</span>
+        <strong class="stat-value" id="thisWeekDisplay">&#8369;0.00</strong>
+        <small id="thisWeekHint" class="stat-hint">No expenses yet</small>
       </article>
     </section>
 
-    <section class="card notice-card neutral dashboard-status-card">
-      <div id="monthName" class="notice-title">Viewing this month</div>
-      <p id="statusText" aria-live="polite">Set your payroll settings to start tracking.</p>
-    </section>
+    <section class="alert-strip" id="budgetAlerts" aria-live="polite" hidden></section>
 
     <section class="card bill-calendar-panel dashboard-payment-calendar" aria-labelledby="billCalendarTitle">
       <div class="bill-calendar-head">
         <div>
-          <h2 id="billCalendarTitle">Payment Calendar</h2>
+          <h2 id="billCalendarTitle">Calendar</h2>
+          <p class="visually-hidden">Bills, loan installments and daily spending by date, with a total paid for each week.</p>
           <div class="bill-calendar-meta" id="billCalendarMeta">No payments scheduled.</div>
         </div>
         <div class="bill-calendar-summary" aria-live="polite">
@@ -1721,7 +1789,7 @@
         </div>
       </div>
       <div class="bill-calendar-grid" id="billCalendarGrid" aria-label="Monthly bills and loan payment calendar"></div>
-      <div class="bill-calendar-empty" id="billCalendarEmpty">Add bills with due days or loan schedules to see them on the calendar.</div>
+      <div class="bill-calendar-empty" id="billCalendarEmpty">Add a bill with a due day, a loan schedule, or a daily expense to fill the calendar.</div>
       <div class="bill-calendar-unscheduled" id="billCalendarUnscheduled"></div>
     </section>
 
@@ -1752,11 +1820,22 @@
       <p id="incomeBreakdown" style="margin-top:16px; font-size:0.9rem; color:#6b7280;">Expected Income Calculation: Not set</p>
     </section>
 
+    <section class="card mb-16 dashboard-card weekly-card">
+      <div class="section-head">
+        <div>
+          <h2>Weekly Spending</h2>
+          <p class="muted" id="weekBarsMeta">Monday to Sunday, within this month.</p>
+        </div>
+        <button type="button" id="openWeeklyBtn" class="small-btn ghost-btn">Details</button>
+      </div>
+      <div class="week-bars" id="weekBars"></div>
+      <p class="empty-state" id="weekBarsEmpty">No expenses recorded this month.</p>
+    </section>
+
     <section class="card mb-16 dashboard-card breakdown-card">
       <div class="section-head">
         <div>
-          <h2>Salary Breakdown</h2>
-          <p class="muted">Bills, daily expenses, and what is left.</p>
+          <h2>Where the money goes</h2>
         </div>
       </div>
       <div class="chart-row">
@@ -1799,8 +1878,7 @@
     <section class="card mb-16 dashboard-card cash-flow-card">
       <div class="section-head">
         <div>
-          <h2>Cash Flow Overview</h2>
-          <p class="muted">Track your income and expenses across all months.</p>
+          <h2>Cash Flow</h2>
         </div>
         <div class="cash-flow-filter-bar">
           <label for="cashFlowYearFilterMain">Year</label>
@@ -1827,23 +1905,23 @@
     <!-- Section Trigger Buttons -->
     <section class="content-grid-btns" aria-label="Quick actions">
       <button type="button" id="openBillsBtn" class="section-open-btn">
-        <span class="section-btn-copy"><span class="section-btn-icon" aria-hidden="true">&#128203;</span><span><strong>Monthly Bills</strong><small>Bills and due dates</small></span></span>
+        <span class="section-btn-copy"><span class="section-btn-icon" aria-hidden="true">&#128203;</span><strong>Monthly Bills</strong></span>
         <span class="badge" id="billsBadge">0 items</span>
       </button>
       <button type="button" id="openExpensesBtn" class="section-open-btn">
-        <span class="section-btn-copy"><span class="section-btn-icon" aria-hidden="true">&#8369;</span><span><strong>Daily Expenses</strong><small>Day-to-day spending</small></span></span>
+        <span class="section-btn-copy"><span class="section-btn-icon" aria-hidden="true">&#8369;</span><strong>Daily Expenses</strong></span>
         <span class="badge" id="expensesBadge">0 items</span>
       </button>
       <button type="button" id="openGroceriesBtn" class="section-open-btn">
-        <span class="section-btn-copy"><span class="section-btn-icon" aria-hidden="true">&#128722;</span><span><strong>Grocery List</strong><small>Shopping totals</small></span></span>
+        <span class="section-btn-copy"><span class="section-btn-icon" aria-hidden="true">&#128722;</span><strong>Grocery List</strong></span>
         <span class="badge" id="groceriesBadge">0 items</span>
       </button>
       <button type="button" id="openLoansBtn" class="section-open-btn section-open-loans">
-        <span class="section-btn-copy"><span class="section-btn-icon" aria-hidden="true">&#127974;</span><span><strong>Loan Tracker</strong><small>Installments &amp; schedules</small></span></span>
+        <span class="section-btn-copy"><span class="section-btn-icon" aria-hidden="true">&#127974;</span><strong>Loan Tracker</strong></span>
         <span class="badge" id="loansBadge">0 loans</span>
       </button>
       <button type="button" id="openSavingsBtn" class="section-open-btn">
-        <span class="section-btn-copy"><span class="section-btn-icon" aria-hidden="true">&#128179;</span><span><strong>Savings Goals</strong><small>Targets and progress</small></span></span>
+        <span class="section-btn-copy"><span class="section-btn-icon" aria-hidden="true">&#128179;</span><strong>Savings Goals</strong></span>
         <span class="badge" id="savingsBadge">0 goals</span>
       </button>
     </section>
@@ -1854,7 +1932,7 @@
         <div class="modal-header">
           <div>
             <h2 id="billsModalTitle">Monthly Bills</h2>
-            <p class="muted">Add fixed bills for the selected month.</p>
+            <p class="muted">Fixed bills for the selected month.</p>
           </div>
           <button type="button" class="modal-close-btn" id="closeBillsBtn">&#10005; Close</button>
         </div>
@@ -1895,7 +1973,7 @@
         <div class="modal-header">
           <div>
             <h2 id="expensesModalTitle">Daily Expenses</h2>
-            <p class="muted">Track day-to-day spending for the selected month.</p>
+            <p class="muted">Day-to-day spending for the selected month.</p>
           </div>
           <button type="button" class="modal-close-btn" id="closeExpensesBtn">&#10005; Close</button>
         </div>
@@ -1906,11 +1984,7 @@
           </div>
           <div class="field">
             <label for="expenseCategory">Category</label>
-            <select id="expenseCategory">
-              <option>Food</option><option>Transport</option><option>Groceries</option>
-              <option>Utilities</option><option>Load/Data</option><option>Entertainment</option>
-              <option>Health</option><option>Other</option>
-            </select>
+            <select id="expenseCategory"></select>
           </div>
           <div class="field">
             <label for="expenseDescription">Description</label>
@@ -1924,25 +1998,71 @@
             <button type="submit" class="full-btn">Add Expense</button>
           </div>
         </form>
-        <div class="expense-filter-bar mt-16">
-          <label for="expenseCategoryFilter" style="display:inline;margin-right:8px;">Filter by Category:</label>
-          <select id="expenseCategoryFilter" style="width:auto;display:inline-block;">
-            <option value="">All</option>
-            <option>Food</option><option>Transport</option><option>Groceries</option>
-            <option>Utilities</option><option>Load/Data</option><option>Entertainment</option>
-            <option>Health</option><option>Other</option>
-          </select>
+        <div class="tab-bar" role="tablist" aria-label="Expense views">
+          <button type="button" class="tab-btn is-active" role="tab" id="expenseTabList" aria-selected="true" aria-controls="expensePanelList" data-expense-tab="list">List</button>
+          <button type="button" class="tab-btn" role="tab" id="expenseTabWeekly" aria-selected="false" aria-controls="expensePanelWeekly" data-expense-tab="weekly">Weekly</button>
+          <button type="button" class="tab-btn" role="tab" id="expenseTabCategories" aria-selected="false" aria-controls="expensePanelCategories" data-expense-tab="categories">Categories</button>
         </div>
-        <div class="table-wrap mt-16">
-          <table class="table" id="expensesTable">
-            <thead>
-              <tr>
-                <th>Date</th><th>Category</th><th>Description</th><th>Amount</th><th></th>
-              </tr>
-            </thead>
-            <tbody id="expensesBody"></tbody>
-          </table>
-          <p class="empty-state" id="expensesEmpty">No daily expenses added for this month yet.</p>
+
+        <div class="tab-panel" id="expensePanelList" role="tabpanel" aria-labelledby="expenseTabList">
+          <div class="filter-row">
+            <div class="field">
+              <label for="expenseSearch">Search</label>
+              <input type="search" id="expenseSearch" placeholder="Description or category" autocomplete="off" />
+            </div>
+            <div class="field">
+              <label for="expenseCategoryFilter">Category</label>
+              <select id="expenseCategoryFilter"></select>
+            </div>
+            <div class="field">
+              <label for="expenseSort">Sort</label>
+              <select id="expenseSort">
+                <option value="date-desc">Newest first</option>
+                <option value="date-asc">Oldest first</option>
+                <option value="amount-desc">Largest amount</option>
+                <option value="amount-asc">Smallest amount</option>
+              </select>
+            </div>
+          </div>
+          <p class="result-line" id="expenseResultLine" aria-live="polite"></p>
+          <div class="table-wrap">
+            <table class="table" id="expensesTable">
+              <thead>
+                <tr>
+                  <th>Date</th><th>Category</th><th>Description</th><th>Amount</th><th></th>
+                </tr>
+              </thead>
+              <tbody id="expensesBody"></tbody>
+            </table>
+            <p class="empty-state" id="expensesEmpty">Nothing recorded for this month yet.</p>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="expensePanelWeekly" role="tabpanel" aria-labelledby="expenseTabWeekly" hidden>
+          <div class="metric-row">
+            <div><span>Weeks</span><strong id="weekCount">0</strong></div>
+            <div><span>Highest week</span><strong id="weekHighest">&#8369;0.00</strong></div>
+            <div><span>Average per week</span><strong id="weekAverage">&#8369;0.00</strong></div>
+            <div><span>Weekly allowance</span><strong id="weekAllowance">&#8369;0.00</strong></div>
+          </div>
+          <div class="week-list" id="weeklyList"></div>
+          <p class="empty-state" id="weeklyEmpty">Nothing recorded for this month yet.</p>
+          <p class="panel-note">Weeks run Monday to Sunday, cut at the month edges. The allowance is income minus bills and loan installments, spread across the weeks.</p>
+        </div>
+
+        <div class="tab-panel" id="expensePanelCategories" role="tabpanel" aria-labelledby="expenseTabCategories" hidden>
+          <div class="table-wrap">
+            <table class="table" id="categoryTable">
+              <thead>
+                <tr>
+                  <th>Category</th><th>Spent</th><th>Share</th><th>Monthly limit</th><th>Left</th><th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="categoryBody"></tbody>
+            </table>
+            <p class="empty-state" id="categoryEmpty">Add an expense or set a limit to see the breakdown.</p>
+          </div>
+          <p class="panel-note">Limits carry across every month. Groceries counts the grocery list total as well as expenses filed under it.</p>
         </div>
       </div>
     </div>
@@ -1953,7 +2073,7 @@
         <div class="modal-header">
           <div>
             <h2 id="groceriesModalTitle">Grocery List</h2>
-            <p class="muted">Use this like a to-do list with checkboxes. Grocery totals are added to daily expenses automatically.</p>
+            <p class="muted">Checked or not, the list total counts towards your daily expenses.</p>
           </div>
           <button type="button" class="modal-close-btn" id="closeGroceriesBtn">&#10005; Close</button>
         </div>
@@ -2009,7 +2129,7 @@
         <div class="modal-header">
           <div>
             <h2 id="cashFlowModalTitle">Cash Flow Overview</h2>
-            <p class="muted">Track your income and expenses over time to understand your financial flow.</p>
+            <p class="muted">Income against outflow, month by month.</p>
           </div>
           <button type="button" class="modal-close-btn" id="closeCashFlowBtn">&#10005; Close</button>
         </div>
@@ -2039,7 +2159,6 @@
       <div class="section-modal-content loan-modal-content">
         <div class="modal-header">
           <div>
-            <div class="modal-eyebrow">Debt dashboard</div>
             <h2 id="loansModalTitle">Loan Tracker</h2>
           </div>
           <button type="button" class="modal-close-btn" id="closeLoansBtn">&#10005; Close</button>
@@ -2100,7 +2219,7 @@
         <div class="modal-header">
           <div>
             <h2 id="savingsModalTitle">Savings Goals</h2>
-            <p class="muted">Set goals and track how much to save daily to reach them.</p>
+            <p class="muted">How much to set aside each day to hit the target date.</p>
           </div>
           <button type="button" class="modal-close-btn" id="closeSavingsBtn">&#10005; Close</button>
         </div>
@@ -2141,8 +2260,8 @@
 
     <section class="card footer-card">
       <div>
-        <h2>Saved Monthly Data</h2>
-        <p class="muted">Saved locally by default. Add a sync key to sync across devices with Firebase. Loan installments are included in your monthly available balance.</p>
+        <h2>This Month's Data</h2>
+        <p class="muted">Export the month as a spreadsheet, or wipe it and start over.</p>
       </div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;">
         <button id="exportCsvBtn" type="button" style="background:#047857;">&#128190; Export CSV</button>
@@ -2183,19 +2302,26 @@
     }
 
     const moneyFormatter = new Intl.NumberFormat("en-PH", { style: "currency", currency: "PHP" });
+    const moneyShortFormatter = new Intl.NumberFormat("en-PH", { style: "currency", currency: "PHP", minimumFractionDigits: 0, maximumFractionDigits: 2 });
+    const EXPENSE_CATEGORIES = ["Food","Transport","Groceries","Utilities","Load/Data","Entertainment","Health","Other"];
 
     const refs = {
       monthSelect: document.getElementById("monthSelect"),
       monthName: document.getElementById("monthName"),
       statusText: document.getElementById("statusText"),
-      noticeCard: document.querySelector(".notice-card"),
+      heroCard: document.getElementById("heroCard"),
+      heroRemaining: document.getElementById("heroRemaining"),
+      heroIncome: document.getElementById("heroIncome"),
+      budgetAlerts: document.getElementById("budgetAlerts"),
+      thisWeekLabel: document.getElementById("thisWeekLabel"),
+      thisWeekDisplay: document.getElementById("thisWeekDisplay"),
+      thisWeekHint: document.getElementById("thisWeekHint"),
       salaryDisplay: document.getElementById("salaryDisplay"),
       billsDisplay: document.getElementById("billsDisplay"),
       expensesDisplay: document.getElementById("expensesDisplay"),
       groceryDisplay: document.getElementById("groceryDisplay"),
       loansDisplay: document.getElementById("loansDisplay"),
       loansPaidHint: document.getElementById("loansPaidHint"),
-      remainingDisplay: document.getElementById("remainingDisplay"),
       billForm: document.getElementById("billForm"),
       billName: document.getElementById("billName"),
       billAmount: document.getElementById("billAmount"),
@@ -2219,6 +2345,26 @@
       expensesBody: document.getElementById("expensesBody"),
       expensesEmpty: document.getElementById("expensesEmpty"),
       expensesBadge: document.getElementById("expensesBadge"),
+      expenseSearch: document.getElementById("expenseSearch"),
+      expenseCategoryFilter: document.getElementById("expenseCategoryFilter"),
+      expenseSort: document.getElementById("expenseSort"),
+      expenseResultLine: document.getElementById("expenseResultLine"),
+      expensePanelList: document.getElementById("expensePanelList"),
+      expensePanelWeekly: document.getElementById("expensePanelWeekly"),
+      expensePanelCategories: document.getElementById("expensePanelCategories"),
+      weekCount: document.getElementById("weekCount"),
+      weekHighest: document.getElementById("weekHighest"),
+      weekAverage: document.getElementById("weekAverage"),
+      weekAllowance: document.getElementById("weekAllowance"),
+      weeklyList: document.getElementById("weeklyList"),
+      weeklyEmpty: document.getElementById("weeklyEmpty"),
+      weekBars: document.getElementById("weekBars"),
+      weekBarsEmpty: document.getElementById("weekBarsEmpty"),
+      weekBarsMeta: document.getElementById("weekBarsMeta"),
+      openWeeklyBtn: document.getElementById("openWeeklyBtn"),
+      categoryTable: document.getElementById("categoryTable"),
+      categoryBody: document.getElementById("categoryBody"),
+      categoryEmpty: document.getElementById("categoryEmpty"),
       clearMonthBtn: document.getElementById("clearMonthBtn"),
       donutChart: document.getElementById("donutChart"),
       donutUsed: document.getElementById("donutUsed"),
@@ -2318,7 +2464,7 @@
     }
 
     function createEmptyState() {
-      return { months: {}, savingsGoals: [], loans: [] };
+      return { months: {}, savingsGoals: [], loans: [], budgets: {} };
     }
 
     function normalizeAppState(state) {
@@ -2326,6 +2472,12 @@
       if (!state.months || typeof state.months !== "object") state.months = {};
       if (!Array.isArray(state.savingsGoals)) state.savingsGoals = [];
       if (!Array.isArray(state.loans)) state.loans = [];
+      if (!state.budgets || typeof state.budgets !== "object" || Array.isArray(state.budgets)) state.budgets = {};
+      Object.keys(state.budgets).forEach((category) => {
+        const limit = round2(Number(state.budgets[category]) || 0);
+        if (limit > 0) state.budgets[category] = limit;
+        else delete state.budgets[category];
+      });
       Object.values(state.months).forEach((month) => {
         if (!month || typeof month !== "object") return;
         if (!Array.isArray(month.bills)) month.bills = [];
@@ -2406,6 +2558,7 @@
     function normalizePaid(v) { return v === true || v === "true" || v === 1 || v === "1"; }
     function round2(v) { return Math.round((Number(v) + Number.EPSILON) * 100) / 100; }
     function money(v) { return moneyFormatter.format(Number(v) || 0); }
+    function moneyShort(v) { return moneyShortFormatter.format(Number(v) || 0); }
     function currentDateString() { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`; }
     function currentMonthString() { return currentDateString().slice(0,7); }
     function currentYearString() { return currentDateString().slice(0,4); }
@@ -2413,6 +2566,107 @@
     function formatMonth(m) { if (!m||!/^\d{4}-\d{2}$/.test(m)) return m||""; const [y,mi]=m.split("-").map(Number); return new Date(y,mi-1,1).toLocaleDateString("en-PH",{month:"long",year:"numeric"}); }
     function formatDate(d) { if (!d||!/^\d{4}-\d{2}-\d{2}$/.test(d)) return "-"; const [y,mi,da]=d.split("-").map(Number); return new Date(y,mi-1,da).toLocaleDateString("en-PH",{month:"short",day:"numeric",year:"numeric"}); }
     function daysInMonth(m) { const [y,mi]=m.split("-").map(Number); return new Date(y,mi,0).getDate(); }
+
+    // Splits a month into real Monday-to-Sunday weeks, clipped to the month edges.
+    function weekSegmentsForMonth(monthKey) {
+      const [year, monthNumber] = monthKey.split("-").map(Number);
+      const total = daysInMonth(monthKey);
+      const segments = [];
+      let startDay = 1;
+      while (startDay <= total) {
+        const daysIntoWeek = (new Date(year, monthNumber - 1, startDay).getDay() + 6) % 7;
+        const endDay = Math.min(total, startDay + (6 - daysIntoWeek));
+        segments.push({
+          label: `Week ${segments.length + 1}`,
+          startDay,
+          endDay,
+          startDate: `${monthKey}-${String(startDay).padStart(2,"0")}`,
+          endDate: `${monthKey}-${String(endDay).padStart(2,"0")}`
+        });
+        startDay = endDay + 1;
+      }
+      return segments;
+    }
+
+    // A bill ticked as paid counts in full; otherwise only the recorded part payment.
+    function billPaidAmount(bill) {
+      const amount = Number(bill.amount) || 0;
+      if (normalizePaid(bill.paid)) return round2(amount);
+      return round2(Math.min(Number(bill.paidAmount) || 0, amount));
+    }
+
+    function billCalendarDay(bill, monthDays) {
+      const dueDay = Number(bill.dueDay);
+      if (!Number.isFinite(dueDay) || dueDay < 1) return null;
+      return Math.min(Math.trunc(dueDay), monthDays);
+    }
+
+    function weeklyExpenseSummary(monthKey, expenses, bills, loanEntries) {
+      const today = currentDateString();
+      const monthDays = daysInMonth(monthKey);
+      return weekSegmentsForMonth(monthKey).map(segment => {
+        const inWeek = (day) => day !== null && day >= segment.startDay && day <= segment.endDay;
+        const items = (expenses || []).filter(ex => {
+          const date = String(ex.date || "");
+          return date >= segment.startDate && date <= segment.endDate;
+        });
+        // Bills and loan installments land in the week their due day falls in.
+        const billsPaid = round2((bills || []).reduce((sum, bill) =>
+          inWeek(billCalendarDay(bill, monthDays)) ? sum + billPaidAmount(bill) : sum, 0));
+        const loansPaid = round2((loanEntries || []).reduce((sum, entry) => {
+          const dueDate = String(entry.dueDate || "");
+          if (!dueDate.startsWith(monthKey)) return sum;
+          if (!inWeek(Number(dueDate.slice(-2)) || null)) return sum;
+          return sum + Math.min(Number(entry.paidAmount) || 0, Number(entry.amount) || 0);
+        }, 0));
+        const total = round2(items.reduce((sum, ex) => sum + (Number(ex.amount) || 0), 0));
+        const byCategory = new Map();
+        items.forEach(ex => {
+          const key = ex.category || "Other";
+          byCategory.set(key, round2((byCategory.get(key) || 0) + (Number(ex.amount) || 0)));
+        });
+        const top = [...byCategory.entries()].sort((a, b) => b[1] - a[1])[0];
+        const dayCount = segment.endDay - segment.startDay + 1;
+        return {
+          ...segment,
+          items,
+          total,
+          dayCount,
+          billsPaid,
+          loansPaid,
+          totalPaid: round2(total + billsPaid + loansPaid),
+          average: dayCount > 0 ? round2(total / dayCount) : 0,
+          topCategory: top ? { name: top[0], amount: top[1] } : null,
+          isCurrent: today >= segment.startDate && today <= segment.endDate,
+          isFuture: segment.startDate > today
+        };
+      });
+    }
+
+    // Spend per category for the month, with the grocery list folded into Groceries.
+    function categorySummary(expenses, groceryTotal) {
+      const totals = new Map();
+      (expenses || []).forEach(ex => {
+        const key = ex.category || "Other";
+        totals.set(key, round2((totals.get(key) || 0) + (Number(ex.amount) || 0)));
+      });
+      if (groceryTotal > 0) totals.set("Groceries", round2((totals.get("Groceries") || 0) + groceryTotal));
+      const budgets = appState.budgets || {};
+      const combined = round2([...totals.values()].reduce((sum, value) => sum + value, 0));
+      const names = [...new Set([...EXPENSE_CATEGORIES, ...totals.keys(), ...Object.keys(budgets)])];
+      return names.map(name => {
+        const spent = round2(totals.get(name) || 0);
+        const limit = round2(Number(budgets[name]) || 0);
+        const usage = limit > 0 ? percentValue(spent, limit) : 0;
+        return {
+          name, spent, limit, usage,
+          share: percentValue(spent, combined),
+          remaining: round2(limit - spent),
+          status: limit <= 0 ? "none" : usage > 100 ? "over" : usage >= 80 ? "warn" : "ok"
+        };
+      }).filter(row => row.spent > 0 || row.limit > 0)
+        .sort((a, b) => b.spent - a.spent || a.name.localeCompare(b.name));
+    }
     function countWednesdaysInMonth(year, month) {
       let count = 0;
       const days = daysInMonth(`${year}-${String(month+1).padStart(2,'0')}`);
@@ -2575,18 +2829,152 @@
       return `Remaining budget for ${formatMonth(m)} is ${money(remaining)}. Average available budget is ${money(daily)} per day for this month.`;
     }
 
-    function updateNoticeStyle(salary,remaining) {
-      refs.noticeCard.classList.remove("neutral","good","warn","danger");
-      if (salary<=0){refs.noticeCard.classList.add("neutral");return;}
-      if (remaining<0){refs.noticeCard.classList.add("danger");return;}
-      if (remaining<=salary*0.15){refs.noticeCard.classList.add("warn");return;}
-      refs.noticeCard.classList.add("good");
+    function updateHeroState(income,remaining) {
+      refs.heroCard.classList.remove("is-neutral","is-good","is-warn","is-danger");
+      if (income<=0) refs.heroCard.classList.add("is-neutral");
+      else if (remaining<0) refs.heroCard.classList.add("is-danger");
+      else if (remaining<=income*0.15) refs.heroCard.classList.add("is-warn");
+      else refs.heroCard.classList.add("is-good");
     }
 
-    function renderPaymentCalendar(month, bills, loanEntries) {
+    function weekRangeLabel(week) {
+      const [year, monthNumber] = week.startDate.split("-").map(Number);
+      const dayLabel = (day) => new Date(year, monthNumber - 1, day).toLocaleDateString("en-PH", { month: "short", day: "numeric" });
+      return week.startDay === week.endDay ? dayLabel(week.startDay) : `${dayLabel(week.startDay)} \u2013 ${dayLabel(week.endDay)}`;
+    }
+
+    // Compact week bars on the dashboard.
+    function renderWeekBars(weeks) {
+      if (!weeks.some(week => week.total > 0)) {
+        refs.weekBars.innerHTML = "";
+        refs.weekBars.style.display = "none";
+        refs.weekBarsEmpty.style.display = "block";
+        return;
+      }
+      const peak = Math.max(...weeks.map(week => week.total));
+      refs.weekBars.innerHTML = weeks.map(week => {
+        const width = peak > 0 ? (week.total / peak) * 100 : 0;
+        return `<div class="week-bar${week.isCurrent ? " is-current" : ""}${week.isFuture && week.total === 0 ? " is-future" : ""}">
+  <div class="week-bar-head"><span>${escapeHtml(week.label)}</span><span>${escapeHtml(weekRangeLabel(week))}</span></div>
+  <div class="week-bar-track"><div class="week-bar-fill" style="width:${width.toFixed(1)}%"></div></div>
+  <div class="week-bar-foot"><strong>${money(week.total)}</strong><span>${money(week.average)}/day</span></div>
+</div>`;
+      }).join("");
+      refs.weekBars.style.display = "";
+      refs.weekBarsEmpty.style.display = "none";
+    }
+
+    // Full week-by-week breakdown inside the expenses modal.
+    function renderWeekly(weeks, allowance) {
+      const totals = weeks.map(week => week.total);
+      const activeWeeks = weeks.filter(week => week.total > 0);
+      refs.weekCount.textContent = String(weeks.length);
+      refs.weekHighest.textContent = money(totals.length ? Math.max(...totals) : 0);
+      refs.weekAverage.textContent = money(activeWeeks.length ? round2(totals.reduce((sum, value) => sum + value, 0) / activeWeeks.length) : 0);
+      refs.weekAllowance.textContent = allowance > 0 ? money(allowance) : "\u2014";
+
+      if (!activeWeeks.length) {
+        refs.weeklyList.innerHTML = "";
+        refs.weeklyList.style.display = "none";
+        refs.weeklyEmpty.style.display = "block";
+        return;
+      }
+
+      const peak = Math.max(...totals);
+      refs.weeklyList.innerHTML = weeks.map(week => {
+        const width = peak > 0 ? (week.total / peak) * 100 : 0;
+        const compare = allowance > 0 && !week.isFuture;
+        const over = compare && week.total > allowance;
+        const items = [...week.items]
+          .sort((a, b) => a.date === b.date
+            ? (Number(a.createdAt) || 0) - (Number(b.createdAt) || 0)
+            : String(a.date).localeCompare(String(b.date)))
+          .map(ex => `<li>
+  <span class="week-item-date">${escapeHtml(formatDate(ex.date))}</span>
+  <span class="week-item-name">${escapeHtml(ex.description || ex.category || "Expense")}</span>
+  <span class="week-item-tag">${escapeHtml(ex.category || "Other")}</span>
+  <span class="week-item-amount">${money(ex.amount)}</span>
+</li>`).join("");
+
+        const meta = [`${money(week.average)} per day`];
+        if (week.topCategory) meta.push(`Most spent on ${escapeHtml(week.topCategory.name)} (${money(week.topCategory.amount)})`);
+        const settled = round2(week.billsPaid + week.loansPaid);
+        if (settled > 0) meta.push(`${money(settled)} of bills and loans paid`);
+        if (compare) {
+          meta.push(over
+            ? `<span class="over-text">${money(round2(week.total - allowance))} over allowance</span>`
+            : `<span class="under-text">${money(round2(allowance - week.total))} under allowance</span>`);
+        }
+
+        return `<details class="week-card${week.isCurrent ? " is-current" : ""}${over ? " is-over" : ""}"${week.isCurrent ? " open" : ""}>
+  <summary>
+    <span class="week-card-title">
+      <strong>${escapeHtml(week.label)}</strong>
+      <span>${escapeHtml(weekRangeLabel(week))}${week.isCurrent ? " \u00b7 current" : ""}</span>
+    </span>
+    <span class="week-card-figure">
+      <strong>${money(week.total)}</strong>
+      <span>${week.items.length} ${week.items.length === 1 ? "entry" : "entries"}</span>
+    </span>
+  </summary>
+  <div class="week-card-body">
+    <div class="week-bar-track"><div class="week-bar-fill" style="width:${width.toFixed(1)}%"></div></div>
+    <p class="week-card-meta">${meta.join(" \u00b7 ")}</p>
+    ${items ? `<ul class="week-item-list">${items}</ul>` : `<p class="week-card-empty">Nothing recorded this week.</p>`}
+  </div>
+</details>`;
+      }).join("");
+      refs.weeklyList.style.display = "";
+      refs.weeklyEmpty.style.display = "none";
+    }
+
+    const BUDGET_STATUS_LABEL = { none: "No limit", ok: "On track", warn: "Close to limit", over: "Over limit" };
+
+    function renderCategories(rows) {
+      if (!rows.length) {
+        refs.categoryTable.style.display = "none";
+        refs.categoryEmpty.style.display = "block";
+        refs.categoryBody.innerHTML = "";
+        return;
+      }
+      refs.categoryBody.innerHTML = rows.map(row => {
+        const width = Math.min(100, row.limit > 0 ? row.usage : row.share);
+        const limitValue = row.limit > 0 ? row.limit : "";
+        return `<tr class="category-row is-${row.status}">
+  <td data-label="Category">
+    <div class="category-name">${escapeHtml(row.name)}</div>
+    <div class="category-track"><div class="category-fill" style="width:${width.toFixed(1)}%"></div></div>
+  </td>
+  <td data-label="Spent">${money(row.spent)}</td>
+  <td data-label="Share">${formatPercent(row.share)}</td>
+  <td data-label="Monthly limit"><input type="number" class="category-limit-input" data-budget-category="${escapeHtml(row.name)}" min="0" step="0.01" value="${escapeHtml(limitValue)}" placeholder="None" aria-label="Monthly limit for ${escapeHtml(row.name)}" /></td>
+  <td data-label="Left">${row.limit > 0 ? money(row.remaining) : "\u2014"}</td>
+  <td data-label="Status"><span class="status-tag is-${row.status}">${row.limit > 0 ? `${BUDGET_STATUS_LABEL[row.status]} \u00b7 ${formatPercent(row.usage)}` : BUDGET_STATUS_LABEL.none}</span></td>
+</tr>`;
+      }).join("");
+      refs.categoryTable.style.display = "";
+      refs.categoryEmpty.style.display = "none";
+    }
+
+    function renderBudgetAlerts(rows) {
+      const flagged = rows.filter(row => row.status === "over" || row.status === "warn");
+      if (!flagged.length) {
+        refs.budgetAlerts.innerHTML = "";
+        refs.budgetAlerts.hidden = true;
+        return;
+      }
+      refs.budgetAlerts.innerHTML = flagged.map(row => `<button type="button" class="alert-item is-${row.status}" data-open-category="${escapeHtml(row.name)}">
+  <strong>${escapeHtml(row.name)}</strong>
+  <span>${row.status === "over"
+    ? `${money(round2(row.spent - row.limit))} over the ${money(row.limit)} limit`
+    : `${money(row.remaining)} left of ${money(row.limit)}`}</span>
+</button>`).join("");
+      refs.budgetAlerts.hidden = false;
+    }
+
+    function renderPaymentCalendar(month, bills, loanEntries, expenses, weeks) {
       const monthDays = daysInMonth(month);
       const [year, monthNumber] = month.split("-").map(Number);
-      const firstWeekday = new Date(year, monthNumber - 1, 1).getDay();
       const today = currentDateString();
       const todayDay = today.startsWith(month) ? Number(today.slice(-2)) : null;
       const scheduledByDay = new Map();
@@ -2594,17 +2982,17 @@
       const payments = [];
 
       (bills || []).forEach((bill) => {
-        const dueDay = Number(bill.dueDay);
-        if (!Number.isFinite(dueDay) || dueDay < 1) {
+        const day = billCalendarDay(bill, monthDays);
+        if (day === null) {
           unscheduled.push(bill);
           return;
         }
-        const day = Math.min(Math.trunc(dueDay), monthDays);
         payments.push({
           day,
           type: "Bill",
           name: bill.name || "Bill",
           amount: Number(bill.amount) || 0,
+          paidAmount: billPaidAmount(bill),
           paid: normalizePaid(bill.paid)
         });
       });
@@ -2638,35 +3026,89 @@
       const scheduledCount = [...scheduledByDay.values()].reduce((sum, dayBills) => sum + dayBills.length, 0);
       const unpaidCount = payments.filter((payment) => !payment.paid).length + unscheduled.filter((bill) => !normalizePaid(bill.paid)).length;
       const totalDue = round2(payments.reduce((sum, payment) => sum + payment.amount, 0) + unscheduled.reduce((sum, bill) => sum + (Number(bill.amount) || 0), 0));
+      const spentByDay = new Map();
+      (expenses || []).forEach((expense) => {
+        const date = String(expense.date || "");
+        if (!date.startsWith(month)) return;
+        const day = Number(date.slice(-2));
+        if (!Number.isFinite(day) || day < 1 || day > monthDays) return;
+        if (!spentByDay.has(day)) spentByDay.set(day, []);
+        spentByDay.get(day).push(expense);
+      });
+      spentByDay.forEach((dayExpenses) => {
+        dayExpenses.sort((a, b) => (Number(b.amount) || 0) - (Number(a.amount) || 0));
+      });
+
+      const paidThisMonth = round2((weeks || []).reduce((sum, week) => sum + week.totalPaid, 0));
       const billCount = (bills || []).length;
       const loanCount = (loanEntries || []).filter(entry => String(entry.dueDate || "").startsWith(month)).length;
-      refs.billCalendarMeta.textContent = `${formatMonth(month)} - ${billCount} bill${billCount === 1 ? "" : "s"}, ${loanCount} loan payment${loanCount === 1 ? "" : "s"} - ${money(totalDue)} total`;
+      refs.billCalendarMeta.textContent = `${formatMonth(month)} - ${billCount} bill${billCount === 1 ? "" : "s"}, ${loanCount} loan payment${loanCount === 1 ? "" : "s"} - ${money(totalDue)} due, ${money(paidThisMonth)} paid`;
       refs.billCalendarDueBadge.textContent = `${scheduledCount} scheduled`;
       refs.billCalendarUnpaidBadge.textContent = `${unpaidCount} unpaid`;
-      refs.billCalendarEmpty.style.display = scheduledCount ? "none" : "block";
+      refs.billCalendarEmpty.style.display = scheduledCount || spentByDay.size ? "none" : "block";
 
-      const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-      const weekdayHtml = weekdays.map(day => `<div class="bill-calendar-weekday">${day}</div>`).join("");
-      const blankHtml = Array.from({ length: firstWeekday }, () => `<div class="bill-calendar-day is-empty" aria-hidden="true"></div>`).join("");
-      const dayHtml = Array.from({ length: monthDays }, (_, index) => {
-        const day = index + 1;
-        const dayBills = scheduledByDay.get(day) || [];
-        const itemsHtml = dayBills.map((payment) => {
+      const weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+      const headHtml = weekdays.map(day => `<div class="bill-calendar-weekday">${day}</div>`).join("")
+        + `<div class="bill-calendar-weekday is-week">Paid</div>`;
+      const blankCell = `<div class="bill-calendar-day is-empty" aria-hidden="true"></div>`;
+
+      const dayCell = (day) => {
+        const dayPayments = scheduledByDay.get(day) || [];
+        const dayExpenses = spentByDay.get(day) || [];
+        const spent = round2(dayExpenses.reduce((sum, expense) => sum + (Number(expense.amount) || 0), 0));
+
+        const paymentHtml = dayPayments.map((payment) => {
           const paid = Boolean(payment.paid);
-          const partial = payment.type === "Loan" && !paid && payment.paidAmount > 0;
+          const partial = !paid && payment.paidAmount > 0;
           const paymentStatus = paid ? "Paid" : partial ? `${money(payment.paidAmount)} paid` : "Due";
           return `<div class="bill-calendar-item ${payment.type === "Loan" ? "is-loan" : ""} ${paid ? "is-paid" : ""}">
   <strong title="${escapeHtml(payment.name)}">${escapeHtml(payment.name)}</strong>
   <span>${payment.type} - ${money(payment.amount)} ${paymentStatus}</span>
 </div>`;
         }).join("");
-        return `<div class="bill-calendar-day ${day === todayDay ? "is-today" : ""}" aria-label="${formatMonth(month)} ${day}${dayBills.length ? `, ${dayBills.length} payment${dayBills.length === 1 ? "" : "s"} due` : ""}">
-  <div class="bill-calendar-date"><span>${day}</span>${dayBills.length ? `<span class="bill-calendar-count">${dayBills.length}</span>` : ""}</div>
-  <div class="bill-calendar-items">${itemsHtml}</div>
+
+        // Two entries fit a cell; the rest roll up into a single line.
+        const shown = dayExpenses.slice(0, 2);
+        const hidden = dayExpenses.slice(2);
+        const expenseHtml = shown.map((expense) => `<div class="bill-calendar-item is-expense">
+  <strong title="${escapeHtml(expense.description || expense.category || "Expense")}">${escapeHtml(expense.description || expense.category || "Expense")}</strong>
+  <span class="bill-calendar-item-meta"><span class="cal-category">${escapeHtml(expense.category || "Other")}</span><span class="cal-amount">${moneyShort(expense.amount)}</span></span>
+</div>`).join("") + (hidden.length
+          ? `<div class="bill-calendar-item is-expense is-more">+${hidden.length} more - ${moneyShort(round2(hidden.reduce((sum, expense) => sum + (Number(expense.amount) || 0), 0)))}</div>`
+          : "");
+
+        const labelParts = [];
+        if (dayPayments.length) labelParts.push(`${dayPayments.length} payment${dayPayments.length === 1 ? "" : "s"} due`);
+        if (spent > 0) labelParts.push(`${money(spent)} spent`);
+
+        return `<div class="bill-calendar-day ${day === todayDay ? "is-today" : ""}" aria-label="${formatMonth(month)} ${day}${labelParts.length ? `, ${labelParts.join(", ")}` : ""}">
+  <div class="bill-calendar-date"><span>${day}</span>${spent > 0 ? `<span class="bill-calendar-spent">${moneyShort(spent)}</span>` : dayPayments.length ? `<span class="bill-calendar-count">${dayPayments.length}</span>` : ""}</div>
+  <div class="bill-calendar-items">${paymentHtml}${expenseHtml}</div>
 </div>`;
+      };
+
+      const weekCell = (week) => {
+        const parts = [];
+        if (week.total > 0) parts.push(`${money(week.total)} spending`);
+        if (week.billsPaid > 0) parts.push(`${money(week.billsPaid)} bills`);
+        if (week.loansPaid > 0) parts.push(`${money(week.loansPaid)} loans`);
+        return `<button type="button" class="bill-calendar-week${week.isCurrent ? " is-current" : ""}" data-open-week="${escapeHtml(week.label)}" aria-label="${escapeHtml(week.label)}, ${escapeHtml(weekRangeLabel(week))}, ${money(week.totalPaid)} paid. Open the weekly breakdown.">
+  <span class="bill-calendar-week-name">${escapeHtml(week.label)}</span>
+  <strong>${money(week.totalPaid)}</strong>
+  <span class="bill-calendar-week-note">${parts.length ? parts.map(part => `<span>${part}</span>`).join("") : "<span>Nothing paid</span>"}</span>
+</button>`;
+      };
+
+      // One grid row per week, so each row's total sits beside the days it covers.
+      const leadingBlanks = (new Date(year, monthNumber - 1, 1).getDay() + 6) % 7;
+      const rowsHtml = (weeks || []).map((week, index) => {
+        const lead = index === 0 ? leadingBlanks : 0;
+        const span = week.endDay - week.startDay + 1;
+        const days = Array.from({ length: span }, (_, offset) => dayCell(week.startDay + offset)).join("");
+        return blankCell.repeat(lead) + days + blankCell.repeat(Math.max(0, 7 - lead - span)) + weekCell(week);
       }).join("");
 
-      refs.billCalendarGrid.innerHTML = weekdayHtml + blankHtml + dayHtml;
+      refs.billCalendarGrid.innerHTML = headHtml + rowsHtml;
 
       if (unscheduled.length) {
         refs.billCalendarUnscheduled.style.display = "block";
@@ -2725,24 +3167,43 @@
     });
 
     function renderExpenses(expenses) {
-      const filterEl = document.getElementById("expenseCategoryFilter");
-      const filterVal = filterEl ? filterEl.value : "";
-      const filtered = filterVal ? expenses.filter(ex => ex.category === filterVal) : expenses;
+      const search = (refs.expenseSearch.value || "").trim().toLowerCase();
+      const category = refs.expenseCategoryFilter.value || "";
+      const sortMode = refs.expenseSort.value || "date-desc";
+      const filtered = expenses.filter(ex => {
+        if (category && (ex.category || "Other") !== category) return false;
+        if (!search) return true;
+        return `${ex.description || ""} ${ex.category || ""}`.toLowerCase().includes(search);
+      });
+      const shownTotal = round2(filtered.reduce((sum, ex) => sum + (Number(ex.amount) || 0), 0));
+
       if (!expenses.length) {
         refs.expensesTable.style.display="none";
         refs.expensesEmpty.style.display="block";
+        refs.expensesEmpty.textContent="Nothing recorded for this month yet.";
         refs.expensesBody.innerHTML="";
+        refs.expenseResultLine.textContent="";
         return;
       }
       if (!filtered.length) {
         refs.expensesTable.style.display="none";
         refs.expensesEmpty.style.display="block";
-        refs.expensesEmpty.textContent="No expenses match the selected category.";
+        refs.expensesEmpty.textContent="No expenses match this search.";
         refs.expensesBody.innerHTML="";
+        refs.expenseResultLine.textContent=`0 of ${expenses.length} entries`;
         return;
       }
-      refs.expensesEmpty.textContent="No daily expenses added for this month yet.";
-      const sorted=[...filtered].sort((a,b)=>a.date===b.date?(Number(b.createdAt)||0)-(Number(a.createdAt)||0):String(b.date).localeCompare(String(a.date)));
+      refs.expenseResultLine.textContent = filtered.length === expenses.length
+        ? `${expenses.length} ${expenses.length === 1 ? "entry" : "entries"} \u00b7 ${money(shownTotal)}`
+        : `${filtered.length} of ${expenses.length} entries \u00b7 ${money(shownTotal)}`;
+
+      const sorted=[...filtered].sort((a,b)=>{
+        if(sortMode==="amount-desc") return (Number(b.amount)||0)-(Number(a.amount)||0);
+        if(sortMode==="amount-asc") return (Number(a.amount)||0)-(Number(b.amount)||0);
+        const direction=sortMode==="date-asc"?1:-1;
+        if(a.date===b.date) return direction*((Number(a.createdAt)||0)-(Number(b.createdAt)||0));
+        return direction*String(a.date).localeCompare(String(b.date));
+      });
       refs.expensesBody.innerHTML=sorted.map(ex=>`<tr>
   <td data-label="Date">${escapeHtml(formatDate(ex.date))}</td>
   <td data-label="Category">${escapeHtml(ex.category||"Other")}</td>
@@ -2796,7 +3257,16 @@
       refs.deleteCheckedGroceriesBtn.textContent=checkedCount>0 ? `Delete Checked (${checkedCount})` : "Delete Checked";
     }
 
-    function renderBreakdown(m,salary,billsTotal,expensesTotal,loansDue,groceryTotal,groceryCheckedText,remaining,days,daily) {
+    function renderBreakdown(m,
+    salary,
+    billsTotal,
+    expensesTotal,
+    loansDue,
+    groceryTotal,
+    groceryCheckedText,
+    remaining,
+    days,
+    daily) {
       refs.legendBills.textContent=money(billsTotal);
       refs.legendExpenses.textContent=money(expensesTotal);
       refs.legendLoans.textContent=money(loansDue);
@@ -3045,9 +3515,17 @@
       const hasData=salary>0||expectedIncome>0||data.bills.length>0||data.expenses.length>0||data.groceries.length>0;
       const displayIncome = expectedIncome > 0 ? expectedIncome : salary;
 
-      refs.monthName.textContent=`Viewing ${formatMonth(month)}`;
+      const weeks=weeklyExpenseSummary(month,data.expenses,data.bills,loanEntries);
+      const spendable=round2(displayIncome-billsTotal-loansDue);
+      const weeklyAllowance=weeks.length ? round2(Math.max(0,spendable)/weeks.length) : 0;
+      const categories=categorySummary(data.expenses,groceryTotal);
+      const focusWeek=weeks.find(week=>week.isCurrent) || [...weeks].reverse().find(week=>week.total>0) || null;
+
+      refs.monthName.textContent=formatMonth(month);
       refs.statusText.textContent=buildStatusText(month,displayIncome,remaining,days,daily);
-      updateNoticeStyle(displayIncome,remaining);
+      updateHeroState(displayIncome,remaining);
+      refs.heroRemaining.textContent=money(remaining);
+      refs.heroIncome.textContent=money(displayIncome);
 
       refs.salaryDisplay.textContent=money(displayIncome);
       refs.billsDisplay.textContent=money(billsTotal);
@@ -3055,8 +3533,10 @@
       refs.groceryDisplay.textContent=money(groceryTotal);
       refs.loansDisplay.textContent=money(loansDue);
       refs.loansPaidHint.textContent=loanEntries.length ? `${money(loansPaid)} paid of ${money(loansDue)} due this month` : "No payments due";
-      refs.remainingDisplay.textContent=money(remaining);
-      refs.remainingDisplay.classList.toggle("negative-text",remaining<0);
+      refs.thisWeekLabel.textContent=focusWeek && focusWeek.isCurrent ? "This Week" : "Latest Week";
+      refs.thisWeekDisplay.textContent=money(focusWeek ? focusWeek.total : 0);
+      refs.thisWeekHint.textContent=focusWeek ? `${focusWeek.label} \u00b7 ${weekRangeLabel(focusWeek)}` : "No expenses yet";
+      refs.weekBarsMeta.textContent=weeklyAllowance>0 ? `Allowance is about ${money(weeklyAllowance)} a week.` : "Monday to Sunday, within this month.";
 
       refs.weeklyPayroll.value=data.weeklyPayroll>0?data.weeklyPayroll:"";
       refs.semiMonthlyPayroll.value=data.semiMonthlyPayroll>0?data.semiMonthlyPayroll:"";
@@ -3095,8 +3575,12 @@
       refs.clearMonthBtn.disabled=!hasData;
 
       renderBills(data.bills);
-      renderPaymentCalendar(month,data.bills,loanEntries);
+      renderPaymentCalendar(month,data.bills,loanEntries,data.expenses,weeks);
       renderExpenses(data.expenses);
+      renderWeekBars(weeks);
+      renderWeekly(weeks,weeklyAllowance);
+      renderCategories(categories);
+      renderBudgetAlerts(categories);
       renderGroceries(data.groceries);
       renderBreakdown(month,displayIncome,billsTotal,expensesTotal,loansDue,groceryTotal,`${checkedGroceries}/${data.groceries.length}`,remaining,days,daily);
       renderCashFlow();
@@ -3224,13 +3708,77 @@
       }
     });
 
-    ["billsModal","expensesModal","groceriesModal","cashFlowModal","savingsModal","loansModal"].forEach(id=>{
+    ["billsModal",
+    "expensesModal",
+    "groceriesModal",
+    "cashFlowModal",
+    "savingsModal",
+    "loansModal"].forEach(id=> {
       document.getElementById(id).addEventListener("click",(e)=>{ if(e.target===document.getElementById(id)) closeModal(id); });
     });
 
-    // Month change
-    // Expense category filter
-    document.getElementById("expenseCategoryFilter").addEventListener("change", () => render());
+    // Category dropdowns are built from one list so they cannot drift apart.
+    (function populateCategorySelects() {
+      const options = EXPENSE_CATEGORIES.map(name => `<option value="${escapeHtml(name)}">${escapeHtml(name)}</option>`).join("");
+      refs.expenseCategory.innerHTML = options;
+      refs.expenseCategoryFilter.innerHTML = `<option value="">All categories</option>${options}`;
+    })();
+
+    const EXPENSE_PANELS = { list: refs.expensePanelList, weekly: refs.expensePanelWeekly, categories: refs.expensePanelCategories };
+
+    function setExpenseTab(tab) {
+      if (!EXPENSE_PANELS[tab]) tab = "list";
+      document.querySelectorAll("[data-expense-tab]").forEach(button => {
+        const active = button.dataset.expenseTab === tab;
+        button.classList.toggle("is-active", active);
+        button.setAttribute("aria-selected", active ? "true" : "false");
+      });
+      Object.entries(EXPENSE_PANELS).forEach(([name, panel]) => {
+        if (panel) panel.hidden = name !== tab;
+      });
+    }
+
+    document.querySelector(".tab-bar").addEventListener("click", (e) => {
+      const button = e.target.closest("[data-expense-tab]");
+      if (button) setExpenseTab(button.dataset.expenseTab);
+    });
+
+    refs.expenseCategoryFilter.addEventListener("change", () => render());
+    refs.expenseSort.addEventListener("change", () => render());
+    refs.expenseSearch.addEventListener("input", () => render());
+
+    refs.openWeeklyBtn.addEventListener("click", () => {
+      setExpenseTab("weekly");
+      openModal("expensesModal", refs.openWeeklyBtn);
+    });
+
+    refs.billCalendarGrid.addEventListener("click", (e) => {
+      const button = e.target.closest("[data-open-week]");
+      if (!button) return;
+      setExpenseTab("weekly");
+      openModal("expensesModal", button);
+    });
+
+    refs.budgetAlerts.addEventListener("click", (e) => {
+      const button = e.target.closest("[data-open-category]");
+      if (!button) return;
+      setExpenseTab("categories");
+      openModal("expensesModal", button);
+    });
+
+    // Monthly limit per category. Uses change, not input, so typing is not interrupted.
+    refs.categoryBody.addEventListener("change", (e) => {
+      const input = e.target.closest("[data-budget-category]");
+      if (!input) return;
+      const category = input.dataset.budgetCategory;
+      const limit = round2(Number(input.value || 0));
+      if (!Number.isFinite(limit) || limit < 0) { render(); return; }
+      if (!appState.budgets || typeof appState.budgets !== "object") appState.budgets = {};
+      if (limit > 0) appState.budgets[category] = limit;
+      else delete appState.budgets[category];
+      saveState();
+      render();
+    });
 
     [refs.cashFlowYearFilter, refs.cashFlowYearFilterMain].forEach(select => {
       if (!select) return;
@@ -3472,7 +4020,7 @@
     });
 
     // Update unit price inline for grocery items
-    refs.groceriesBody.addEventListener("input",(e)=>{
+    refs.groceriesBody.addEventListener("change",(e)=>{
       const input=e.target.closest(".grocery-unit-price-input");
       if(!input) return;
       const m=ensureMonth(refs.monthSelect.value);
@@ -3521,7 +4069,7 @@
 
 
     // Update savings amount inline
-    refs.savingsBody.addEventListener("input",(e)=>{
+    refs.savingsBody.addEventListener("change",(e)=>{
       const input=e.target.closest(".savings-saved-input");
       if(!input) return;
       if(!appState.savingsGoals) return;
@@ -3553,6 +4101,9 @@
     const tomorrow=new Date();
     tomorrow.setDate(tomorrow.getDate()+1);
     refs.savingsGoalDate.valueAsDate=tomorrow;
+
+    setExpenseTab("list");
+    render();
 
     // CSV Export
 document.getElementById("exportCsvBtn").addEventListener("click", () => {
@@ -3598,6 +4149,16 @@ document.getElementById("exportCsvBtn").addEventListener("click", () => {
   loanMonth.entries.forEach(item => {
     const installmentPaid=Math.min(Number(item.paidAmount)||0,Number(item.amount)||0);
     csv += `${esc(item.loanName)},${esc(item.dueDate)},${item.amount||0},${item.paid?"Yes":"No"},${installmentPaid},${round2((Number(item.amount)||0)-installmentPaid)}\r\n`;
+  });
+
+  csv += `\r\nWEEKLY BREAKDOWN\r\nWeek,From,To,Entries,Spending,Average Per Day,Bills Paid,Loans Paid,Total Paid\r\n`;
+  weeklyExpenseSummary(month, expenses, bills, loanMonth.entries).forEach(week => {
+    csv += `${esc(week.label)},${esc(week.startDate)},${esc(week.endDate)},${week.items.length},${week.total},${week.average},${week.billsPaid},${week.loansPaid},${week.totalPaid}\r\n`;
+  });
+
+  csv += `\r\nCATEGORY BUDGETS\r\nCategory,Spent,Share %,Monthly Limit,Left,Status\r\n`;
+  categorySummary(expenses, groceryTotal).forEach(row => {
+    csv += `${esc(row.name)},${row.spent},${round2(row.share)},${row.limit || ""},${row.limit > 0 ? row.remaining : ""},${esc(BUDGET_STATUS_LABEL[row.status])}\r\n`;
   });
 
   csv += `\r\nGROCERIES\r\nItem,Quantity,Unit Price,Total,Checked\r\n`;
