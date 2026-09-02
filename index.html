@@ -1689,6 +1689,42 @@
       .bill-calendar-item.is-expense { padding: 4px 5px; font-size: 0.64rem; text-align: right; }
     }
 
+    /* Day cells are buttons when there is something to open, so they need the
+       plain-surface treatment back from the global button styles. */
+    .bill-calendar-day { display: block; color: var(--text); font-weight: 400; text-align: left; }
+    button.bill-calendar-day { font: inherit; }
+    .bill-calendar-day.is-clickable { cursor: pointer; }
+    .bill-calendar-day.is-clickable:hover { border-color: #256f67; background: #f4faf8; }
+    .bill-calendar-day.is-clickable:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--color-ring); }
+    .bill-calendar-item { text-align: left; }
+
+    .day-modal-content { max-width: 620px; }
+    .day-section { margin-top: var(--space-xl); }
+    .day-section:first-child { margin-top: 0; }
+    .day-section h3 { margin: 0 0 var(--space-sm); color: var(--muted); font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; }
+    .day-list { display: grid; gap: 1px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--border); overflow: hidden; }
+    .day-row { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-md); padding: 10px 12px; background: var(--card); }
+    .day-row-main { display: grid; gap: 2px; min-width: 0; }
+    .day-row-main strong { font-size: 0.94rem; overflow-wrap: anywhere; }
+    .day-row-main > span { color: var(--muted); font-size: 0.79rem; }
+    .day-row-figures { display: grid; gap: 2px; text-align: right; white-space: nowrap; }
+    .day-row-figures strong { font-size: 0.96rem; font-variant-numeric: tabular-nums; }
+    .day-row-figures > span { font-size: 0.77rem; font-weight: 700; }
+    .day-row.is-paid .day-row-figures > span { color: #0f766e; }
+    .day-row.is-due .day-row-figures > span,
+    .day-row.is-partial .day-row-figures > span { color: #a35a11; }
+    .day-section-total { display: flex; justify-content: space-between; gap: var(--space-md); margin: var(--space-sm) 0 0; color: var(--muted); font-size: 0.86rem; }
+    .day-section-total strong { color: var(--text); font-variant-numeric: tabular-nums; }
+    .day-empty { margin: 0; color: var(--muted); }
+    .day-week-note { display: flex; align-items: center; justify-content: space-between; gap: var(--space-md); flex-wrap: wrap; margin-top: var(--space-xl); padding-top: var(--space-lg); border-top: 1px solid var(--border); color: var(--muted); font-size: 0.86rem; }
+
+    html[data-theme="dark"] .bill-calendar-day.is-clickable:hover { background: #1b2d27; border-color: #58c7b2; }
+    html[data-theme="dark"] .day-list { background: #2b3d38; border-color: #2b3d38; }
+    html[data-theme="dark"] .day-row { background: #15231f; }
+    html[data-theme="dark"] .day-row.is-paid .day-row-figures > span { color: #7fdcb4; }
+    html[data-theme="dark"] .day-row.is-due .day-row-figures > span,
+    html[data-theme="dark"] .day-row.is-partial .day-row-figures > span { color: #f0c47a; }
+
     /* Dark theme for the new surfaces */
     html[data-theme="dark"] .tab-bar { background: #101c19; border-color: #2b3d38; }
     html[data-theme="dark"] .tab-btn.is-active { background: #1d2f2a; color: #e5f0ec; }
@@ -2154,6 +2190,20 @@
     </div>
 
 
+    <!-- Day Detail Modal -->
+    <div id="dayModal" class="section-modal" role="dialog" aria-modal="true" aria-labelledby="dayModalTitle">
+      <div class="section-modal-content day-modal-content">
+        <div class="modal-header">
+          <div>
+            <h2 id="dayModalTitle">Day</h2>
+            <p class="muted" id="dayModalSummary"></p>
+          </div>
+          <button type="button" class="modal-close-btn" id="closeDayBtn">&#10005; Close</button>
+        </div>
+        <div id="dayModalBody"></div>
+      </div>
+    </div>
+
     <!-- Loan Tracker Modal -->
     <div id="loansModal" class="section-modal" role="dialog" aria-modal="true" aria-labelledby="loansModalTitle">
       <div class="section-modal-content loan-modal-content">
@@ -2362,6 +2412,9 @@
       weekBarsEmpty: document.getElementById("weekBarsEmpty"),
       weekBarsMeta: document.getElementById("weekBarsMeta"),
       openWeeklyBtn: document.getElementById("openWeeklyBtn"),
+      dayModalTitle: document.getElementById("dayModalTitle"),
+      dayModalSummary: document.getElementById("dayModalSummary"),
+      dayModalBody: document.getElementById("dayModalBody"),
       categoryTable: document.getElementById("categoryTable"),
       categoryBody: document.getElementById("categoryBody"),
       categoryEmpty: document.getElementById("categoryEmpty"),
@@ -2928,6 +2981,106 @@
       refs.weeklyEmpty.style.display = "none";
     }
 
+    function dayDetailRow(item) {
+      return `<div class="day-row is-${item.state}">
+  <span class="day-row-main">
+    <strong>${escapeHtml(item.name)}</strong>
+    <span>${escapeHtml(item.kind)}</span>
+  </span>
+  <span class="day-row-figures">
+    <strong>${money(item.amount)}</strong>
+    <span>${escapeHtml(item.note)}</span>
+  </span>
+</div>`;
+    }
+
+    // Everything booked against one calendar day, opened from the calendar.
+    function renderDayDetail(month, day) {
+      const data = getMonthData(month);
+      const monthDays = daysInMonth(month);
+      const dateKey = `${month}-${String(day).padStart(2, "0")}`;
+
+      const dayBills = data.bills.filter(bill => billCalendarDay(bill, monthDays) === day);
+      const dayLoans = loanScheduleForMonth(month).filter(entry => Number(String(entry.dueDate || "").slice(-2)) === day);
+      const dayExpenses = data.expenses
+        .filter(expense => String(expense.date || "") === dateKey)
+        .sort((a, b) => (Number(b.amount) || 0) - (Number(a.amount) || 0));
+
+      const scheduled = [
+        ...dayBills.map(bill => {
+          const amount = Number(bill.amount) || 0;
+          const paidAmount = billPaidAmount(bill);
+          const settled = paidAmount >= amount && amount > 0;
+          return {
+            kind: "Bill",
+            name: bill.name || "Bill",
+            amount,
+            state: settled ? "paid" : paidAmount > 0 ? "partial" : "due",
+            note: settled ? "Paid" : paidAmount > 0
+              ? `${money(paidAmount)} paid, ${money(round2(amount - paidAmount))} left`
+              : "Due"
+          };
+        }),
+        ...dayLoans.map(entry => {
+          const amount = Number(entry.amount) || 0;
+          const paidAmount = Math.min(Number(entry.paidAmount) || 0, amount);
+          return {
+            kind: `Loan installment ${entry.number || ""}`.trim(),
+            name: entry.loanName || "Loan installment",
+            amount,
+            state: entry.paid ? "paid" : paidAmount > 0 ? "partial" : "due",
+            note: entry.paid ? "Paid" : paidAmount > 0
+              ? `${money(paidAmount)} paid, ${money(round2(amount - paidAmount))} left`
+              : "Due"
+          };
+        })
+      ];
+
+      const spent = round2(dayExpenses.reduce((sum, expense) => sum + (Number(expense.amount) || 0), 0));
+      const billsPaid = round2(dayBills.reduce((sum, bill) => sum + billPaidAmount(bill), 0));
+      const loansPaid = round2(dayLoans.reduce((sum, entry) =>
+        sum + Math.min(Number(entry.paidAmount) || 0, Number(entry.amount) || 0), 0));
+      const paid = round2(spent + billsPaid + loansPaid);
+      const scheduledTotal = round2(scheduled.reduce((sum, item) => sum + item.amount, 0));
+
+      refs.dayModalTitle.textContent = formatDate(dateKey);
+      const summary = [`${money(paid)} paid`];
+      if (scheduledTotal > 0) summary.push(`${money(scheduledTotal)} scheduled`);
+      refs.dayModalSummary.textContent = summary.join(" \u00b7 ");
+
+      const sections = [];
+      if (scheduled.length) {
+        sections.push(`<div class="day-section">
+  <h3>Bills and loans due</h3>
+  <div class="day-list">${scheduled.map(dayDetailRow).join("")}</div>
+</div>`);
+      }
+      if (dayExpenses.length) {
+        sections.push(`<div class="day-section">
+  <h3>Spending (${dayExpenses.length})</h3>
+  <div class="day-list">${dayExpenses.map(expense => dayDetailRow({
+    kind: expense.category || "Other",
+    name: expense.description || expense.category || "Expense",
+    amount: Number(expense.amount) || 0,
+    state: "expense",
+    note: ""
+  })).join("")}</div>
+  <p class="day-section-total"><span>Spent this day</span><strong>${money(spent)}</strong></p>
+</div>`);
+      }
+      if (!sections.length) sections.push(`<p class="day-empty">Nothing recorded on this day.</p>`);
+
+      const week = weekSegmentsForMonth(month).find(segment => day >= segment.startDay && day <= segment.endDay);
+      if (week) {
+        sections.push(`<div class="day-week-note">
+  <span>Part of ${escapeHtml(week.label)}, ${escapeHtml(weekRangeLabel(week))}.</span>
+  <button type="button" class="small-btn ghost-btn" data-open-week-from-day="1">See the week</button>
+</div>`);
+      }
+
+      refs.dayModalBody.innerHTML = sections.join("");
+    }
+
     const BUDGET_STATUS_LABEL = { none: "No limit", ok: "On track", warn: "Close to limit", over: "Over limit" };
 
     function renderCategories(rows) {
@@ -3061,30 +3214,33 @@
           const paid = Boolean(payment.paid);
           const partial = !paid && payment.paidAmount > 0;
           const paymentStatus = paid ? "Paid" : partial ? `${money(payment.paidAmount)} paid` : "Due";
-          return `<div class="bill-calendar-item ${payment.type === "Loan" ? "is-loan" : ""} ${paid ? "is-paid" : ""}">
+          return `<span class="bill-calendar-item ${payment.type === "Loan" ? "is-loan" : ""} ${paid ? "is-paid" : ""}">
   <strong title="${escapeHtml(payment.name)}">${escapeHtml(payment.name)}</strong>
   <span>${payment.type} - ${money(payment.amount)} ${paymentStatus}</span>
-</div>`;
+</span>`;
         }).join("");
 
         // Two entries fit a cell; the rest roll up into a single line.
         const shown = dayExpenses.slice(0, 2);
         const hidden = dayExpenses.slice(2);
-        const expenseHtml = shown.map((expense) => `<div class="bill-calendar-item is-expense">
+        const expenseHtml = shown.map((expense) => `<span class="bill-calendar-item is-expense">
   <strong title="${escapeHtml(expense.description || expense.category || "Expense")}">${escapeHtml(expense.description || expense.category || "Expense")}</strong>
   <span class="bill-calendar-item-meta"><span class="cal-category">${escapeHtml(expense.category || "Other")}</span><span class="cal-amount">${moneyShort(expense.amount)}</span></span>
-</div>`).join("") + (hidden.length
-          ? `<div class="bill-calendar-item is-expense is-more">+${hidden.length} more - ${moneyShort(round2(hidden.reduce((sum, expense) => sum + (Number(expense.amount) || 0), 0)))}</div>`
+</span>`).join("") + (hidden.length
+          ? `<span class="bill-calendar-item is-expense is-more">+${hidden.length} more - ${moneyShort(round2(hidden.reduce((sum, expense) => sum + (Number(expense.amount) || 0), 0)))}</span>`
           : "");
 
         const labelParts = [];
         if (dayPayments.length) labelParts.push(`${dayPayments.length} payment${dayPayments.length === 1 ? "" : "s"} due`);
         if (spent > 0) labelParts.push(`${money(spent)} spent`);
 
-        return `<div class="bill-calendar-day ${day === todayDay ? "is-today" : ""}" aria-label="${formatMonth(month)} ${day}${labelParts.length ? `, ${labelParts.join(", ")}` : ""}">
-  <div class="bill-calendar-date"><span>${day}</span>${spent > 0 ? `<span class="bill-calendar-spent">${moneyShort(spent)}</span>` : dayPayments.length ? `<span class="bill-calendar-count">${dayPayments.length}</span>` : ""}</div>
-  <div class="bill-calendar-items">${paymentHtml}${expenseHtml}</div>
-</div>`;
+        const hasActivity = dayPayments.length > 0 || dayExpenses.length > 0;
+        const label = `${formatMonth(month)} ${day}${labelParts.length ? `, ${labelParts.join(", ")}` : ""}${hasActivity ? ". Open the day's details." : ""}`;
+        const inner = `<span class="bill-calendar-date"><span>${day}</span>${spent > 0 ? `<span class="bill-calendar-spent">${moneyShort(spent)}</span>` : dayPayments.length ? `<span class="bill-calendar-count">${dayPayments.length}</span>` : ""}</span>
+  <span class="bill-calendar-items">${paymentHtml}${expenseHtml}</span>`;
+        return hasActivity
+          ? `<button type="button" class="bill-calendar-day is-clickable ${day === todayDay ? "is-today" : ""}" data-open-day="${day}" aria-label="${label}">${inner}</button>`
+          : `<div class="bill-calendar-day ${day === todayDay ? "is-today" : ""}" aria-label="${label}">${inner}</div>`;
       };
 
       const weekCell = (week) => {
@@ -3753,10 +3909,25 @@
     });
 
     refs.billCalendarGrid.addEventListener("click", (e) => {
-      const button = e.target.closest("[data-open-week]");
-      if (!button) return;
+      const weekButton = e.target.closest("[data-open-week]");
+      if (weekButton) {
+        setExpenseTab("weekly");
+        openModal("expensesModal", weekButton);
+        return;
+      }
+      const dayButton = e.target.closest("[data-open-day]");
+      if (!dayButton) return;
+      renderDayDetail(refs.monthSelect.value || currentMonthString(), Number(dayButton.dataset.openDay));
+      openModal("dayModal", dayButton);
+    });
+
+    document.getElementById("closeDayBtn").addEventListener("click", () => closeModal("dayModal"));
+
+    refs.dayModalBody.addEventListener("click", (e) => {
+      if (!e.target.closest("[data-open-week-from-day]")) return;
+      closeModal("dayModal");
       setExpenseTab("weekly");
-      openModal("expensesModal", button);
+      openModal("expensesModal");
     });
 
     refs.budgetAlerts.addEventListener("click", (e) => {
