@@ -548,15 +548,31 @@
     .table th { padding: 8px 10px; color: var(--text-3); font-size: 0.66rem; font-weight: 800; letter-spacing: 0.08em; text-align: left; text-transform: uppercase; white-space: nowrap; }
     .table td { padding: 11px 10px; border-top: 1px solid var(--line); font-size: 0.9rem; vertical-align: middle; font-variant-numeric: tabular-nums; }
     .action-cell { text-align: right; }
-    .bill-amount-input, .savings-saved-input, .grocery-unit-price-input, .category-limit-input { width: 112px; min-height: 38px; padding: 6px 10px; border-radius: 11px; font-size: 0.88rem; }
-    .bill-name-cell, .todo-name { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+    .bill-amount-input, .savings-saved-input, .category-limit-input { width: 112px; min-height: 38px; padding: 6px 10px; border-radius: 11px; font-size: 0.88rem; }
+    .bill-name-cell { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
     .paid-cell { width: 64px; }
     .paid-row td { color: var(--text-2); }
-    .paid-name, .todo-done { color: var(--text-2); text-decoration: line-through; }
+    .paid-name { color: var(--text-2); text-decoration: line-through; }
     .paid-tag { display: inline-flex; padding: 2px 9px; border-radius: 999px; background: var(--primary-soft); color: var(--primary-strong); font-size: 0.7rem; font-weight: 800; }
-    .todo-row.done td { opacity: 0.75; }
-    .grocery-actions { display: flex; justify-content: flex-end; margin-top: 12px; }
-    .grocery-meta { display: flex; flex-wrap: wrap; gap: 10px; margin: 14px 0 4px; }
+    .grocery-add-form { display: flex; gap: 8px; margin-top: 4px; }
+    .grocery-add-form input[type="text"] { flex: 1; }
+    .grocery-add-btn { display: inline-flex; align-items: center; justify-content: center; width: 46px; min-height: 46px; flex-shrink: 0; border-radius: 14px; background: var(--btn); color: #fff; transition: background 0.18s ease, transform 0.18s ease; }
+    .grocery-add-btn:hover { background: var(--btn-hover); }
+    .grocery-add-btn:active { transform: scale(0.96); }
+    .grocery-add-btn .icon { width: 20px; height: 20px; }
+    .grocery-actions { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 16px 0 4px; }
+    .grocery-progress { color: var(--text-2); font-size: 0.85rem; font-weight: 700; }
+    .grocery-checklist { list-style: none; margin: 4px 0 0; padding: 0; }
+    .grocery-item { display: flex; align-items: center; gap: 12px; padding: 12px 2px; border-top: 1px solid var(--line); }
+    .grocery-item:first-child { border-top: none; }
+    .grocery-check { appearance: none; -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--text-3); flex-shrink: 0; cursor: pointer; position: relative; transition: background 0.15s ease, border-color 0.15s ease; }
+    .grocery-check:checked { background: var(--primary); border-color: var(--primary); }
+    .grocery-check:checked::after { content: ""; position: absolute; left: 6px; top: 2px; width: 6px; height: 11px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+    .grocery-item-name { flex: 1; font-size: 0.95rem; word-break: break-word; cursor: pointer; }
+    .grocery-item.done .grocery-item-name { color: var(--text-2); text-decoration: line-through; }
+    .grocery-item-delete { flex-shrink: 0; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; color: var(--text-3); }
+    .grocery-item-delete:hover { background: var(--danger-soft); color: var(--danger); }
+    .grocery-item-delete .icon { width: 16px; height: 16px; }
     .summary-chip { flex: 1 1 160px; padding: 12px 14px; border-radius: 16px; background: var(--surface-2); }
     .summary-chip span { display: block; margin-bottom: 2px; color: var(--text-2); font-size: 0.74rem; font-weight: 700; }
     .summary-chip strong { font-size: 1.02rem; font-variant-numeric: tabular-nums; }
@@ -723,7 +739,7 @@
       .table td > * { justify-self: end; max-width: 100%; }
       .table td > .small-muted { grid-column: 2; }
       .table input[type="number"] { background: var(--surface); }
-      .bill-name-cell, .todo-name { justify-content: flex-end; }
+      .bill-name-cell { justify-content: flex-end; }
       .paid-cell { width: auto; }
       .action-cell { display: block !important; text-align: right; }
       .action-cell::before { display: none; }
@@ -986,13 +1002,13 @@
           </article>
           <article class="stat-card wc-expenses">
             <div class="stat-top"><span class="stat-ico"><svg class="icon" aria-hidden="true"><use href="#i-out"/></svg></span><span class="stat-label">Daily Expenses</span></div>
-            <span class="stat-kicker">Spent incl. groceries</span>
+            <span class="stat-kicker">Spent this month</span>
             <strong class="stat-value" id="expensesDisplay">&#8369;0.00</strong>
           </article>
           <article class="stat-card wc-grocery">
             <div class="stat-top"><span class="stat-ico"><svg class="icon" aria-hidden="true"><use href="#i-cart"/></svg></span><span class="stat-label">Groceries</span></div>
-            <span class="stat-kicker">List total</span>
-            <strong class="stat-value" id="groceryDisplay">&#8369;0.00</strong>
+            <span class="stat-kicker">Checklist</span>
+            <strong class="stat-value" id="groceryDisplay">0/0</strong>
           </article>
           <article class="stat-card wc-loans">
             <div class="stat-top"><span class="stat-ico"><svg class="icon" aria-hidden="true"><use href="#i-bank"/></svg></span><span class="stat-label">Loan Installments</span></div>
@@ -1046,8 +1062,7 @@
               <div><span>Bills %</span><strong id="billPercent">0%</strong></div>
               <div><span>Expenses %</span><strong id="expensePercent">0%</strong></div>
               <div><span>Loans %</span><strong id="loanPercent">0%</strong></div>
-              <div><span>Grocery Total</span><strong id="groceryMiniTotal">&#8369;0.00</strong></div>
-              <div><span>Items Checked</span><strong id="groceryItemsChecked">0/0</strong></div>
+              <div><span>Groceries Checked</span><strong id="groceryItemsChecked">0/0</strong></div>
               <div><span id="daysLabel">Days Left</span><strong id="daysLeft">0</strong></div>
               <div><span>Daily Budget Left</span><strong id="dailyBudget">&#8369;0.00</strong></div>
             </div>
@@ -1380,7 +1395,7 @@
           </table>
           <p class="empty-state" id="categoryEmpty">Add an expense or set a limit to see the breakdown.</p>
         </div>
-        <p class="panel-note">Limits carry across every month. Groceries counts the grocery list total as well as expenses filed under it.</p>
+        <p class="panel-note">Limits carry across every month. The grocery checklist isn't priced, so Groceries only counts expenses you file under it.</p>
       </div>
     </div>
   </div>
@@ -1391,53 +1406,22 @@
       <div class="modal-header">
         <div>
           <h2 id="groceriesModalTitle">Grocery List</h2>
-          <p class="muted">Checked or not, the list total counts towards your daily expenses.</p>
+          <p class="muted">A simple checklist for this month's shopping.</p>
         </div>
         <button type="button" class="modal-close-btn" id="closeGroceriesBtn" aria-label="Close"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></button>
       </div>
-      <form id="groceryForm" class="form-grid">
-        <div class="field">
-          <label for="groceryName">Item Name</label>
-          <input type="text" id="groceryName" placeholder="e.g. Rice, Eggs, Milk" required />
-        </div>
-        <div class="field">
-          <label for="groceryQuantity">Quantity</label>
-          <input type="number" id="groceryQuantity" min="1" step="1" value="1" required />
-        </div>
-        <div class="field">
-          <label for="groceryUnitPrice">Unit Price (PHP) <span class="optional-label">(optional)</span></label>
-          <input type="number" id="groceryUnitPrice" min="0" step="0.01" placeholder="0.00" />
-        </div>
-        <div class="field action-field">
-          <button type="submit" class="full-btn">Add Grocery Item</button>
-        </div>
+      <form id="groceryForm" class="grocery-add-form">
+        <input type="text" id="groceryName" placeholder="Add an item…" required autocomplete="off" />
+        <button type="submit" class="grocery-add-btn" aria-label="Add item"><svg class="icon" aria-hidden="true"><use href="#i-plus"/></svg></button>
       </form>
+
       <div class="grocery-actions">
+        <span class="grocery-progress" id="groceryCheckedLabel">0/0 checked</span>
         <button type="button" id="deleteCheckedGroceriesBtn" class="small-btn danger-btn" disabled>Delete Checked</button>
       </div>
 
-      <div class="grocery-meta">
-        <div class="summary-chip">
-          <span>Whole Grocery Expense</span>
-          <strong id="groceryTotalLabel">&#8369;0.00</strong>
-        </div>
-        <div class="summary-chip">
-          <span>Checked Items</span>
-          <strong id="groceryCheckedLabel">0/0</strong>
-        </div>
-      </div>
-
-      <div class="table-wrap mt-16">
-        <table class="table" id="groceriesTable">
-          <thead>
-            <tr>
-              <th>Done</th><th>Item</th><th>Qty</th><th>Unit Price</th><th>Total</th><th></th>
-            </tr>
-          </thead>
-          <tbody id="groceriesBody"></tbody>
-        </table>
-        <p class="empty-state" id="groceriesEmpty">No grocery items added for this month yet.</p>
-      </div>
+      <ul class="grocery-checklist" id="groceriesList"></ul>
+      <p class="empty-state" id="groceriesEmpty">No grocery items added for this month yet.</p>
     </div>
   </div>
 
@@ -1704,17 +1688,12 @@
       syncKeyInput: document.getElementById("syncKeyInput"),
       setSyncKeyBtn: document.getElementById("setSyncKeyBtn"),
       syncKeyLabel: document.getElementById("syncKeyLabel"),
-      groceryMiniTotal: document.getElementById("groceryMiniTotal"),
       groceryItemsChecked: document.getElementById("groceryItemsChecked"),
       groceryForm: document.getElementById("groceryForm"),
       groceryName: document.getElementById("groceryName"),
-      groceryQuantity: document.getElementById("groceryQuantity"),
-      groceryUnitPrice: document.getElementById("groceryUnitPrice"),
-      groceriesTable: document.getElementById("groceriesTable"),
-      groceriesBody: document.getElementById("groceriesBody"),
+      groceriesList: document.getElementById("groceriesList"),
       groceriesEmpty: document.getElementById("groceriesEmpty"),
       groceriesBadge: document.getElementById("groceriesBadge"),
-      groceryTotalLabel: document.getElementById("groceryTotalLabel"),
       groceryCheckedLabel: document.getElementById("groceryCheckedLabel"),
       deleteCheckedGroceriesBtn: document.getElementById("deleteCheckedGroceriesBtn"),
       cashFlowTable: document.getElementById("cashFlowTable"),
@@ -1995,14 +1974,13 @@
       });
     }
 
-    // Spend per category for the month, with the grocery list folded into Groceries.
-    function categorySummary(expenses, groceryTotal) {
+    // Spend per category for the month.
+    function categorySummary(expenses) {
       const totals = new Map();
       (expenses || []).forEach(ex => {
         const key = ex.category || "Other";
         totals.set(key, round2((totals.get(key) || 0) + (Number(ex.amount) || 0)));
       });
-      if (groceryTotal > 0) totals.set("Groceries", round2((totals.get("Groceries") || 0) + groceryTotal));
       const budgets = appState.budgets || {};
       const combined = round2([...totals.values()].reduce((sum, value) => sum + value, 0));
       const names = [...new Set([...EXPENSE_CATEGORIES, ...totals.keys(), ...Object.keys(budgets)])];
@@ -2154,21 +2132,15 @@
       }
     }
 
-    function groceryItemTotal(item) {
-      return round2((Number(item.quantity) || 0) * (Number(item.unitPrice) || 0));
-    }
-
     function totalsFor(d, monthKey = refs.monthSelect.value || currentMonthString()) {
       const salary = round2(Number(d.salary)||0);
       const expectedIncome = calculateExpectedIncome(monthKey, d.weeklyPayroll, d.semiMonthlyPayroll, d.sideIncome);
       const billsTotal = round2((d.bills||[]).reduce((s,i)=>s+(Number(i.amount)||0),0));
-      const expensesOnlyTotal = round2((d.expenses||[]).reduce((s,i)=>s+(Number(i.amount)||0),0));
-      const groceryTotal = round2((d.groceries||[]).reduce((s,item)=>s+groceryItemTotal(item),0));
-      const expensesTotal = round2(expensesOnlyTotal + groceryTotal);
+      const expensesTotal = round2((d.expenses||[]).reduce((s,i)=>s+(Number(i.amount)||0),0));
       const loanMonth = loanTotalsForMonth(monthKey);
       const baseIncome = expectedIncome > 0 ? expectedIncome : salary;
       return {
-        salary, expectedIncome, billsTotal, expensesOnlyTotal, groceryTotal, expensesTotal,
+        salary, expectedIncome, billsTotal, expensesTotal,
         loansDue:loanMonth.due, loansPaid:loanMonth.paid, loanEntries:loanMonth.entries,
         remaining:round2(baseIncome-billsTotal-expensesTotal-loanMonth.due)
       };
@@ -2672,11 +2644,10 @@
 
     function renderGroceries(groceries) {
       if (!groceries.length) {
-        refs.groceriesTable.style.display="none";
+        refs.groceriesList.style.display="none";
         refs.groceriesEmpty.style.display="block";
-        refs.groceriesBody.innerHTML="";
-        refs.groceryTotalLabel.textContent=money(0);
-        refs.groceryCheckedLabel.textContent="0/0";
+        refs.groceriesList.innerHTML="";
+        refs.groceryCheckedLabel.textContent="0/0 checked";
         refs.deleteCheckedGroceriesBtn.disabled=true;
         refs.deleteCheckedGroceriesBtn.textContent="Delete Checked";
         return;
@@ -2688,26 +2659,19 @@
       });
 
       const checkedCount=groceries.filter(item=>Boolean(item.checked)).length;
-      const total=round2(groceries.reduce((sum,item)=>sum+groceryItemTotal(item),0));
 
-      refs.groceriesBody.innerHTML=sorted.map(item=>{
-        const totalPrice=groceryItemTotal(item);
+      refs.groceriesList.innerHTML=sorted.map(item=>{
         const done=Boolean(item.checked);
-        const unitPriceValue = item.unitPrice>0 ? item.unitPrice : "";
-        return `<tr class="todo-row ${done ? "done" : ""}">
-  <td data-label="Done"><input type="checkbox" class="todo-check" aria-label="Mark ${escapeHtml(item.name)} checked" data-toggle-grocery="${escapeHtml(item.id)}" ${done ? "checked" : ""} /></td>
-  <td data-label="Item"><div class="todo-name"><span class="${done ? "todo-done" : ""}">${escapeHtml(item.name)}</span></div></td>
-  <td data-label="Qty">${escapeHtml(item.quantity)}</td>
-  <td data-label="Unit Price"><input type="number" class="grocery-unit-price-input" aria-label="Unit price for ${escapeHtml(item.name)}" data-unit-price-id="${escapeHtml(item.id)}" min="0" step="0.01" value="${escapeHtml(unitPriceValue)}" placeholder="" /></td>
-  <td data-label="Total">${money(totalPrice)}</td>
-  <td class="action-cell"><button type="button" class="row-delete" aria-label="Delete ${escapeHtml(item.name)}" data-delete-grocery="${escapeHtml(item.id)}">Delete</button></td>
-</tr>`;
+        return `<li class="grocery-item ${done ? "done" : ""}">
+  <input type="checkbox" class="grocery-check" aria-label="Mark ${escapeHtml(item.name)} checked" data-toggle-grocery="${escapeHtml(item.id)}" ${done ? "checked" : ""} />
+  <span class="grocery-item-name" data-toggle-grocery-label="${escapeHtml(item.id)}">${escapeHtml(item.name)}</span>
+  <button type="button" class="grocery-item-delete" aria-label="Delete ${escapeHtml(item.name)}" data-delete-grocery="${escapeHtml(item.id)}"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></button>
+</li>`;
       }).join("");
 
-      refs.groceriesTable.style.display="";
+      refs.groceriesList.style.display="";
       refs.groceriesEmpty.style.display="none";
-      refs.groceryTotalLabel.textContent=money(total);
-      refs.groceryCheckedLabel.textContent=`${checkedCount}/${groceries.length}`;
+      refs.groceryCheckedLabel.textContent=`${checkedCount}/${groceries.length} checked`;
       refs.deleteCheckedGroceriesBtn.disabled=checkedCount===0;
       refs.deleteCheckedGroceriesBtn.textContent=checkedCount>0 ? `Delete Checked (${checkedCount})` : "Delete Checked";
     }
@@ -2717,7 +2681,6 @@
     billsTotal,
     expensesTotal,
     loansDue,
-    groceryTotal,
     groceryCheckedText,
     remaining,
     days,
@@ -2734,7 +2697,6 @@
       refs.billPercent.textContent=formatPercent(billsPct);
       refs.expensePercent.textContent=formatPercent(expPct);
       refs.loanPercent.textContent=formatPercent(loanPct);
-      refs.groceryMiniTotal.textContent=money(groceryTotal);
       refs.groceryItemsChecked.textContent=groceryCheckedText;
       refs.daysLabel.textContent=m===currentMonthString()?"Days Left":"Days in Month";
       refs.daysLeft.textContent=String(days);
@@ -3367,16 +3329,17 @@
     function render() {
       const month=refs.monthSelect.value||currentMonthString();
       const data=getMonthData(month);
-      const {salary, expectedIncome, billsTotal,expensesOnlyTotal,groceryTotal,expensesTotal,loansDue,loansPaid,loanEntries,remaining}=totalsFor(data, month);
+      const {salary, expectedIncome, billsTotal,expensesTotal,loansDue,loansPaid,loanEntries,remaining}=totalsFor(data, month);
       const days=budgetDayCount(month);
       const daily=days>0?round2(remaining/days):0;
       const hasData=salary>0||expectedIncome>0||data.bills.length>0||data.expenses.length>0||data.groceries.length>0;
       const displayIncome = expectedIncome > 0 ? expectedIncome : salary;
+      const checkedGroceries=data.groceries.filter(item=>Boolean(item.checked)).length;
 
       const weeks=weeklyExpenseSummary(month,data.expenses,data.bills,loanEntries);
       const spendable=round2(displayIncome-billsTotal-loansDue);
       const weeklyAllowance=weeks.length ? round2(Math.max(0,spendable)/weeks.length) : 0;
-      const categories=categorySummary(data.expenses,groceryTotal);
+      const categories=categorySummary(data.expenses);
       const focusWeek=weeks.find(week=>week.isCurrent) || [...weeks].reverse().find(week=>week.total>0) || null;
 
       refs.monthName.textContent=formatMonth(month);
@@ -3388,7 +3351,7 @@
       refs.salaryDisplay.textContent=money(displayIncome);
       refs.billsDisplay.textContent=money(billsTotal);
       refs.expensesDisplay.textContent=money(expensesTotal);
-      refs.groceryDisplay.textContent=money(groceryTotal);
+      refs.groceryDisplay.textContent=`${checkedGroceries}/${data.groceries.length}`;
       refs.loansDisplay.textContent=money(loansDue);
       refs.loansPaidHint.textContent=loanEntries.length ? `${money(loansPaid)} paid of ${money(loansDue)} due this month` : "No payments due";
       refs.thisWeekLabel.textContent=focusWeek && focusWeek.isCurrent ? "This Week" : "Latest Week";
@@ -3425,7 +3388,6 @@
       }
 
       const paidBills=data.bills.filter(b=>normalizePaid(b.paid)).length;
-      const checkedGroceries=data.groceries.filter(item=>Boolean(item.checked)).length;
 
       refs.billsBadge.textContent=data.bills.length?`${paidBills}/${data.bills.length} paid`:"0 items";
       refs.expensesBadge.textContent=`${data.expenses.length} item${data.expenses.length===1?"":"s"}`;
@@ -3440,7 +3402,7 @@
       renderCategories(categories);
       renderBudgetAlerts(categories);
       renderGroceries(data.groceries);
-      renderBreakdown(month,displayIncome,billsTotal,expensesTotal,loansDue,groceryTotal,`${checkedGroceries}/${data.groceries.length}`,remaining,days,daily);
+      renderBreakdown(month,displayIncome,billsTotal,expensesTotal,loansDue,`${checkedGroceries}/${data.groceries.length}`,remaining,days,daily);
       renderCashFlow();
       renderSavings();
       renderLoans();
@@ -3834,17 +3796,11 @@
       e.preventDefault();
       const month=refs.monthSelect.value;
       const name=refs.groceryName.value.trim();
-      const quantity=Number(refs.groceryQuantity.value);
-      const unitPriceRaw=refs.groceryUnitPrice.value.trim();
-      const unitPrice = unitPriceRaw === "" ? 0 : round2(Number(unitPriceRaw));
       if(!name){alert("Enter grocery item name.");return;}
-      if(!Number.isInteger(quantity)||quantity<=0){alert("Quantity must be a whole number greater than 0.");return;}
-      if(unitPriceRaw !== "" && (isNaN(unitPrice) || unitPrice < 0)){alert("Enter a valid unit price or leave it blank.");return;}
       const m=ensureMonth(month);
-      m.groceries.push({id:uid(),name,quantity,unitPrice,checked:false,createdAt:Date.now()});
+      m.groceries.push({id:uid(),name,checked:false,createdAt:Date.now()});
       saveState();
       refs.groceryForm.reset();
-      refs.groceryQuantity.value = 1;
       render();
     });
 
@@ -3883,7 +3839,7 @@
     });
 
     // Toggle grocery checked
-    refs.groceriesBody.addEventListener("change",(e)=>{
+    refs.groceriesList.addEventListener("change",(e)=>{
       const chk=e.target.closest("[data-toggle-grocery]");
       if(!chk) return;
       const m=ensureMonth(refs.monthSelect.value);
@@ -3894,23 +3850,20 @@
       render();
     });
 
-    // Update unit price inline for grocery items
-    refs.groceriesBody.addEventListener("change",(e)=>{
-      const input=e.target.closest(".grocery-unit-price-input");
-      if(!input) return;
+    // Tap the item name to toggle it too, like a notes checklist
+    refs.groceriesList.addEventListener("click",(e)=>{
+      const label=e.target.closest("[data-toggle-grocery-label]");
+      if(!label) return;
       const m=ensureMonth(refs.monthSelect.value);
-      const item=m.groceries.find(g=>g.id===input.dataset.unitPriceId);
+      const item=m.groceries.find(g=>g.id===label.dataset.toggleGroceryLabel);
       if(!item) return;
-      const value=input.value.trim();
-      const newUnitPrice = value === "" ? 0 : round2(Number(value));
-      if(value !== "" && (isNaN(newUnitPrice) || newUnitPrice < 0)) return;
-      item.unitPrice = newUnitPrice;
+      item.checked=!Boolean(item.checked);
       saveState();
       render();
     });
 
     // Delete grocery
-    refs.groceriesBody.addEventListener("click",(e)=>{
+    refs.groceriesList.addEventListener("click",(e)=>{
       const btn=e.target.closest("[data-delete-grocery]");
       if(!btn) return;
       const m=ensureMonth(refs.monthSelect.value);
@@ -3970,7 +3923,6 @@
 
     refs.monthSelect.value=currentMonthString();
     refs.expenseDate.value=currentDateString();
-    refs.groceryQuantity.value=1;
     refs.loanStartMonth.value=currentMonthString();
     refs.loanDueDay.value=15;
     const tomorrow=new Date();
@@ -4100,9 +4052,7 @@ document.getElementById("exportCsvBtn").addEventListener("click", () => {
   const loanMonth = loanTotalsForMonth(month);
 
   const billsTotal = round2(bills.reduce((s,i) => s + (Number(i.amount)||0), 0));
-  const expensesOnlyTotal = round2(expenses.reduce((s,i) => s + (Number(i.amount)||0), 0));
-  const groceryTotal = round2(groceries.reduce((s,item) => s + groceryItemTotal(item), 0));
-  const expensesTotal = round2(expensesOnlyTotal + groceryTotal);
+  const expensesTotal = round2(expenses.reduce((s,i) => s + (Number(i.amount)||0), 0));
   const expectedIncome = calculateExpectedIncome(month, data.weeklyPayroll||0, data.semiMonthlyPayroll||0, data.sideIncome||0);
   const displayIncome = expectedIncome > 0 ? expectedIncome : (data.salary || 0);
   const remaining = round2(displayIncome - billsTotal - expensesTotal - loanMonth.due);
@@ -4114,8 +4064,7 @@ document.getElementById("exportCsvBtn").addEventListener("click", () => {
   csv += `Monthly Income,${displayIncome}\r\n`;
   csv += `Side Income,${data.sideIncome||0}\r\n`;
   csv += `Bills Total,${billsTotal}\r\n`;
-  csv += `Expenses Total,${expensesOnlyTotal}\r\n`;
-  csv += `Grocery Total,${groceryTotal}\r\n`;
+  csv += `Expenses Total,${expensesTotal}\r\n`;
   csv += `Loan Installments Due,${loanMonth.due}\r\n`;
   csv += `Loan Installments Paid,${loanMonth.paid}\r\n`;
   csv += `Remaining Balance,${remaining}\r\n`;
@@ -4142,13 +4091,13 @@ document.getElementById("exportCsvBtn").addEventListener("click", () => {
   });
 
   csv += `\r\nCATEGORY BUDGETS\r\nCategory,Spent,Share %,Monthly Limit,Left,Status\r\n`;
-  categorySummary(expenses, groceryTotal).forEach(row => {
+  categorySummary(expenses).forEach(row => {
     csv += `${esc(row.name)},${row.spent},${round2(row.share)},${row.limit || ""},${row.limit > 0 ? row.remaining : ""},${esc(BUDGET_STATUS_LABEL[row.status])}\r\n`;
   });
 
-  csv += `\r\nGROCERIES\r\nItem,Quantity,Unit Price,Total,Checked\r\n`;
+  csv += `\r\nGROCERIES\r\nItem,Checked\r\n`;
   groceries.forEach(g => {
-    csv += `${esc(g.name)},${g.quantity||0},${g.unitPrice||0},${groceryItemTotal(g)},${Boolean(g.checked)?"Yes":"No"}\r\n`;
+    csv += `${esc(g.name)},${Boolean(g.checked)?"Yes":"No"}\r\n`;
   });
 
   const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
