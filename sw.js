@@ -1,4 +1,4 @@
-const CACHE_NAME = 'finance-hub-cache-v11';
+const CACHE_NAME = 'finance-hub-cache-v13';
 const APP_ROOT = new URL('./', self.location.href).toString();
 const INDEX_URL = new URL('./index.html', self.location.href).toString();
 const MANIFEST_URL = new URL('./manifest.json', self.location.href).toString();

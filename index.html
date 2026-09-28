@@ -328,6 +328,21 @@
     .due-kind { display: block; color: var(--text-3); font-size: 0.76rem; }
     .due-amount { text-align: right; }
     .due-amount strong { display: block; font-size: 0.97rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .save-hint { margin-top: 10px; }
+    .save-hint strong { color: var(--text); font-variant-numeric: tabular-nums; }
+    .save-now { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; margin-bottom: 16px; }
+    .save-now strong { font-size: 1.9rem; font-weight: 800; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+    .save-now span { color: var(--text-2); font-size: 0.9rem; }
+    .save-steps { display: grid; gap: 12px; margin: 0 0 22px; padding: 0; list-style: none; }
+    .save-step { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 6px 12px; }
+    .save-step-when { min-width: 0; }
+    .save-step-when strong { display: block; font-size: 0.9rem; }
+    .save-step-when span { display: block; overflow: hidden; color: var(--text-3); font-size: 0.76rem; text-overflow: ellipsis; white-space: nowrap; }
+    .save-step-amount { font-variant-numeric: tabular-nums; }
+    .save-step .week-bar-track { grid-column: 1 / -1; height: 6px; }
+    .save-step .week-bar-fill { display: block; }
+    .save-step:not(.is-now) .week-bar-fill { opacity: 0.45; }
+    .save-plan-sub { margin-bottom: 8px; font-size: 0.95rem; }
 
     .dist { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 22px; }
     .dist-donut { position: relative; width: 156px; height: 156px; border-radius: 50%; background: conic-gradient(var(--donut-track) 0 100%); }
@@ -1112,7 +1127,8 @@
             </div>
             <div class="due-list" id="dueList"></div>
             <p class="empty-state" id="dueEmpty">No unpaid bills or installments this month. Nice work.</p>
-            <a class="text-link" href="#plan">Open the calendar <svg class="icon" aria-hidden="true"><use href="#i-chevron"/></svg></a>
+            <p class="muted save-hint" id="dueSaveHint" hidden></p>
+            <a class="text-link" href="#plan">Savings schedule and calendar <svg class="icon" aria-hidden="true"><use href="#i-chevron"/></svg></a>
           </section>
 
           <section class="card dist-card" aria-labelledby="distTitle">
@@ -1334,13 +1350,34 @@
             <span class="badge" id="groceriesBadge">0 items</span>
           </button>
           <button type="button" class="section-open-btn" data-open-modal="loansModal">
-            <span class="section-btn-copy"><span class="section-btn-icon tone-violet"><svg class="icon" aria-hidden="true"><use href="#i-bank"/></svg></span><strong>Loan Tracker</strong></span>
+            <span class="section-btn-copy"><span class="section-btn-icon tone-violet"><svg class="icon" aria-hidden="true"><use href="#i-bank"/></svg></span><strong>Loans &amp; Installments</strong></span>
             <span class="badge" id="loansBadge">0 loans</span>
           </button>
           <button type="button" class="section-open-btn" data-open-modal="savingsModal">
             <span class="section-btn-copy"><span class="section-btn-icon"><svg class="icon" aria-hidden="true"><use href="#i-target"/></svg></span><strong>Savings Goals</strong></span>
             <span class="badge" id="savingsBadge">0 goals</span>
           </button>
+        </section>
+
+        <section class="card save-plan-card" aria-labelledby="savePlanTitle">
+          <div class="section-head">
+            <div>
+              <h2 id="savePlanTitle">Savings schedule</h2>
+              <p class="muted" id="savePlanMeta">Bills, card payments and loan installments coming up</p>
+            </div>
+            <div class="segmented" role="group" aria-label="Save by">
+              <button type="button" class="is-active" data-save-by="day" aria-pressed="true">Daily</button>
+              <button type="button" data-save-by="week" aria-pressed="false">Weekly</button>
+            </div>
+          </div>
+          <div id="savePlanBody" hidden>
+            <p class="save-now"><strong id="savePlanNow">&#8369;0.00</strong><span id="savePlanNowLabel">to set aside today</span></p>
+            <ol class="save-steps" id="savePlanSteps" aria-label="How much to set aside"></ol>
+            <h3 class="save-plan-sub">What you're saving for</h3>
+            <div class="due-list" id="savePlanItems"></div>
+            <p class="panel-note">Each payment is spread evenly over the days left before it's due, so the money is ready on the day. Card payments use what you owe on the card today and its payment due day; set the due day when you edit the card.</p>
+          </div>
+          <p class="empty-state" id="savePlanEmpty">Nothing due in the next 5 weeks. Add bills with a due day, a loan, or a credit card with a payment due day to plan for them.</p>
         </section>
 
         <section class="card bill-calendar-panel" aria-labelledby="billCalendarTitle">
@@ -1822,6 +1859,7 @@
         </div>
       </form>
       <div class="acc-edit-actions" id="accEditActions" hidden>
+        <button type="button" class="small-btn ghost-btn" id="accAddPlan" hidden>Add installment plan</button>
         <button type="button" class="small-btn ghost-btn" id="accMakeDefault">Make default for logging</button>
         <button type="button" class="small-btn danger-btn" id="accDelete">Delete account</button>
       </div>
@@ -1833,8 +1871,8 @@
     <div class="section-modal-content loan-modal-content">
       <div class="modal-header">
         <div>
-          <h2 id="loansModalTitle">Loan Tracker</h2>
-          <p class="muted">Track what you still owe, one installment at a time.</p>
+          <h2 id="loansModalTitle">Loans &amp; Installments</h2>
+          <p class="muted">Loans and credit card installment plans, one monthly payment at a time.</p>
         </div>
         <button type="button" class="modal-close-btn" aria-label="Close"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></button>
       </div>
@@ -1847,15 +1885,26 @@
 
       <form id="loanForm" class="form-grid loan-form">
         <div class="field">
-          <label for="loanName">Loan Name</label>
-          <input type="text" id="loanName" placeholder="e.g. Pag-IBIG Housing" required />
+          <label for="loanKind">Type</label>
+          <select id="loanKind">
+            <option value="loan">Loan</option>
+            <option value="card">Credit card installment</option>
+          </select>
+        </div>
+        <div class="field" id="loanCardField" hidden>
+          <label for="loanCard">Charged to card</label>
+          <select id="loanCard"></select>
         </div>
         <div class="field">
+          <label for="loanName" id="loanNameLabel">Loan Name</label>
+          <input type="text" id="loanName" placeholder="e.g. Pag-IBIG Housing" required />
+        </div>
+        <div class="field" id="loanLenderField">
           <label for="loanLender">Account Number <span class="optional-label">(optional)</span></label>
           <input type="text" id="loanLender" placeholder="" />
         </div>
         <div class="field">
-          <label for="loanPrincipal">Loan Amount (PHP)</label>
+          <label for="loanPrincipal" id="loanPrincipalLabel">Loan Amount (PHP)</label>
           <input type="number" id="loanPrincipal" min="0.01" step="0.01" placeholder="0.00" required />
         </div>
         <div class="field">
@@ -1879,15 +1928,16 @@
           <select id="loanWallet" data-wallet-select></select>
         </div>
         <div class="field action-field full-span">
-          <button type="submit" class="full-btn">Create Payment Schedule</button>
+          <button type="submit" class="full-btn" id="loanSubmit">Create Payment Schedule</button>
         </div>
+        <p class="panel-note full-span" id="loanCardNote" hidden>Each month's installment is billed on the card's due day. What's left of the plan counts as used credit on the card, so don't also log the purchase as an expense.</p>
       </form>
 
       <div id="loansList" class="loans-list"></div>
       <div id="loansEmpty" class="loan-empty-state">
         <div class="loan-empty-icon"><svg class="icon" aria-hidden="true"><use href="#i-bank"/></svg></div>
-        <h3>No loans tracked yet</h3>
-        <p>Add a loan above and its complete monthly payment schedule will appear here.</p>
+        <h3>No loans or installment plans yet</h3>
+        <p>Add a loan or a credit card installment above and its monthly payment schedule will appear here.</p>
       </div>
     </div>
   </div>
@@ -2080,6 +2130,15 @@
       savingsEmpty: document.getElementById("savingsEmpty"),
       savingsBadge: document.getElementById("savingsBadge"),
       loanForm: document.getElementById("loanForm"),
+      loanKind: document.getElementById("loanKind"),
+      loanCard: document.getElementById("loanCard"),
+      loanCardField: document.getElementById("loanCardField"),
+      loanCardNote: document.getElementById("loanCardNote"),
+      loanLenderField: document.getElementById("loanLenderField"),
+      loanNameLabel: document.getElementById("loanNameLabel"),
+      loanPrincipalLabel: document.getElementById("loanPrincipalLabel"),
+      loanSubmit: document.getElementById("loanSubmit"),
+      accAddPlan: document.getElementById("accAddPlan"),
       loanName: document.getElementById("loanName"),
       loanLender: document.getElementById("loanLender"),
       loanPrincipal: document.getElementById("loanPrincipal"),
@@ -2174,7 +2233,15 @@
       budgetList: document.getElementById("budgetList"),
       budgetMeta: document.getElementById("budgetMeta"),
       goalsList: document.getElementById("goalsList"),
-      goalsReality: document.getElementById("goalsReality")
+      goalsReality: document.getElementById("goalsReality"),
+      dueSaveHint: document.getElementById("dueSaveHint"),
+      savePlanMeta: document.getElementById("savePlanMeta"),
+      savePlanBody: document.getElementById("savePlanBody"),
+      savePlanEmpty: document.getElementById("savePlanEmpty"),
+      savePlanNow: document.getElementById("savePlanNow"),
+      savePlanNowLabel: document.getElementById("savePlanNowLabel"),
+      savePlanSteps: document.getElementById("savePlanSteps"),
+      savePlanItems: document.getElementById("savePlanItems")
     };
 
     const LOCAL_STATE_KEY = "financeHubLocalState";
@@ -2211,6 +2278,10 @@
         applyTheme(currentTheme === "dark" ? "light" : "dark", true);
       });
     });
+
+    // Fields every month carries; declared before the saved data is loaded below.
+    const MONTH_NUMBERS = ["salary", "weeklyPayroll", "semiMonthlyPayroll", "sideIncome"];
+    const MONTH_LISTS = ["bills", "expenses", "incomes", "groceries", "skippedRecurring"];
 
     // Top level: months (per-month bills, expenses, incomes, groceries, payroll), plus data that spans months:
     // wallets, transfers between them, recurring bill templates, savings goals, loans and category budgets.
@@ -2345,8 +2416,6 @@
       }, 300);
     }
 
-    const MONTH_NUMBERS = ["salary", "weeklyPayroll", "semiMonthlyPayroll", "sideIncome"];
-    const MONTH_LISTS = ["bills", "expenses", "incomes", "groceries", "skippedRecurring"];
     function emptyMonth() { return normalizeMonth({}); }
     function normalizeMonth(month) {
       MONTH_NUMBERS.forEach(key => { month[key] = round2(Number(month[key]) || 0); });
@@ -2570,10 +2639,20 @@
       const paid = round2(loan.schedule.reduce((sum, item) => sum + installmentPaid(item), 0));
       return { total, paid, left: round2(Math.max(0, total - paid)) };
     }
+    // A credit card installment plan is a loan with a cardId: its installments are billed on that card.
+    function isCardPlan(loan) { return Boolean(loan && loan.cardId); }
+    function cardLabel(loan) { return walletName(loan.cardId) || "Removed card"; }
+    function installmentKind(loan, number) {
+      return isCardPlan(loan) ? `${cardLabel(loan)} · installment ${number} of ${loan.term}` : `Loan · installment ${number}`;
+    }
+    // What's still to be billed on a card's installment plans, in pesos.
+    function cardPlanLeft(cardId) {
+      return round2(allLoans().filter(loan => loan.cardId === cardId).reduce((sum, loan) => sum + loanProgress(loan).left, 0));
+    }
     function loanScheduleForMonth(monthKey) {
       return allLoans().flatMap(loan =>
         loan.schedule.filter(item => String(item.dueDate || "").startsWith(monthKey))
-          .map(item => ({...item, loanId:loan.id, loanName:loan.name}))
+          .map(item => ({...item, loanId:loan.id, loanName:loan.name, kind:installmentKind(loan, item.number), isCard:isCardPlan(loan)}))
       );
     }
     function loanTotalsForMonth(monthKey) {
@@ -2739,7 +2818,7 @@
 
       const scheduled = [
         ...dayBills.map(bill => ({ kind: "Bill", name: bill.name || "Bill", amount: Number(bill.amount) || 0, paidAmount: billPaidAmount(bill) })),
-        ...dayLoans.map(entry => ({ kind: `Loan installment ${entry.number || ""}`.trim(), name: entry.loanName || "Loan installment", amount: Number(entry.amount) || 0, paidAmount: installmentPaid(entry) }))
+        ...dayLoans.map(entry => ({ kind: entry.kind, name: entry.loanName || "Loan installment", amount: Number(entry.amount) || 0, paidAmount: installmentPaid(entry) }))
       ].map(item => ({ ...item, ...paymentStatus(item.amount, item.paidAmount) }));
 
       const spent = sumAmounts(dayExpenses);
@@ -2851,7 +2930,7 @@
         const day = Math.min(Math.max(Number(dueDate.slice(-2)) || 1, 1), monthDays);
         payments.push({
           day,
-          type: "Loan",
+          type: entry.isCard ? "Card" : "Loan",
           name: entry.loanName || "Loan installment",
           amount: Number(entry.amount) || 0,
           paidAmount: installmentPaid(entry),
@@ -2909,7 +2988,7 @@
           const paid = Boolean(payment.paid);
           const partial = !paid && payment.paidAmount > 0;
           const paymentStatus = paid ? "Paid" : partial ? `${money(payment.paidAmount)} paid` : "Due";
-          return `<span class="bill-calendar-item ${payment.type === "Loan" ? "is-loan" : ""} ${paid ? "is-paid" : ""}">
+          return `<span class="bill-calendar-item ${payment.type !== "Bill" ? "is-loan" : ""} ${paid ? "is-paid" : ""}">
   <strong title="${escapeHtml(payment.name)}">${escapeHtml(payment.name)}</strong>
   <span>${payment.type} - ${money(payment.amount)} ${paymentStatus}</span>
 </span>`;
@@ -3074,9 +3153,9 @@
       return flows;
     }
 
-    function loanPayments() {
+    function loanPayments(include = () => true) {
       const payments = [];
-      allLoans().forEach(loan => loan.schedule.forEach(item => {
+      allLoans().filter(include).forEach(loan => loan.schedule.forEach(item => {
         const amount = installmentPaid(item);
         if (amount > 0) payments.push({ walletId: loan.walletId || "", date: String(item.paidAt || item.dueDate || ""), amount });
       }));
@@ -3096,7 +3175,7 @@
 
     function walletPhpValue(wallet, balances) { return round2((balances.get(wallet.id) || 0) * walletFx(wallet)); }
 
-    function loanOutstandingTotal() { return round2(allLoans().reduce((sum, loan) => sum + loanProgress(loan).left, 0)); }
+    function loanOutstandingTotal(include = () => true) { return round2(allLoans().filter(include).reduce((sum, loan) => sum + loanProgress(loan).left, 0)); }
 
     // Rebuilds a wallet dropdown only when the wallet list changed, so open selects are not disturbed.
     function fillWalletSelect(select, { allowNone = true, noneLabel = "No wallet", preferId = "" } = {}) {
@@ -3169,14 +3248,16 @@
       const useIcon = ["cash", "crypto", "stocks", "other"].includes(wallet.type);
       let body;
       if (group === "credit") {
+        const planLeft = round2(cardPlanLeft(wallet.id) / walletFx(wallet));
         const owed = Math.max(0, -native);
         const limit = Number(wallet.creditLimit) || 0;
-        const used = limit > 0 ? Math.min(100, (owed / limit) * 100) : 0;
+        const used = limit > 0 ? Math.min(100, ((owed + planLeft) / limit) * 100) : 0;
         const meter = limit > 0 ? `<div class="acc-meter${used >= 30 ? " is-high" : ""}"><span style="width:${used.toFixed(1)}%"></span></div>
-  <div class="acc-meter-row"><span>${Math.round(used)}% used</span><span>${masked(moneyIn(Math.max(0, limit - owed), currency))} left</span></div>` : "";
+  <div class="acc-meter-row"><span>${Math.round(used)}% used</span><span>${masked(moneyIn(Math.max(0, limit - owed - planLeft), currency))} left</span></div>` : "";
+        const planNote = planLeft > 0 ? `<span class="acc-card-note">+ ${masked(moneyIn(planLeft, currency))} in installments</span>` : "";
         body = native > 0
-          ? `<span class="acc-card-k">Credit balance</span><strong class="acc-card-v">${masked(moneyIn(native, currency))}</strong>`
-          : `${meter}<span class="acc-card-k">Used credit</span><strong class="acc-card-v">${masked(moneyIn(owed, currency))}</strong>`;
+          ? `<span class="acc-card-k">Credit balance</span><strong class="acc-card-v">${masked(moneyIn(native, currency))}</strong>${planNote}`
+          : `${meter}<span class="acc-card-k">Used credit</span><strong class="acc-card-v">${masked(moneyIn(owed, currency))}</strong>${planNote}`;
       } else if (group === "invest") {
         body = `<span class="acc-card-k">Balance</span><strong class="acc-card-v">${masked(moneyIn(native, currency))}</strong>
   <span class="acc-card-note">${escapeHtml(String(Number(wallet.units) || 0))} units · ${masked(moneyIn(Number(wallet.price) || 0, currency))}</span>`;
@@ -3197,40 +3278,58 @@
 
     function clampToToday(date, today) { return date && date < today ? date : today; }
 
-    // Unpaid bills and loan installments due from today through the next `days` days, overdue included.
-    function upcomingDueTotal(days = 30) {
+    // What each credit card owes in pesos, due on its next payment due day (today or later).
+    // The next date (today or later) that falls on a monthly due day, clipped to short months.
+    function nextDueDate(dueDay) {
+      const dueIn = (month) => dayKey(month, Math.min(Number(dueDay), daysInMonth(month)));
+      const thisMonth = dueIn(currentMonthString());
+      return thisMonth >= currentDateString() ? thisMonth : dueIn(addMonthsToMonth(currentMonthString(), 1));
+    }
+
+    function cardDues(balances = walletBalances()) {
+      return allWallets().filter(wallet => walletGroup(wallet) === "credit" && Number(wallet.dueDay) > 0).map(wallet => {
+        const owed = round2(Math.max(0, -(balances.get(wallet.id) || 0)) * walletFx(wallet));
+        return { kind: "Credit card", name: wallet.name || "Credit card", date: nextDueDate(wallet.dueDay), amount: owed, modal: "transferModal" };
+      }).filter(item => item.amount > 0);
+    }
+
+    // Unpaid bills, loan installments and card balances due from today through the next `days` days, overdue included.
+    function upcomingPayments(days = 30) {
       const today = currentDateString();
       const end = new Date(startOfToday());
       end.setDate(end.getDate() + days);
       const endKey = dateKeyOf(end);
-      let total = 0;
+      const items = [];
       for (let month = currentMonthString(); month <= endKey.slice(0, 7); month = addMonthsToMonth(month, 1)) {
         const data = appState.months[month];
         const monthDays = daysInMonth(month);
         (data && data.bills || []).forEach(bill => {
           const left = billLeft(bill);
           const day = billCalendarDay(bill, monthDays);
-          if (left > 0 && day && dayKey(month, day) <= endKey) total += left;
+          if (left > 0 && day && dayKey(month, day) <= endKey) items.push({ kind: "Bill", name: bill.name || "Bill", date: dayKey(month, day), amount: left, modal: "billsModal" });
         });
         // Repeating bills not yet copied into a future month still count.
         (appState.recurringBills || []).forEach(template => {
           if (!recurringActiveIn(template, month)) return;
           if (data && ((data.bills || []).some(bill => bill.recurringId === template.id) || (data.skippedRecurring || []).includes(template.id))) return;
           const date = dayKey(month, Math.min(Number(template.dueDay) || 1, monthDays));
-          if (date >= today && date <= endKey) total += Number(template.amount) || 0;
+          if (date >= today && date <= endKey) items.push({ kind: "Bill", name: template.name || "Bill", date, amount: round2(Number(template.amount) || 0), modal: "billsModal" });
         });
       }
       allLoans().forEach(loan => loan.schedule.forEach(item => {
         const left = round2((Number(item.amount) || 0) - installmentPaid(item));
-        if (left > 0 && String(item.dueDate) <= endKey) total += left;
+        if (left > 0 && String(item.dueDate) <= endKey) items.push({ kind: installmentKind(loan, item.number), name: loan.name || "Loan", date: String(item.dueDate), amount: left, modal: "loansModal" });
       }));
-      return round2(total);
+      items.push(...cardDues().filter(item => item.date <= endKey));
+      return items.filter(item => item.amount > 0).sort((a, b) => a.date.localeCompare(b.date) || a.name.localeCompare(b.name));
     }
+
+    function upcomingDueTotal(days = 30) { return sumAmounts(upcomingPayments(days)); }
 
     function accountInsight(wallets, balances) {
       if (!wallets.length) return "Add your first account to see your net worth here.";
       const credit = wallets.filter(wallet => walletGroup(wallet) === "credit" && Number(wallet.creditLimit) > 0)
-        .map(wallet => ({ wallet, used: Math.max(0, -(balances.get(wallet.id) || 0)) / Number(wallet.creditLimit) * 100 }))
+        .map(wallet => ({ wallet, used: (Math.max(0, -(balances.get(wallet.id) || 0)) + cardPlanLeft(wallet.id) / walletFx(wallet)) / Number(wallet.creditLimit) * 100 }))
         .sort((a, b) => b.used - a.used)[0];
       if (credit && credit.used >= 30) {
         return `<strong>${escapeHtml(credit.wallet.name)} is at ${Math.round(credit.used)}% of its limit.</strong> Paying it under 30% keeps your credit healthy.`;
@@ -3241,7 +3340,7 @@
         return `<strong>${masked(money(due))} is due in the next 30 days</strong>, but your debit accounts hold ${masked(money(liquid))}. Plan a transfer or trim spending.`;
       }
       if (due > 0) {
-        return `${masked(money(due))} in bills and installments is due in the next 30 days. <strong>You'd still have about ${masked(money(round2(liquid - due)))}</strong> in your debit accounts.`;
+        return `${masked(money(due))} in bills, card payments and installments is due in the next 30 days. <strong>You'd still have about ${masked(money(round2(liquid - due)))}</strong> in your debit accounts.`;
       }
       const assets = wallets.filter(wallet => walletGroup(wallet) !== "credit")
         .map(wallet => ({ wallet, value: walletPhpValue(wallet, balances) }))
@@ -3264,9 +3363,11 @@
       const visibleIds = new Set(visible.map(wallet => wallet.id));
       const investIds = new Set(wallets.filter(isInvestment).map(wallet => wallet.id));
       const flows = walletFlows().filter(flow => visibleIds.has(flow.id) && !investIds.has(flow.id));
-      const payments = filter === "all" ? loanPayments() : [];
+      // Loans count against net worth; card installment plans also count as credit owed.
+      const debtFilter = filter === "all" ? () => true : filter === "credit" ? isCardPlan : () => false;
+      const payments = loanPayments(debtFilter);
       const nowValue = round2(visible.reduce((sum, wallet) => sum + walletPhpValue(wallet, balances), 0));
-      const debtNow = filter === "all" ? loanOutstandingTotal() : 0;
+      const debtNow = loanOutstandingTotal(debtFilter);
 
       // Value on an earlier day = today's value minus what moved after that day.
       const valueOn = (dateKey) => {
@@ -3282,9 +3383,9 @@
       refs.accWorthLabel.textContent = { all: "Net worth", debit: "Debit & investments", credit: "Credit owed" }[filter];
       refs.accWorth.textContent = masked(money(current));
       refs.accWorth.classList.toggle("negative-text", filter !== "credit" && current < 0);
-      refs.accWorthSub.textContent = filter === "credit" ? "What you owe on your cards"
+      refs.accWorthSub.textContent = filter === "credit" ? (debtNow > 0 ? `What you owe on your cards, including ${masked(money(debtNow))} in installment plans` : "What you owe on your cards")
         : filter === "debit" ? "Debit balances and investments"
-        : debtNow > 0 ? `Accounts minus cards and ${masked(money(debtNow))} in loans` : "Debit balances and investments, minus cards";
+        : debtNow > 0 ? `Accounts minus cards and ${masked(money(debtNow))} in loans and installments` : "Debit balances and investments, minus cards";
 
       const past = new Date(startOfToday());
       past.setDate(past.getDate() - 30);
@@ -3607,13 +3708,17 @@
 
         const dueDay = Number(loan.dueDay);
         const suffix = (dueDay % 10 === 1 && dueDay % 100 !== 11) ? "st" : (dueDay % 10 === 2 && dueDay % 100 !== 12) ? "nd" : (dueDay % 10 === 3 && dueDay % 100 !== 13) ? "rd" : "th";
+        const card = isCardPlan(loan);
+        const subtitle = card
+          ? `Installment on ${cardLabel(loan)} - billed every ${dueDay}${suffix}`
+          : `${loan.lender || "No lender specified"} - Due every ${dueDay}${suffix}`;
         return `<article class="loan-card ${complete ? "completed" : ""}">
           <div class="loan-card-head">
             <div class="loan-title-wrap">
-              <div class="loan-avatar">${complete ? "&#10003;" : "&#127974;"}</div>
+              <div class="loan-avatar">${complete ? "&#10003;" : card ? "&#128179;" : "&#127974;"}</div>
               <div>
                 <h3>${escapeHtml(loan.name)}</h3>
-                <div class="loan-card-subtitle">${escapeHtml(loan.lender || "No lender specified")} - Due every ${dueDay}${suffix}</div>
+                <div class="loan-card-subtitle">${escapeHtml(subtitle)}</div>
               </div>
             </div>
             <div class="loan-actions">
@@ -3623,7 +3728,7 @@
           </div>
 
           <div class="loan-metrics">
-            <div class="loan-metric"><span>Original amount</span><strong>${money(loan.principal)}</strong></div>
+            <div class="loan-metric"><span>${card ? "Purchase amount" : "Original amount"}</span><strong>${money(loan.principal)}</strong></div>
             <div class="loan-metric"><span>Monthly installment</span><strong>${money(loan.installmentAmount)}</strong></div>
             <div class="loan-metric"><span>Remaining balance</span><strong>${money(outstanding)}</strong></div>
             <div class="loan-metric"><span>Next due</span><strong>${next ? `${money(next.amount - next.paidAmount)} - ${escapeHtml(formatDate(next.dueDate))}` : "Completed"}</strong></div>
@@ -3643,7 +3748,8 @@
       refs.loanOutstandingTotal.textContent = money(totalOutstanding);
       refs.loanPaidCount.textContent = `${allPaid} / ${allCount}`;
       refs.loanNextPayment.textContent = upcoming.length ? `${money(upcoming[0].amount)} - ${formatDate(upcoming[0].dueDate)}` : "All paid";
-      refs.loansBadge.textContent = plural(loans.length, "loan");
+      const plans = loans.filter(isCardPlan).length;
+      refs.loansBadge.textContent = [loans.length - plans ? plural(loans.length - plans, "loan") : "", plans ? plural(plans, "card plan") : ""].filter(Boolean).join(" · ");
     }
 
     // ---- Home, history and quick log ------------------------------------------
@@ -3817,8 +3923,10 @@
         const left = round2((Number(entry.amount) || 0) - installmentPaid(entry));
         if (left <= 0) return;
         if (!due.startsWith(month) && !(includeOverdue && due < today)) return;
-        items.push({ kind: `Loan · installment ${entry.number}`, name: loan.name || "Loan", date: due, amount: left, modal: "loansModal" });
+        items.push({ kind: installmentKind(loan, entry.number), name: loan.name || "Loan", date: due, amount: left, modal: "loansModal" });
       }));
+      // Card balances are what's owed today, so they only belong to the current month's list.
+      if (includeOverdue) items.push(...cardDues());
       return items.sort((a, b) => (a.date || "9999").localeCompare(b.date || "9999") || a.name.localeCompare(b.name));
     }
 
@@ -3853,6 +3961,100 @@
   <span class="due-amount"><strong>${money(item.amount)}</strong><small>Due</small></span>
 </button>`;
       }).join("") + (items.length > 6 ? `<p class="small-muted" style="padding:6px 10px 0">+${items.length - 6} more on the calendar</p>` : "");
+      const today = savingsPlan().today;
+      refs.dueSaveHint.hidden = today <= 0;
+      refs.dueSaveHint.innerHTML = `Set aside <strong>${money(today)}</strong> today to cover what's due in the next 5 weeks.`;
+    }
+
+    // ---- Savings schedule ---------------------------------------------------------
+    // Each payment due in the next 5 weeks is spread evenly over the days before its due date, so the
+    // money is there on the day. Anything due today or overdue needs its full amount now.
+    const SAVE_HORIZON_DAYS = 35;
+    const SAVE_DAYS_SHOWN = 14;
+    let saveBy = "day";
+    try { if (localStorage.getItem("financeHubSaveBy") === "week") saveBy = "week"; } catch (error) { /* private mode */ }
+
+    // Rounds up to the centavo, so saving the shown amount never falls short.
+    function ceil2(v) { return Math.ceil(round2(v * 100)) / 100; }
+
+    function savingsPlan() {
+      const todayKey = currentDateString();
+      const items = upcomingPayments(SAVE_HORIZON_DAYS).map(item => {
+        const daysLeft = daysBetween(todayKey, item.date);
+        const perDay = daysLeft > 0 ? item.amount / daysLeft : item.amount;
+        return { ...item, daysLeft, perDay, perWeek: daysLeft > 0 ? Math.min(item.amount, perDay * 7) : item.amount };
+      });
+      // What to put away on the day `offset` days from today.
+      const amountOn = (offset) => items.reduce((sum, item) =>
+        sum + (item.daysLeft > 0 ? (offset < item.daysLeft ? item.perDay : 0) : (offset === 0 ? item.amount : 0)), 0);
+      const period = (from, to, label) => {
+        let amount = 0;
+        for (let offset = from; offset <= to; offset++) amount += amountOn(offset);
+        const due = items.filter(item => (from === 0 && item.daysLeft <= 0) || (item.daysLeft >= from && item.daysLeft <= to));
+        return { from, to, label, amount: ceil2(amount), due };
+      };
+
+      const periods = [];
+      const lastOffset = Math.max(0, ...items.map(item => item.daysLeft - 1));
+      const dayLabel = (offset) => {
+        const d = startOfToday();
+        d.setDate(d.getDate() + offset);
+        return offset === 0 ? "Today" : offset === 1 ? "Tomorrow" : d.toLocaleDateString("en-PH", { weekday: "short", month: "short", day: "numeric" });
+      };
+      if (items.length && saveBy === "day") {
+        for (let offset = 0; offset <= Math.min(lastOffset, SAVE_DAYS_SHOWN - 1); offset++) periods.push(period(offset, offset, dayLabel(offset)));
+      } else if (items.length) {
+        // Weeks run Monday to Sunday; the first one is whatever is left of this week.
+        let from = 0;
+        let to = 6 - (startOfToday().getDay() + 6) % 7;
+        while (from <= lastOffset) {
+          periods.push(period(from, to, from === 0 ? "This week" : `Week of ${dayLabel(from)}`));
+          from = to + 1;
+          to = from + 6;
+        }
+      }
+      return {
+        items, periods, total: sumAmounts(items), today: items.length ? ceil2(amountOn(0)) : 0,
+        truncated: saveBy === "day" && lastOffset >= SAVE_DAYS_SHOWN
+      };
+    }
+
+    function renderSavingsSchedule() {
+      const plan = savingsPlan();
+      document.querySelectorAll("[data-save-by]").forEach(button => {
+        const active = button.dataset.saveBy === saveBy;
+        button.classList.toggle("is-active", active);
+        button.setAttribute("aria-pressed", String(active));
+      });
+      refs.savePlanMeta.textContent = plan.items.length
+        ? `${plural(plan.items.length, "payment")} · ${money(plan.total)} due in the next 5 weeks`
+        : "Bills, card payments and loan installments coming up";
+      refs.savePlanBody.hidden = !plan.items.length;
+      refs.savePlanEmpty.style.display = plan.items.length ? "none" : "block";
+      if (!plan.items.length) return;
+
+      const now = plan.periods[0];
+      refs.savePlanNow.textContent = money(now.amount);
+      refs.savePlanNowLabel.textContent = saveBy === "day" ? "to set aside today" : "to set aside this week";
+      const peak = Math.max(...plan.periods.map(p => p.amount));
+      const perPeriod = saveBy === "day" ? "a day" : "a week";
+      refs.savePlanSteps.innerHTML = plan.periods.map((p, index) => {
+        const dueText = p.due.length ? `${p.due.map(item => item.name).join(", ")} due` : "Keep saving";
+        return `<li class="save-step${index === 0 ? " is-now" : ""}">
+  <span class="save-step-when"><strong>${escapeHtml(p.label)}</strong><span>${escapeHtml(dueText)}</span></span>
+  <strong class="save-step-amount">${money(p.amount)}</strong>
+  <span class="week-bar-track"><span class="week-bar-fill" style="width:${(peak > 0 ? p.amount / peak * 100 : 0).toFixed(1)}%"></span></span>
+</li>`;
+      }).join("") + (plan.truncated ? `<li class="small-muted">Switch to weeks to see the rest of the schedule.</li>` : "");
+      refs.savePlanItems.innerHTML = plan.items.map(item => {
+        const when = dueWhen(item.date);
+        const saving = item.daysLeft > 0;
+        return `<button type="button" class="due-row ${when.tone}" data-open-modal="${item.modal}">
+  ${dateChip(item.date)}
+  <span class="due-main"><span class="due-when ${when.tone}">${escapeHtml(when.text)}</span><strong>${escapeHtml(item.name)}</strong><span class="due-kind">${escapeHtml(item.kind)} · ${money(item.amount)}</span></span>
+  <span class="due-amount"><strong>${money(ceil2(saving ? (saveBy === "day" ? item.perDay : item.perWeek) : item.amount))}</strong><small>${saving ? perPeriod : "Pay now"}</small></span>
+</button>`;
+      }).join("");
     }
 
     function renderDistribution(rows) {
@@ -4051,7 +4253,7 @@
         const paid = installmentPaid(entry);
         if (paid <= 0) return;
         const date = entry.paidAt && String(entry.paidAt).startsWith(month) ? entry.paidAt : entry.dueDate;
-        items.push({ kind: "loan", date: String(date), name: entry.loanName || "Loan", meta: `Installment ${entry.number}${entry.paid ? "" : " · part paid"}`, amount: paid, color: "#8b5cf6", icon: "i-bank", order: 0 });
+        items.push({ kind: "loan", date: String(date), name: entry.loanName || "Loan", meta: `${entry.kind}${entry.paid ? "" : " · part paid"}`, amount: paid, color: "#8b5cf6", icon: entry.isCard ? "i-card" : "i-bank", order: 0 });
       });
 
       const query = (refs.historySearch.value || "").trim().toLowerCase();
@@ -4283,6 +4485,7 @@
       refs.clearMonthBtn.disabled=!monthHasData(data);
 
       syncWalletSelects();
+      updateLoanFormFields();
       renderAccounts();
       renderTransfers();
       renderIncome(data.incomes);
@@ -4302,6 +4505,7 @@
       renderBudgets(month,categories,totals);
       renderGoals();
       renderHistory(month,data,loanEntries);
+      renderSavingsSchedule();
     }
 
     // Modal helpers
@@ -4545,7 +4749,52 @@
       commit();
     });
 
-    // Loan tracker
+    // Loan tracker. In card mode the plan is charged to a credit card: the due day follows the card's
+    // payment due day, and the monthly amount defaults to the purchase split evenly (0% installment).
+    function creditCards() { return allWallets().filter(wallet => walletGroup(wallet) === "credit"); }
+    function updateLoanFormFields() {
+      const cards = creditCards();
+      const previous = refs.loanCard.value;
+      refs.loanCard.innerHTML = cards.length
+        ? cards.map(card => `<option value="${escapeHtml(card.id)}">${escapeHtml(card.name)}</option>`).join("")
+        : `<option value="">Add a credit card in Wallet first</option>`;
+      if (cards.some(card => card.id === previous)) refs.loanCard.value = previous;
+      const card = refs.loanKind.value === "card";
+      refs.loanCardField.hidden = !card;
+      refs.loanCardNote.hidden = !card;
+      refs.loanLenderField.hidden = card;
+      refs.loanNameLabel.textContent = card ? "What you bought" : "Loan Name";
+      refs.loanName.placeholder = card ? "e.g. iPhone, Laptop" : "e.g. Pag-IBIG Housing";
+      refs.loanPrincipalLabel.textContent = card ? "Purchase amount (PHP)" : "Loan Amount (PHP)";
+      refs.loanSubmit.textContent = card ? "Create Installment Plan" : "Create Payment Schedule";
+    }
+    // A new plan is first billed on the card's next due date.
+    function applyCardDueDay() {
+      const card = walletById(refs.loanCard.value);
+      if (refs.loanKind.value !== "card" || !card || !(Number(card.dueDay) > 0)) return;
+      refs.loanDueDay.value = card.dueDay;
+      refs.loanStartMonth.value = nextDueDate(card.dueDay).slice(0, 7);
+    }
+    function suggestInstallment() {
+      if (refs.loanKind.value !== "card" || refs.loanInstallment.dataset.touched) return;
+      const principal = Number(refs.loanPrincipal.value), term = Number(refs.loanTerm.value);
+      refs.loanInstallment.value = principal > 0 && Number.isInteger(term) && term > 0 ? round2(principal / term) : "";
+    }
+    // Opens the form ready for a plan on one card, e.g. from that card's edit sheet.
+    function startCardPlan(cardId) {
+      refs.loanKind.value = "card";
+      updateLoanFormFields();
+      if (cardId) refs.loanCard.value = cardId;
+      applyCardDueDay();
+      openModal("loansModal");
+      refs.loanName.focus({ preventScroll: true });
+    }
+    refs.loanKind.addEventListener("change", () => { updateLoanFormFields(); applyCardDueDay(); suggestInstallment(); });
+    refs.loanCard.addEventListener("change", applyCardDueDay);
+    refs.loanPrincipal.addEventListener("input", suggestInstallment);
+    refs.loanTerm.addEventListener("input", suggestInstallment);
+    refs.loanInstallment.addEventListener("input", () => { refs.loanInstallment.dataset.touched = refs.loanInstallment.value ? "1" : ""; });
+
     refs.loanForm.addEventListener("submit",(e)=>{
       e.preventDefault();
       const name=refs.loanName.value.trim();
@@ -4555,7 +4804,9 @@
       const term=Number(refs.loanTerm.value);
       const startMonth=refs.loanStartMonth.value;
       const dueDay=Number(refs.loanDueDay.value);
-      if(!name){alert("Enter a loan name.");return;}
+      const cardId=refs.loanKind.value==="card"?refs.loanCard.value:"";
+      if(refs.loanKind.value==="card"&&!walletById(cardId)){alert("Add a credit card in Wallet first, then choose it here.");return;}
+      if(!name){alert(cardId?"Enter what you bought.":"Enter a loan name.");return;}
       if(isNaN(principal)||principal<=0){alert("Enter a valid loan amount.");return;}
       if(isNaN(installmentAmount)||installmentAmount<=0){alert("Enter a valid monthly installment.");return;}
       if(!Number.isInteger(term)||term<1||term>360){alert("Installments must be between 1 and 360.");return;}
@@ -4563,14 +4814,18 @@
       if(!Number.isInteger(dueDay)||dueDay<1||dueDay>31){alert("Due day must be from 1 to 31.");return;}
       if(!Array.isArray(appState.loans)) appState.loans=[];
       appState.loans.push({
-        id:uid(), name, lender, principal, installmentAmount, term, startMonth, dueDay, walletId:refs.loanWallet.value||"",
+        id:uid(), name, lender:cardId?"":lender, cardId, principal, installmentAmount, term, startMonth, dueDay, walletId:refs.loanWallet.value||"",
         schedule:generateLoanSchedule(startMonth,term,dueDay,installmentAmount),
         createdAt:Date.now()
       });
+      const kind=refs.loanKind.value;
       refs.loanForm.reset();
+      refs.loanKind.value=kind;
+      refs.loanInstallment.dataset.touched="";
       resetWalletSelect(refs.loanWallet);
       refs.loanStartMonth.value=currentMonthString();
       refs.loanDueDay.value=15;
+      applyCardDueDay();
       commit();
     });
 
@@ -4791,6 +5046,7 @@
         refs.accUnits.value = isInvestment(wallet) ? (Number(wallet.units) || 0) : "";
         refs.accPrice.value = isInvestment(wallet) ? (Number(wallet.price) || 0) : "";
         refs.accMakeDefault.hidden = isInvestment(wallet) || wallet.id === defaultWalletId();
+        refs.accAddPlan.hidden = walletGroup(wallet) !== "credit";
       } else {
         refs.accType.value = "ewallet";
         refs.accCurrency.value = "PHP";
@@ -4858,6 +5114,8 @@
       commit();
       showToast(existing ? `Saved ${name}` : `Added ${name}`);
     });
+
+    refs.accAddPlan.addEventListener("click", () => startCardPlan(refs.accId.value));
 
     refs.accMakeDefault.addEventListener("click", () => {
       const wallet = walletById(refs.accId.value);
@@ -5015,11 +5273,19 @@
 
     window.addEventListener("hashchange", () => setView(viewFromHash() || "home"));
 
-    document.querySelector(".segmented").addEventListener("click", (e) => {
-      const button = e.target.closest("[data-spend-range]");
-      if (!button) return;
-      spendRange = button.dataset.spendRange;
-      renderSpendRange(expensesByDate());
+    document.addEventListener("click", (e) => {
+      const range = e.target.closest("[data-spend-range]");
+      if (range) {
+        spendRange = range.dataset.spendRange;
+        renderSpendRange(expensesByDate());
+        return;
+      }
+      const saveButton = e.target.closest("[data-save-by]");
+      if (saveButton) {
+        saveBy = saveButton.dataset.saveBy;
+        try { localStorage.setItem("financeHubSaveBy", saveBy); } catch (error) { /* private mode */ }
+        renderSavingsSchedule();
+      }
     });
 
     refs.historySearch.addEventListener("input", () => {
