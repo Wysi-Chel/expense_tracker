@@ -1,4 +1,4 @@
-const CACHE_NAME = 'finance-hub-cache-v9';
+const CACHE_NAME = 'finance-hub-cache-v11';
 const APP_ROOT = new URL('./', self.location.href).toString();
 const INDEX_URL = new URL('./index.html', self.location.href).toString();
 const MANIFEST_URL = new URL('./manifest.json', self.location.href).toString();
@@ -20,10 +20,47 @@ const APP_SHELL = [
   ICON_MASKABLE_URL
 ];
 
+// Scripts and fonts from other sites that the page needs to start. Cached so the app,
+// including cloud sync, loads without a connection and catches up once it's back.
+const FIREBASE_SDK = [
+  'https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js',
+  'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js',
+  'https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js'
+];
+const CACHEABLE_ORIGINS = ['https://www.gstatic.com', 'https://fonts.googleapis.com', 'https://fonts.gstatic.com'];
+
+// Past this, a slow connection is treated like no connection and the cached page is shown.
+const NETWORK_TIMEOUT_MS = 4000;
+
+function isCacheable(request) {
+  const url = new URL(request.url);
+  if (url.origin === self.location.origin) return true;
+  // Only static files: never the Firestore or sign-in APIs.
+  return CACHEABLE_ORIGINS.includes(url.origin) && (url.origin !== 'https://www.gstatic.com' || url.pathname.startsWith('/firebasejs/'));
+}
+
+// Cross-origin files loaded by plain <script>/<link> tags come back opaque (status 0); they are still usable.
+function isUsable(response) {
+  return response && (response.ok || response.type === 'opaque');
+}
+
+function putInCache(request, response) {
+  if (!isUsable(response)) return;
+  const copy = response.clone();
+  caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
+}
+
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) => cache.addAll(APP_SHELL))
+    caches.open(CACHE_NAME).then((cache) => Promise.all([
+      cache.addAll(APP_SHELL),
+      // A failed SDK download must not block the install; it is fetched again on the next visit.
+      Promise.allSettled(FIREBASE_SDK.map((url) =>
+        fetch(new Request(url, { mode: 'no-cors' })).then((response) => {
+          if (isUsable(response)) return cache.put(url, response);
+        })
+      ))
+    ]))
   );
   self.skipWaiting();
 });
@@ -42,35 +79,45 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  if (event.request.method !== 'GET') return;
+  const { request } = event;
+  if (request.method !== 'GET') return;
 
-  if (event.request.mode === 'navigate') {
+  // Pages: network first so updates show up, falling back to the cached app offline or on a stalled connection.
+  if (request.mode === 'navigate') {
+    const fromCache = () => caches.match(request).then((cached) => cached || caches.match(INDEX_URL));
+    const fromNetwork = fetch(request).then((response) => {
+      if (response.ok) {
+        const copy = response.clone();
+        caches.open(CACHE_NAME).then((cache) => {
+          cache.put(request, copy.clone());
+          cache.put(INDEX_URL, copy);
+        });
+      }
+      return response;
+    });
+    const timeout = new Promise((resolve) => setTimeout(resolve, NETWORK_TIMEOUT_MS));
     event.respondWith(
-      fetch(event.request)
-        .then((response) => {
-          const copy = response.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, copy.clone());
-            cache.put(INDEX_URL, copy);
-          });
-          return response;
-        })
-        .catch(() => (
-          caches.match(event.request)
-            .then((cached) => cached || caches.match(INDEX_URL))
-        ))
+      Promise.race([fromNetwork, timeout.then(fromCache)])
+        .then((response) => response || fromNetwork)
+        .catch(() => fromCache().then((cached) => cached || fromNetwork))
     );
     return;
   }
 
+  if (!isCacheable(request)) return;
+
+  // Files: serve the cached copy straight away and refresh it in the background.
   event.respondWith(
-    caches.match(event.request)
-      .then((cached) => cached || fetch(event.request).then((response) => {
-        if (response && response.ok && new URL(event.request.url).origin === self.location.origin) {
-          const copy = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
-        }
+    caches.match(request).then((cached) => {
+      const refresh = fetch(request).then((response) => {
+        putInCache(request, response);
         return response;
-      }))
+      });
+      if (cached) {
+        event.waitUntil(refresh.catch(() => {}));
+        return cached;
+      }
+      return refresh;
+    })
   );
 });
